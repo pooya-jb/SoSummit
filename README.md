@@ -1,1 +1,1 @@
-This is the readme for SoSummit. 
+This is the readme for SoSummit. It is an app for outdoorsy people. 
