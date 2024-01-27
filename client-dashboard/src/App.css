@@ -1,0 +1,9 @@
+#app {
+  height:893px;
+  width: 100vw;
+}
+
+:root {
+  --textmain: white;
+  --backgroundmain: black;
+}
