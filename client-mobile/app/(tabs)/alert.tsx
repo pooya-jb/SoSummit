@@ -1,15 +1,20 @@
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet } from 'react-native';
-import HelpButton from '../../components/HelpButton/HelpButton';
-import HelpType from '../../components/HelpType/HelpType';
+import HelpScreen from '../../components/HelpScreen';
+import ChatScreen from '../../components/ChatScreen';
 
 const Alert = () => {
+  const [isPressed, setIsPressed] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const [showMessage, setShowMessage] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.questionOne}>What kind of help do you need?</Text>
-      <Text style={styles.questionTwo}>Select an option and hold SOS button</Text>
-      <HelpType />
-      <HelpButton />
+      {!showMessage ?
+      <HelpScreen isPressed={isPressed} setIsPressed={setIsPressed} countdown={countdown} setCountdown={setCountdown} setShowMessage={setShowMessage} />
+      :
+      <ChatScreen setShowMessage={setShowMessage}/>}
     </SafeAreaView>
   );
 };
@@ -23,16 +28,4 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     bottom: 65
   },
-  questionOne: {
-    fontSize: 20,
-    fontWeight: '800',
-    position: 'absolute',
-    top: 130
-  },
-  questionTwo: {
-    fontSize: 16,
-    fontWeight: '500',
-    position: 'absolute',
-    top: 160
-  }
 })
