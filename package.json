@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "commitizen": "^4.3.0",
-    "expo": "^50.0.4"
+    "expo": "^50.0.4",
+    "react-native-reanimated": "^3.6.2"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0"
