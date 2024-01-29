@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DisplayS, UserL } from '../types';
-// loggedIn reducer not being used for now
 
 
 const initialState : DisplayS= {

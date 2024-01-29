@@ -10,8 +10,8 @@ function App(): React.ReactNode {
     <>
       <ChakraProvider>
         <div id='app'>
-          <Navbar/>
-          <Dashboard/>
+          <Navbar />
+          <Dashboard />
         </div>
       </ChakraProvider>
     </>

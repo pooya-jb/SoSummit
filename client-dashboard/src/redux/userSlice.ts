@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-// loggedIn reducer not being used for now
 
 const initialState = {
   firstName: '',

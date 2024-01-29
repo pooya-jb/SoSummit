@@ -1,7 +1,5 @@
 import * as React from 'react';
-// import ids from './UserInfo.module.css'
 import classes from './UserInfo.module.css'
-// import { useState } from 'react'
 import { UserL } from '../../../../types';
 import { useDispatch } from 'react-redux';
 import { userSelected } from '../../../../redux/displaySlice';
@@ -9,7 +7,7 @@ import { userSelected } from '../../../../redux/displaySlice';
 
 function UserInfo({user} : {user:UserL}): React.ReactNode {
   const dispatch = useDispatch()
-  const handleSelectUser = () => {
+  const handleSelectUser = ():void => {
     dispatch(userSelected(user))
   }
   return (

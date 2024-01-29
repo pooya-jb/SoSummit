@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ids from './UserList.module.css'
 import UserInfo from '../UserInfo/UserInfo';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';

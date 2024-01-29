@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import classes from './Dashboard.module.css';
 import ids from './Dashboard.module.css';
 import LeftColumn from './LeftColumn/LeftColumn';
 import Map from './Map/Map'
@@ -12,7 +11,7 @@ function Dashboard(): React.ReactNode {
       <div id={ids.dashboard}>
         <LeftColumn />
         <Map />
-        <RightDrawer/>
+        <RightDrawer />
       </div>
     </>
   )
