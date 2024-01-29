@@ -1,0 +1,4 @@
+.userItem {
+  border: 1px var(--textmain) solid;
+  padding: 10px;
+}

@@ -1,0 +1,10 @@
+#dashboard {
+border : 2px solid white;
+background-color: black;
+height: 90%;
+display:flex;
+justify-content: space-between;
+align-items: start;
+color:white;
+position:relative;
+}
