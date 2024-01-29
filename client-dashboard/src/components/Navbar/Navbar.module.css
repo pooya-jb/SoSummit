@@ -1,10 +1,11 @@
 #navbar {
   /* background-color : black; */
   border : 2px solid var(--textmain);
-  height : 5rem;
+  height : 10%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: var(--backgroundmain);
 }
 
 #sosummit {

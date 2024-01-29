@@ -1,9 +1,12 @@
 #app {
-  height:893px;
+  /* height:893px; */
+  height:100%;
   width: 100vw;
 }
 
 :root {
   --textmain: white;
+  --textsecond: lightblue;
   --backgroundmain: black;
+  --backgroundsecond: darkgray;
 }
