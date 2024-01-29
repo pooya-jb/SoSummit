@@ -1,4 +1,5 @@
-import { Model } from "mongoose"
+import { Model, ObjectId } from "mongoose"
+import {Request} from 'express'
 
 export interface IUser {
   username: string,
@@ -44,6 +45,11 @@ export interface ILocation {
   alerts: IAlert[]
 }
 
+export interface TypedSessionRequest<Body> extends Request {
+  session? : {uid : ObjectId},
+  user? : InstanceType<IUserModel | IAdminModel>,
+  body : Body
+}
 
 export type IUserModel = Model<IUser, {}, {}>
 
