@@ -3,8 +3,13 @@ import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 
 const COUNTDOWN_UNIT = 1000;
 
-export default function HelpButton({countdown, setCountdown, isPressed, setIsPressed, setShowMessage}) {
-
+export default function HelpButton({
+  countdown,
+  setCountdown,
+  isPressed,
+  setIsPressed,
+  setShowMessage,
+}) {
   const intervalRef = React.useRef<string | null>(null);
 
   useEffect(() => {
@@ -48,12 +53,9 @@ export default function HelpButton({countdown, setCountdown, isPressed, setIsPre
   return (
     <View>
       <TouchableOpacity
-      style={[
-        styles.button,
-        isPressed && styles.buttonPressed,
-      ]}
-      onPressIn={handlePress}
-      onPressOut={handleUnPress}
+        style={[styles.button, isPressed && styles.buttonPressed]}
+        onPressIn={handlePress}
+        onPressOut={handleUnPress}
       >
         <Text style={styles.text}>{countdown === 0 ? 'SOS' : countdown}</Text>
       </TouchableOpacity>
