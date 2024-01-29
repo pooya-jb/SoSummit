@@ -21,10 +21,10 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name='users/[id]'
+        name='alert'
         options={{
-          headerTitle: 'User Page',
-          title: 'User',
+          headerTitle: 'Help',
+          title: 'SOS',
         }}
       />
     </Tabs>
