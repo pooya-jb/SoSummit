@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, ReduceMotion } from 'react-native-reanimated';
+
+const COUNTDOWN_UNIT = 1000;
+const width = useSharedValue(250);
 
 export default function HelpButton() {
   const [isPressed, setIsPressed] = useState(false);
   const [countdown, setCountdown] = useState(3);
-  const intervalRef = React.useRef<number | null>(null);
+  const intervalRef = React.useRef<string | null>(null);
 
   useEffect(() => {
     if (isPressed) {
@@ -18,16 +22,13 @@ export default function HelpButton() {
             return 0;
           }
         });
-      }, 1000);
+      }, COUNTDOWN_UNIT);
     } else {
       // Clear interval if unpressed
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
-      // Reset countdown to 0 on release
-      setCountdown(0);
     }
-
     // Cleanup interval on component unmount
     return () => {
       if (intervalRef.current) {
@@ -37,6 +38,11 @@ export default function HelpButton() {
   }, [isPressed]);
 
   function handlePress() {
+    width.value = withTiming(250, {
+      duration: COUNTDOWN_UNIT * 3,
+      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      reduceMotion: ReduceMotion.System,
+    });
     setIsPressed(true);
     setCountdown(3);
   }
@@ -58,6 +64,12 @@ export default function HelpButton() {
       >
         <Text style={styles.text}>{countdown === 0 ? 'SOS' : countdown}</Text>
       </TouchableOpacity>
+      <Animated.View
+      style={{
+        width,
+      }}
+      animate={{duration: COUNTDOWN_UNIT *3}}
+      ></Animated.View>
     </View>
   );
 }
