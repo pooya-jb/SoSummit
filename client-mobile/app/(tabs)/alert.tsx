@@ -1,8 +1,8 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet } from 'react-native';
-import HelpScreen from '../../components/HelpScreen';
-import ChatScreen from '../../components/ChatScreen';
+import HelpScreen from '../../screens/HelpScreen';
+import ChatScreen from '../../screens/ChatScreen';
 
 const Alert = () => {
   const [isPressed, setIsPressed] = useState(false);

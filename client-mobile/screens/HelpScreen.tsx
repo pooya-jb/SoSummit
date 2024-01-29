@@ -1,6 +1,6 @@
 import { SafeAreaView, Text, StyleSheet, View } from "react-native";
-import HelpButton from "./HelpButton/HelpButton";
-import HelpType from "./HelpType/HelpType";
+import HelpButton from "../components/HelpButton/HelpButton";
+import HelpType from "../components/HelpType/HelpType";
 
 export default function HelpScreen ({isPressed, setIsPressed, countdown, setCountdown, setShowMessage}) {
   return (
