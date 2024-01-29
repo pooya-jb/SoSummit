@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DisplayS } from '../types';
+import { DisplayS, UserL } from '../types';
 // loggedIn reducer not being used for now
 
 
@@ -17,10 +17,17 @@ export const displaySlice = createSlice({
         ...state,
         drawerIsOpen : !state.drawerIsOpen
       }
+    },
+    userSelected : (state : DisplayS, action: PayloadAction<UserL>) => {
+      return {
+        ...state,
+        drawerIsOpen : true,
+        selectedUser: action.payload
+      }
     }
   }
 })
 
 export default displaySlice.reducer;
 
-export const {drawerToggled} = displaySlice.actions;
+export const {drawerToggled, userSelected} = displaySlice.actions;

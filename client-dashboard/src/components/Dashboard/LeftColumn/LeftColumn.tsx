@@ -17,10 +17,10 @@ function LeftColumn(): React.ReactNode {
 
           <TabPanels>
             <TabPanel p='0'>
-              <UserList/>
+              <UserList source={'users'}/>
             </TabPanel>
             <TabPanel p='0'>
-              <p>two!</p>
+              <UserList source={'admins'} />
             </TabPanel>
             <TabPanel p='0'>
               <p>three!</p>
