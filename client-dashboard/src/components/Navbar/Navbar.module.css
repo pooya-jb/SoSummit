@@ -1,0 +1,26 @@
+#navbar {
+  /* background-color : black; */
+  border : 2px solid var(--textmain);
+  height : 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--backgroundmain);
+}
+
+#sosummit {
+  background-color: var(--backgroundmain);
+  color: var(--textmain);
+  height:100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* #sosummit {
+
+} */
+
+/* .uicolors {
+  background-color: black;
+  color: white;
+} */
