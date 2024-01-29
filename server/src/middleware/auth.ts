@@ -1,23 +1,23 @@
 import Admin from '../models/Admin';
 import User from './../models/User';
-import { TypedSessionRequest } from '../types';
+import { TypedJwt, TypedRequest } from '../types';
 import { NextFunction } from 'express';
 import { Response } from 'express';
+import jwt from 'jsonwebtoken'
+const SECRET_KEY = process.env.SECRET_KEY || 'lalala this isnt secure';
 
-const authMiddleware = async (req : TypedSessionRequest<any>, res : Response, next : NextFunction) => {
+const authMiddleware = async (req : TypedRequest<any>, res : Response, next : NextFunction) => {
+  const authHeaders = req.headers['authorization'];
+  if (!authHeaders) return res.sendStatus(403);
+  const token = authHeaders.split(' ')[1];
   try {
-    const { uid } = req.session!;
-    let user = await User.findOne({ _id: uid });
-    if (!user) {
-      user = await Admin.findOne({_id : uid});
-      if (!user) {
-        throw new Error()
-      }
-    }
+    const { _id } = jwt.verify(token, SECRET_KEY) as TypedJwt;
+    const user = await User.findOne({ _id });
+    if (!user) return res.sendStatus(401);
     req.user = user;
     next();
   } catch (error) {
-    return res.sendStatus(401);
+    res.sendStatus(401);
   }
 };
 

@@ -1,5 +1,6 @@
 import { Model, ObjectId } from "mongoose"
 import {Request} from 'express'
+import { JwtPayload } from "jsonwebtoken"
 
 export interface IUser {
   username: string,
@@ -45,8 +46,11 @@ export interface ILocation {
   alerts: IAlert[]
 }
 
-export interface TypedSessionRequest<Body> extends Request {
-  session? : {uid : ObjectId},
+export interface TypedJwt extends JwtPayload {
+  _id: ObjectId
+}
+
+export interface TypedRequest<Body> extends Request {
   user? : InstanceType<IUserModel | IAdminModel>,
   body : Body
 }

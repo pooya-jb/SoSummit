@@ -1,6 +1,6 @@
-import {Schema, model} from 'mongoose'
+import db from './index';
 import { IUser } from '../types';
-const UserSchema = new Schema<IUser> ({
+const UserSchema = new db.Schema<IUser> ({
   username: {
     type: String,
     required: true,
@@ -30,6 +30,6 @@ const UserSchema = new Schema<IUser> ({
   
 })
 
-const User = model<IUser>('User', UserSchema);
+const User = db.model<IUser>('User', UserSchema);
 
 export default User;
