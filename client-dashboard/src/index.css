@@ -8,7 +8,13 @@
   height:100vh;
 }
 
-.leaflet-container.leaflet-touch.leaflet-retina.leaflet-fade-anim.leaflet-grab.leaflet-touch-drag.leaflet-touch-zoom {
+/* .leaflet-container.leaflet-touch.leaflet-retina.leaflet-fade-anim.leaflet-grab.leaflet-touch-drag.leaflet-touch-zoom {
   height: 89.7vh;
   width: 79.9vw;
-}
+} */
+
+.leaflet-container
+{
+    height: 89.7vh;
+    width: 79.9vw;
+  }

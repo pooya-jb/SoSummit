@@ -6,3 +6,8 @@ export interface UserL {
   bio?: string,
   location: string
 }
+
+export interface DisplayS {
+  drawerIsOpen: boolean;
+  selectedUser: UserL | null;
+}
