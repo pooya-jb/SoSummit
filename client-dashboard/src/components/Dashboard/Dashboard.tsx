@@ -2,7 +2,8 @@ import * as React from 'react';
 // import classes from './Dashboard.module.css';
 import ids from './Dashboard.module.css';
 import LeftColumn from './LeftColumn/LeftColumn';
-import ChakraRightDrawer from './ChakraRightDrawer/ChakraRightDrawer';
+import Map from './Map/Map'
+import RightDrawer from './RightDrawer/RightDrawer';
 
 function Dashboard(): React.ReactNode {
 
@@ -10,8 +11,8 @@ function Dashboard(): React.ReactNode {
     <>
       <div id={ids.dashboard}>
         <LeftColumn />
-
-        <ChakraRightDrawer/>
+        <Map />
+        <RightDrawer/>
       </div>
     </>
   )

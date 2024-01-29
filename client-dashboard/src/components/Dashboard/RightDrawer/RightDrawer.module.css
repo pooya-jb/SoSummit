@@ -1,0 +1,20 @@
+.rightdrawer {
+  width: 25vw;
+  height: 89.7vh;
+  background-color: var(--backgroundmain);
+  z-index: 998;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.openright {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 998;
+  background-color: var(--backgroundmain);
+  padding: 8px;
+  border-radius: 3px;
+  border: 1px var(--textmain) solid;
+}
