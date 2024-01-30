@@ -6,10 +6,8 @@ import router from './router';
 dotenv.config();
 
 const corsConfig = {
-  // REMOVE-START
-  origin: ['http://localhost:5173'],
+  origin: '*'  ,
   credentials: true,
-  // REMOVE-END
 };
 
 const app: Express = express();

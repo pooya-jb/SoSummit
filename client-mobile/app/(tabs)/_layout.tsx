@@ -1,13 +1,22 @@
 import { Tabs } from "expo-router";
 import { Pressable, Text, View, Image } from "react-native";
+import { Provider, useSelector } from "react-redux";
+import { RootState, store } from "../../redux/store";
 
 const TabsLayout = () => {
+  const {isAuth} = useSelector((state: RootState ) => state.user)
   return (
-    <Tabs>
+    <Tabs
+    screenOptions={() => ({
+      tabBarStyle: {
+        display: isAuth ? 'flex' : 'none',
+      },
+    })}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          headerTitle: "Home",
+          headerTitle: `${isAuth? "Home": "Login"}`,
           title: "",
           tabBarIcon: () => {
             return (
@@ -24,11 +33,11 @@ const TabsLayout = () => {
           },
           headerRight: () => {
             return (
-              <View>
+             isAuth? <View>
                 <Pressable>
                   <Text>Menu</Text>
                 </Pressable>
-              </View>
+              </View> : undefined
             );
           },
         }}
