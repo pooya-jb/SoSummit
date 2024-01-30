@@ -3,12 +3,9 @@ import { useState } from 'react';
 import SignupForm from '../components/SignupForm/SignupForm';
 import LoginAdminForm from '../components/LoginAdminForm/LoginAdminForm';
 const AuthScreen = () => {
-  const [authState, setAuthState] = useState('signup');
+  const [authState, setAuthState] = useState('login');
   if (authState === 'signup') {
     return <SignupForm setAuthState={setAuthState} />;
-  }
-  if (authState === 'adminLogin') {
-    return <LoginAdminForm />;
   } else {
     return <LoginForm setAuthState={setAuthState} />;
   }

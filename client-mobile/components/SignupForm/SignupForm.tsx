@@ -1,27 +1,23 @@
-import { useDispatch } from 'react-redux';
-import { setAuth } from '../../redux/userSlice';
+import React from 'react';
 import {
   View,
-  TextInput,
-  Text,
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-  TextInputProps,
   KeyboardAvoidingView,
-  Pressable,
+  TextInput,
+  StyleSheet,
+  Text,
   Platform,
-  ScrollView,
   TouchableWithoutFeedback,
+  Pressable,
   Keyboard,
-  Button,
 } from 'react-native';
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useState } from 'react';
-import { fetchLogin } from '../../utils/AppService';
+import { useDispatch } from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
+import { fetchSignup } from '../../utils/AppService';
+import { setAuth } from '../../redux/userSlice';
 
-const SignupForm = ({ setAuthState }) => {
+
+const KeyboardAvoidingComponent = ({ setAuthState }: {setAuthState: React.Dispatch<React.SetStateAction<string>>}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,22 +25,6 @@ const SignupForm = ({ setAuthState }) => {
   const [experience, setExperience] = useState('');
   const [bio, setBio] = useState('');
   const dispatch = useDispatch();
-  const handleLoginPress = async () => {
-    if (email === '' || password === '') throw alert('Fields are missing');
-    const res = await fetchLogin(email, password);
-    if (res.accessToken) {
-      console.log('auth');
-      dispatch(setAuth(true));
-    } else throw alert('Email or password is incorrect');
-  };
-
-  const changeAuthState = () => {
-    setAuthState('login');
-  };
-  const changeAuthStateToAdmin = () => {
-    setAuthState('adminLogin');
-  };
-
   const experienceOptions = [
     { label: 'Beginner', value: 'beginner' },
     {
@@ -56,119 +36,88 @@ const SignupForm = ({ setAuthState }) => {
       value: 'expert',
     },
   ];
+  const changeAuthState = () => {
+    setAuthState('login');
+  };
 
+  const handleSignUpPress = async () => {
+    if (email === '' || password === '') throw alert('Fields are missing');
+    const res = await fetchSignup(username, email, password, age, experience, bio);
+    if (res.accessToken) {
+      dispatch(setAuth(true));
+    } else throw alert('Email or password is incorrect');
+  };
   return (
     <KeyboardAvoidingView
-      style={styles.formContainer}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
     >
-      <TextInput
-        value={username}
-        placeholder='Username'
-        style={styles.formInput}
-        onChangeText={setUsername}
-      />
-      <TextInput
-        value={email}
-        placeholder='Email'
-        style={styles.formInput}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        value={password}
-        placeholder='Password'
-        style={styles.formInput}
-        onChangeText={setPassword}
-      />
-      <TextInput
-        value={age}
-        placeholder='Age'
-        style={styles.formInput}
-        onChangeText={setAge}
-        keyboardType='numeric'
-      />
-      <View
-        style={{
-          padding: 1,
-          borderColor: 'black',
-          borderWidth: 1,
-        }}
-      >
-        <RNPickerSelect
-          value={experience}
-          placeholder={{ label: 'Selecet Experience', value: null }}
-          onValueChange={(value) => setExperience(value)}
-          items={experienceOptions}
-          style={{}}
-        />
-      </View>
-      {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{}}>
-          <Text>Touch Here</Text>
-        </View>
-      </TouchableWithoutFeedback> */}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
-          <TextInput
-            value={bio}
-            placeholder='Bio'
-            style={styles.formInput}
-            onChangeText={setBio}
-            multiline={true}
-            numberOfLines={3}
+          <TextInput placeholder='Username' value={username} onChangeText={setUsername} style={styles.textInput} />
+        </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+          <TextInput placeholder='Email' value={email} onChangeText={setEmail} style={styles.textInput} />
+        </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+          <TextInput placeholder='Password' value={password} onChangeText={setPassword} style={styles.textInput} />
+        </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+          <TextInput placeholder='Age' value={age} onChangeText={setAge} keyboardType='numeric' style={styles.textInput} />
+        </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.picker}>
+          <RNPickerSelect
+            value={experience}
+            placeholder={{ label: 'Selected Experience', value: 'beginer' }}
+            onValueChange={(value) => setExperience(value)}
+            items={experienceOptions}
           />
         </View>
       </TouchableWithoutFeedback>
-
-      <Pressable style={styles.formButton} onPress={handleLoginPress}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+          <TextInput placeholder='Bio' value={bio} onChangeText={setBio} multiline={true} numberOfLines={4} style={styles.textInput} />
+        </View>
+      </TouchableWithoutFeedback>
+      <View style={{}}>
+      <Pressable style={styles.formButton} onPress={handleSignUpPress}>
         <Text style={styles.formButtonText}>Sign up</Text>
       </Pressable>
-      <Pressable style={{}} onPress={changeAuthState}>
+      </View>
+      <Pressable style={{marginBottom:25}} onPress={changeAuthState}>
         <Text style={{}}>Have an account?</Text>
       </Pressable>
-      <Pressable style={{}} onPress={changeAuthStateToAdmin}>
-        <Text style={{}}>Are you admin?</Text>
-      </Pressable>
     </KeyboardAvoidingView>
+
   );
 };
 
-export default SignupForm;
-
 const styles = StyleSheet.create({
-  formContainer: {
-    gap: 30,
+  container: {
+    flex: 1,
+    gap: 10,
     padding: 40,
     marginTop: 10,
-    flex: 1,
   },
   inner: {
-    padding: 24,
     flex: 1,
-    justifyContent: 'space-around',
-  },
-  header: {
-    fontSize: 36,
-    marginBottom: 48,
   },
   textInput: {
-    height: 40,
-    borderColor: '#000000',
-    borderBottomWidth: 1,
-    marginBottom: 36,
-  },
-  btnContainer: {
-    backgroundColor: 'white',
-    marginTop: 12,
-  },
-  formInput: {
     borderColor: 'black',
     borderStyle: 'solid',
     borderWidth: 1,
     padding: 10,
     fontSize: 16,
+    
   },
-
   formButtonText: {
     textAlign: 'center',
     fontSize: 20,
@@ -181,5 +130,14 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderStyle: 'solid',
     borderWidth: 1,
+    marginBottom:15
   },
+  picker: {
+    borderColor: 'black',
+    borderWidth: 1,
+    padding: 5
+
+  }
 });
+
+export default KeyboardAvoidingComponent;

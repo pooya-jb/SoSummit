@@ -36,8 +36,8 @@ const TabsLayout = () => {
           headerRight: () => {
             return isAuth ? (
               <View>
-                <Pressable>
-                  <Text>Menu</Text>
+                <Pressable onPress={() => console.log('user clicked')}>
+                  <Image source={require('../../assets/user.png')} style={{height:25, width:25, margin:15}} />
                 </Pressable>
               </View>
             ) : undefined;

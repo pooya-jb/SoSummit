@@ -13,7 +13,7 @@ import {
 import { useState } from 'react';
 import { fetchLogin } from '../../utils/AppService';
 
-const LoginForm = ({ setAuthState }) => {
+const LoginForm = ({ setAuthState }:{setAuthState: React.Dispatch<React.SetStateAction<string>>}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -21,7 +21,6 @@ const LoginForm = ({ setAuthState }) => {
     if (email === '' || password === '') throw alert('Fields are missing');
     const res = await fetchLogin(email, password);
     if (res.accessToken) {
-      console.log('auth');
       dispatch(setAuth(true));
     } else throw alert('Email or password is incorrect');
   };
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1,
     padding: 10,
-    fontSize: 20,
+    fontSize: 16,
   },
 
   formButtonText: {
