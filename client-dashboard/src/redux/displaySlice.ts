@@ -5,7 +5,8 @@ import { DisplayS, UserL } from '../types';
 const initialState : DisplayS= {
   drawerIsOpen : false,
   selectedUser : null,
-  loginModalOpen : false
+  loginModalOpen : false,
+  registerModalOpen: false
 };
 
 export const displaySlice = createSlice({
@@ -30,10 +31,16 @@ export const displaySlice = createSlice({
         ... state,
         loginModalOpen : !state.loginModalOpen
       }
+    },
+    registerSelected : (state: DisplayS) => {
+      return {
+        ... state,
+        registerModalOpen : !state.registerModalOpen
+      }
     }
   }
 })
 
 export default displaySlice.reducer;
 
-export const {drawerToggled, userSelected, loginSelected} = displaySlice.actions;
+export const {drawerToggled, userSelected, loginSelected, registerSelected} = displaySlice.actions;

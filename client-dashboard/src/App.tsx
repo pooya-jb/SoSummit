@@ -1,10 +1,11 @@
 import './App.css'
 import * as React from 'react';
-import Navbar from './components/Navbar/Navbar';
-import Dashboard from './components/Dashboard/Dashboard';
 import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSelector } from 'react-redux';
+
+import Navbar from './components/Navbar/Navbar';
+import Dashboard from './components/Dashboard/Dashboard';
 import { RootState } from './redux/store';
 
 function App(): React.ReactNode {

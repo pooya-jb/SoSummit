@@ -1,6 +1,7 @@
 import * as React from 'react';
-import ids from './LeftColumn.module.css'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+
+import ids from './LeftColumn.module.css'
 import UserList from './UserList/UserList';
 
 function LeftColumn(): React.ReactNode {

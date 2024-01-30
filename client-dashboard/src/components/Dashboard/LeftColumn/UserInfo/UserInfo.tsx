@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
+
 import classes from './UserInfo.module.css'
 import { UserL } from '../../../../types';
-import { useDispatch } from 'react-redux';
 import { userSelected } from '../../../../redux/displaySlice';
 
 
@@ -12,9 +13,9 @@ function UserInfo({user} : {user:UserL}): React.ReactNode {
   }
   return (
     <>
-     <div className={classes.userItem} onClick={handleSelectUser}>
+      <div className={classes.userItem} onClick={handleSelectUser}>
       <p>{user.username}</p>
-     </div>
+      </div>
     </>
   )
 }
