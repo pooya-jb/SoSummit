@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+
+import { styles } from './HelpType.styles';
 
 export default function HelpType () {
   const [helpType, setHelpType] = useState('');
@@ -40,31 +42,3 @@ export default function HelpType () {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '80%',
-    top: '-15%',
-    gap: 16,
-  },
-  button: {
-    backgroundColor: '#f2f2f2',
-    borderRadius: 12,
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    borderColor: 'black',
-    borderWidth: 1.5,
-    width: '80%',
-  },
-  selectedButton: {
-    backgroundColor: "#d2d2d2"
-  },
-  text: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontSize: 16
-  }
-})

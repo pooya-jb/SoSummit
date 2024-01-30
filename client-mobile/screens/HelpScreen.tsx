@@ -1,8 +1,15 @@
-import { SafeAreaView, Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import HelpButton from "../components/HelpButton/HelpButton";
 import HelpType from "../components/HelpType/HelpType";
+import { ButtonProps } from "../utils/types";
 
-export default function HelpScreen ({isPressed, setIsPressed, countdown, setCountdown, setShowMessage}) {
+const HelpScreen: React.FC<ButtonProps> = ({
+  isPressed,
+  setIsPressed,
+  countdown,
+  setCountdown,
+  setShowMessage
+}) => {
   return (
     <>
       <Text style={styles.questionOne}>What kind of help do you need?</Text>
@@ -12,6 +19,8 @@ export default function HelpScreen ({isPressed, setIsPressed, countdown, setCoun
     </>
   )
 }
+
+export default HelpScreen;
 
 const styles = StyleSheet.create({
 
