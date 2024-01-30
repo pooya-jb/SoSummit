@@ -26,8 +26,8 @@ function LoginModal() {
 
   async function handleLoginSubmit(event: SyntheticEvent) {
     event.preventDefault();
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+    const email: string = emailRef.current!.value;
+    const password: string = passwordRef.current!.value;
 
     const response = await apiService.login({ email, password });
     if (response.error) {
