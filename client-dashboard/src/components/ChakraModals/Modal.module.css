@@ -1,0 +1,67 @@
+.modalform {
+  display : flex;
+  flex-direction: column;
+  padding : 3rem;
+  gap: 1rem;
+  background-color: lightblue;
+  color : var(--textsecond);
+}
+
+.modalform label {
+  font-size: 1.4rem;
+}
+
+.modalform input {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 2.5rem;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  gap : 1rem;
+}
+
+.buttonForm {
+  background: var(--textmain);
+  border: 1px solid var(--backgroundmain);
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: var(--backgroundmain);
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 16px;
+  min-height: 40px;
+  outline: 0;
+  padding: 12px 14px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+}
+
+.buttonForm:hover,
+.buttonForm:active {
+  background-color: initial;
+  background-position: 0 0;
+  color: #FF4742;
+}
+
+.buttonForm:active {
+  opacity: .5;
+}
+
+#loginButton {
+  background-color: aquamarine;
+  color: var(--textsecond)
+}

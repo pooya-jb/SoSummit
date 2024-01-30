@@ -6,7 +6,8 @@
 
 :root {
   --textmain: white;
-  --textsecond: lightblue;
+  --textsecond: black;
   --backgroundmain: black;
-  --backgroundsecond: darkgray;
+  --backgroundsecond: skyblue;
+
 }

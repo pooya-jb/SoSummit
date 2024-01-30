@@ -11,6 +11,9 @@ import { RootState } from "../../redux/store";
 import apiService from "../../utils/apiService";
 import JWTUtil from "../../utils/jwtUtil";
 import { loggedIn } from "../../redux/userSlice";
+import { TypedResponse } from "../../types";
+import classes from "./Modal.module.css"
+import ids from "./Modal.module.css"
 
 function LoginModal() {
   const displayLogin = useSelector(
@@ -26,13 +29,13 @@ function LoginModal() {
 
   async function handleLoginSubmit(event: SyntheticEvent) {
     event.preventDefault();
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+    const email: string = emailRef.current!.value;
+    const password: string = passwordRef.current!.value;
 
-    const response = await apiService.login({ email, password });
+    const response: TypedResponse = await apiService.login({ email, password });
     if (response.error) {
       alert("Wrong email or password");
-    } else {
+    } else if (response.accessToken) {
       JWTUtil.setter(response);
       closeHandler();
       dispatch(loggedIn());
@@ -44,12 +47,15 @@ function LoginModal() {
       <Modal isOpen={displayLogin} onClose={closeHandler}>
         <ModalOverlay />
         <ModalContent>
-          <form onSubmit={handleLoginSubmit}>
+          <form onSubmit={handleLoginSubmit} className={classes.modalform}>
             <label>Email: </label>
             <input type="email" name="email" required ref={emailRef}/>
             <label>Password: </label>
             <input type="password" name="password" required ref={passwordRef}/>
-            <button type="submit">Search</button>
+            <div className={classes.buttonsContainer}>
+              <button type="submit" className={classes.buttonForm} id={ids.loginButton}>Login</button>
+              <button className={classes.buttonForm} onClick={closeHandler}>Cancel</button>
+            </div>
           </form>
         </ModalContent>
       </Modal>
