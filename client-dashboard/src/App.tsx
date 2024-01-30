@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import Navbar from './components/Navbar/Navbar';
 import Dashboard from './components/Dashboard/Dashboard';
 import { RootState } from './redux/store';
+import PresentationPage from './components/PresentationPage/PresentationPage';
 
 function App(): React.ReactNode {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated)
@@ -17,7 +18,7 @@ function App(): React.ReactNode {
           <Navbar />
           <BrowserRouter >
           <Routes >
-          <Route path="/" element={isAuthenticated?  <Dashboard />: <Dashboard />} />
+          <Route path="/" element={isAuthenticated?  <Dashboard />: <PresentationPage />} />
           </ Routes>
           </BrowserRouter>
         </div>

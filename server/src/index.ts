@@ -5,21 +5,19 @@ import router from './router';
 
 dotenv.config();
 
+const {  SERVER_PORT, CLIENT_URL, CLIENT_PORT } = process.env;
+
 const corsConfig = {
-  // REMOVE-START
-  origin: ['http://localhost:5173'],
+  origin: [`${CLIENT_URL}${CLIENT_PORT}`],
   credentials: true,
-  // REMOVE-END
 };
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
-
 
 app.use(cors(corsConfig))
 .use(express.json())
 .use(router)
 
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+app.listen(SERVER_PORT, () => {
+  console.log(`[server]: Server is running at http://localhost:${SERVER_PORT} 🐙`);
 });
