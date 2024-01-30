@@ -11,6 +11,8 @@ import { RootState } from '../../../redux/store';
 import LoginModal from '../../ChakraModals/LoginModal';
 import { loginSelected, registerSelected } from '../../../redux/displaySlice';
 import RegisterModal from '../../ChakraModals/RegisterModal';
+import { loggedOut } from '../../../redux/userSlice';
+import JWTUtil from '../../../utils/jwtUtil';
 
 function ChakraMenu(): React.ReactNode {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated)
@@ -25,6 +27,11 @@ function ChakraMenu(): React.ReactNode {
     dispatch(registerSelected())
   }
 
+  function handleLogoutClick() {
+    JWTUtil.destroyer()
+    dispatch (loggedOut())
+  }
+
   return (
     <>
       <Menu>
@@ -35,7 +42,7 @@ function ChakraMenu(): React.ReactNode {
           <MenuList color="var(--textmain)" bg="var(--backgroundmain)" zIndex='999'>
           <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Settings</MenuItem>
           <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Account settings</MenuItem>
-          <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Log out</MenuItem>
+            <MenuItem color="var(--textmain)" bg="var(--backgroundmain)" onClick={handleLogoutClick}>Log out</MenuItem>
         </MenuList>
         :
         <MenuList color="var(--textmain)" bg="var(--backgroundmain)" zIndex='999'>

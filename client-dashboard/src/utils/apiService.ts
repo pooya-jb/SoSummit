@@ -27,6 +27,23 @@ const apiService = {
     })
       .then((res) => res)
       .catch((err) => console.log(err));
+  },
+
+  invalidateJWT:  async (accessToken) => {
+    
+      // the following request should invalidate the token
+      // return fetch(`${BASE_URL}/logout`, {
+      //   method: 'POST',
+      //   credentials: 'include',
+      //   mode: 'cors',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `Bearer ${tokenName}`,
+      //   },
+      // })
+      //   .then((res) => res.json())
+      //   .catch((err) => console.log(err));
+  
   }
 }
 

@@ -8,7 +8,12 @@ const JWTUtil = {
 
   getter : () => {
     return localStorage.getItem('accessToken');
+  },
+  
+  destroyer : () => {
+    localStorage.removeItem('accessToken');
   }
+
 }
 
 export default JWTUtil;
