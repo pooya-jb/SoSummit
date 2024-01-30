@@ -5,23 +5,26 @@ import {
   MenuList,
   MenuItem,
 } from '@chakra-ui/react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import RegisterLoginModal from '../../Modals/RegisterLoginModal';
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useDisclosure } from '@chakra-ui/react';
+
+import RegisterLoginModal from '../../Modals/RegisterLoginModal';
+import { loginSelected } from '../../../redux/displaySlice';
 // as = { Button } rightIcon = {< ChevronDownIcon />
 
 function ChakraMenu(): React.ReactNode {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated)
-  const [loginClicked, setLoginClicked] = useState(false)
   // const { isOpen, onOpen, onClose } = useDisclosure()
 
   const initialRef = useRef(null)
   const finalRef = useRef(null)
 
+  const dispatch = useDispatch();
+
   function handleLoginClick() {
-    setLoginClicked(true);
+    dispatch(loginSelected())
   }
 
   return (
@@ -30,7 +33,7 @@ function ChakraMenu(): React.ReactNode {
         <MenuButton color="var(--textmain)" bg="var(--backgroundmain)" h="100%" pl="1rem" pr="1rem">
           User
         </MenuButton>
-        { isAuthenticated? 
+        { isAuthenticated?
           <MenuList color="var(--textmain)" bg="var(--backgroundmain)" zIndex='999'>
           <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Settings</MenuItem>
           <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Account settings</MenuItem>
@@ -41,7 +44,7 @@ function ChakraMenu(): React.ReactNode {
           <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Register as an admin</MenuItem>
         </MenuList>
         }
-        {loginClicked && <RegisterLoginModal/>}
+        {<RegisterLoginModal/>}
       </Menu>
 
     </>

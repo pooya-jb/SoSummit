@@ -11,16 +11,25 @@ import {
   Input,
   Button,
   useDisclosure
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react';
+import { loginSelected } from '../../redux/displaySlice';
+import { RootState } from '../../redux/store';
 
 function RegisterLoginModal() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   useEffect(() => onOpen(), [])
   // const initialRef = useRef(null)
   // const finalRef = useRef(null)
-  console.log('rendered')
+  const displayLogin = useSelector((state: RootState) => state.display.loginModalOpen);
+
+  const dispatch = useDispatch();
+
+  function closeHandler () {
+    dispatch(loginSelected());
+  }
 
   return (
     <>
@@ -32,22 +41,22 @@ function RegisterLoginModal() {
       <Modal
         // initialFocusRef={initialRef}
         // finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={displayLogin}
+        onClose={closeHandler}
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>Admin Login</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>First name</FormLabel>
-              {/* <Input ref={initialRef} placeholder='First name' /> */}
+              <FormLabel>Email:</FormLabel>
+              <Input placeholder='Email' />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Last name</FormLabel>
-              <Input placeholder='Last name' />
+              <FormLabel>Password:</FormLabel>
+              <Input placeholder='Password' />
             </FormControl>
           </ModalBody>
 
@@ -55,7 +64,7 @@ function RegisterLoginModal() {
             <Button colorScheme='blue' mr={3}>
               Save
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={closeHandler}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
