@@ -1,6 +1,6 @@
-import {Schema, model} from 'mongoose'
+import db from './index'
 import { IAdmin } from '../types';
-const AdminSchema = new Schema<IAdmin> ({
+const AdminSchema = new db.Schema<IAdmin> ({
   username: {
     type: String,
     required: true,
@@ -19,6 +19,6 @@ const AdminSchema = new Schema<IAdmin> ({
   
 })
 
-const Admin = model<IAdmin>('Admin', AdminSchema);
+const Admin = db.model<IAdmin>('Admin', AdminSchema);
 
 export default Admin;

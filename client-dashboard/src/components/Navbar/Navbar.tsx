@@ -1,5 +1,6 @@
-import ids from './Navbar.module.css';
 import * as React from 'react';
+
+import ids from './Navbar.module.css';
 import ChakraMenu from './ChakraMenu/ChakraMenu';
 
 function Navbar(): React.ReactNode {

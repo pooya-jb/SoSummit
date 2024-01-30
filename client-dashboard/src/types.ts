@@ -10,6 +10,8 @@ export interface UserL {
 export interface DisplayS {
   drawerIsOpen: boolean;
   selectedUser: UserL | null;
+  loginModalOpen: boolean;
+  registerModalOpen: boolean;
 }
 
 export interface LocationS {
@@ -25,5 +27,4 @@ interface AlertS {
   time: string,
   type: string,
   location: number[]
-
 }

@@ -1,7 +1,7 @@
-import {Schema, model} from 'mongoose'
+import db from './index';
 import { ILocation } from '../types';
 
-const LocationSchema = new Schema<ILocation> ({
+const LocationSchema = new db.Schema<ILocation> ({
   name: {
     type: String,
     required: true
@@ -28,6 +28,6 @@ const LocationSchema = new Schema<ILocation> ({
   
 })
 
-const Location = model<ILocation>('Location', LocationSchema);
+const Location = db.model<ILocation>('Location', LocationSchema);
 
 export default Location;

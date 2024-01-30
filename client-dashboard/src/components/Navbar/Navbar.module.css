@@ -1,5 +1,4 @@
 #navbar {
-  /* background-color : black; */
   border : 2px solid var(--textmain);
   height : 10%;
   display: flex;
@@ -15,12 +14,3 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
-
-/* #sosummit {
-
-} */
-
-/* .uicolors {
-  background-color: black;
-  color: white;
-} */

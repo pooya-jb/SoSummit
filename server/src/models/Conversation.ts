@@ -1,7 +1,7 @@
-import {Schema, model} from 'mongoose'
+import db from './index';
 import { IConversation } from '../types';
 
-const ConversationSchema = new Schema<IConversation> ({
+const ConversationSchema = new db.Schema<IConversation> ({
   id: {
     type: String,
     required: true
@@ -31,6 +31,6 @@ const ConversationSchema = new Schema<IConversation> ({
   
 })
 
-const Conversation = model<IConversation>('Conversation', ConversationSchema);
+const Conversation = db.model<IConversation>('Conversation', ConversationSchema);
 
 export default Conversation;
