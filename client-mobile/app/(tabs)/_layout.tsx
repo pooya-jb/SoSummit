@@ -1,64 +1,68 @@
-import { Tabs } from "expo-router";
-import { Pressable, Text, View, Image } from "react-native";
-import { Provider, useSelector } from "react-redux";
-import { RootState, store } from "../../redux/store";
+import { Tabs } from 'expo-router';
+import { Pressable, Text, View, Image } from 'react-native';
+import { Provider, useSelector } from 'react-redux';
+import { RootState, store } from '../../redux/store';
 
 const TabsLayout = () => {
-  const {isAuth} = useSelector((state: RootState ) => state.user)
+  const { isAuth } = useSelector((state: RootState) => state.user);
   return (
     <Tabs
-    screenOptions={() => ({
-      tabBarStyle: {
-        display: isAuth ? 'flex' : 'none',
-      },
-    })}
+      screenOptions={() => ({
+        tabBarStyle: {
+          display: isAuth ? 'flex' : 'none',
+        },
+      })}
     >
       <Tabs.Screen
-        name="index"
+        name='index'
         options={{
-          headerTitle: `${isAuth? "Home": "Login"}`,
-          title: "",
+          headerTitle: `${isAuth ? 'Home' : 'Auth'}`,
+          title: '',
           tabBarIcon: () => {
             return (
-              <View style={{
-                padding: 5,
-                top: 8
-                }}>
+              <View
+                style={{
+                  padding: 5,
+                  top: 8,
+                }}
+              >
                 <Image
-                  source={require("../../assets/home-icon.png")}
+                  source={require('../../assets/home-icon.png')}
                   style={{ width: 30, height: 30 }}
                 />
               </View>
-            )
+            );
           },
           headerRight: () => {
-            return (
-             isAuth? <View>
+            return isAuth ? (
+              <View>
                 <Pressable>
                   <Text>Menu</Text>
                 </Pressable>
-              </View> : undefined
-            );
+              </View>
+            ) : undefined;
           },
         }}
       />
       <Tabs.Screen
-        name="alert"
+        name='alert'
         options={{
-          headerTitle: "Help",
-          title: "",
+          headerTitle: 'Help',
+          title: '',
           tabBarIcon: () => {
             return (
-              <View style={{
-                padding: 5,
-                top: 8
-                }}>
+              <View
+                style={{
+                  padding: 5,
+                  top: 8,
+                }}
+              >
                 <Image
-                  source={require("../../assets/sos-icon02.png")}
+                  source={require('../../assets/sos-icon02.png')}
                   style={{ width: 30, height: 30 }}
                 />
               </View>
-            )
+            );
           },
         }}
       />
