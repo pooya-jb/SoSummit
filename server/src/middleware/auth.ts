@@ -12,7 +12,8 @@ const authMiddleware = async (req : TypedRequest<any>, res : Response, next : Ne
   const token = authHeaders.split(' ')[1];
   try {
     const { _id } = jwt.verify(token, SECRET_KEY) as TypedJwt;
-    const user = await User.findOne({ _id });
+    const user = await User.findOne({ _id }) || await Admin.findOne({_id});
+    // Add admin logic
     if (!user) return res.sendStatus(401);
     req.user = user;
     next();

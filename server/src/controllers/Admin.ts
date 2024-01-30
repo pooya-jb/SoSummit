@@ -21,7 +21,7 @@ const createAdmin = async (req : TypedRequest<IAdmin>, res : Response) => {
       password: hash,
     });
     const user: InstanceType<IAdminModel> = await newAdmin.save();
-    const accessToken = jwt.sign({_id: user._id }, SECRET_KEY);
+    const accessToken : string = jwt.sign({_id: user._id }, SECRET_KEY);
     res.status(201).send({ accessToken });
   } catch (error) {
     res.status(400).send({ error, message: 'Could not create user' });
