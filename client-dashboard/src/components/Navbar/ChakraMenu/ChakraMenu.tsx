@@ -35,6 +35,7 @@ function ChakraMenu(): React.ReactNode {
           <MenuList color="var(--textmain)" bg="var(--backgroundmain)" zIndex='999'>
           <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Settings</MenuItem>
           <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Account settings</MenuItem>
+          <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Log out</MenuItem>
         </MenuList>
         :
         <MenuList color="var(--textmain)" bg="var(--backgroundmain)" zIndex='999'>

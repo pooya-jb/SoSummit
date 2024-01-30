@@ -11,6 +11,7 @@ import { RootState } from "../../redux/store";
 import apiService from "../../utils/apiService";
 import JWTUtil from "../../utils/jwtUtil";
 import { loggedIn } from "../../redux/userSlice";
+import { TypedResponse } from "../../types";
 
 function LoginModal() {
   const displayLogin = useSelector(
@@ -29,10 +30,10 @@ function LoginModal() {
     const email: string = emailRef.current!.value;
     const password: string = passwordRef.current!.value;
 
-    const response = await apiService.login({ email, password });
+    const response: TypedResponse = await apiService.login({ email, password });
     if (response.error) {
       alert("Wrong email or password");
-    } else {
+    } else if (response.accessToken) {
       JWTUtil.setter(response);
       closeHandler();
       dispatch(loggedIn());
