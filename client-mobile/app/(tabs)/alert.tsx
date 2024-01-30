@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet } from 'react-native';
 import HelpScreen from '../../screens/HelpScreen';

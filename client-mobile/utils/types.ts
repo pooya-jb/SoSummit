@@ -11,3 +11,11 @@ export interface Coordinates {
   mocked?: boolean;
   timestamp: number;
 }
+
+export interface ButtonProps {
+  countdown: number,
+  setCountdown: React.Dispatch<React.SetStateAction<number>>
+  isPressed: boolean,
+  setIsPressed: React.Dispatch<React.SetStateAction<boolean>>,
+  setShowMessage: React.Dispatch<React.SetStateAction<boolean>>
+}

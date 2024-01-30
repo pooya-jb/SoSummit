@@ -1,14 +1,27 @@
-import { Tabs } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Tabs } from "expo-router";
+import { Pressable, Text, View, Image } from "react-native";
 
 const TabsLayout = () => {
   return (
     <Tabs>
       <Tabs.Screen
-        name='index'
+        name="index"
         options={{
-          headerTitle: 'Home',
-          title: 'Home',
+          headerTitle: "Home",
+          title: "",
+          tabBarIcon: () => {
+            return (
+              <View style={{
+                padding: 5,
+                top: 8
+                }}>
+                <Image
+                  source={require("../../assets/home-icon.png")}
+                  style={{ width: 30, height: 30 }}
+                />
+              </View>
+            )
+          },
           headerRight: () => {
             return (
               <View>
@@ -21,10 +34,23 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name='alert'
+        name="alert"
         options={{
-          headerTitle: 'Help',
-          title: 'SOS',
+          headerTitle: "Help",
+          title: "",
+          tabBarIcon: () => {
+            return (
+              <View style={{
+                padding: 5,
+                top: 8
+                }}>
+                <Image
+                  source={require("../../assets/sos-icon02.png")}
+                  style={{ width: 30, height: 30 }}
+                />
+              </View>
+            )
+          },
         }}
       />
     </Tabs>

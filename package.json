@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
     "commitizen": "^4.3.0",
-    "expo": "^50.0.4",
-    "react-native-reanimated": "^3.6.2"
+    "eslint": "^8.56.0"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0"

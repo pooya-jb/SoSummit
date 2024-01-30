@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
+
+import { styles } from './HelpButton.styles';
+import { ButtonProps } from '../../utils/types';
 
 const COUNTDOWN_UNIT = 1000;
 
-export default function HelpButton({
+const HelpButton: React.FC<ButtonProps> = ({
   countdown,
   setCountdown,
   isPressed,
   setIsPressed,
   setShowMessage,
-}) {
+}) => {
   const intervalRef = React.useRef<string | null>(null);
 
   useEffect(() => {
@@ -63,30 +66,4 @@ export default function HelpButton({
   );
 }
 
-const styles = StyleSheet.create({
-  button: {
-    width: 150,
-    height: 150,
-    borderRadius: 90,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: 'red',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.6,
-    shadowRadius: 15,
-  },
-  buttonPressed: {
-    transform: [{ scale: 0.95 }],
-    backgroundColor: '#c4020c',
-    opacity: 1,
-  },
-  text: {
-    color: 'white',
-    fontSize: 25,
-    fontWeight: '800',
-  },
-});
+export default HelpButton;

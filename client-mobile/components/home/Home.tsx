@@ -1,10 +1,9 @@
-import { Pressable, ScrollView, Text, View, Image } from 'react-native';
-import { StyleSheet } from 'react-native';
+import { Pressable, Text, View, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useEffect, useState } from 'react';
-import WebView from 'react-native-webview';
 import * as Location from 'expo-location';
-import { Coordinates } from '../../utils/types';
+
+import { styles } from './Home.styles';
 
 const Home = () => {
   const [location, setLocation] = useState<Location.LocationObject | null>(
@@ -36,7 +35,6 @@ const Home = () => {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
-      console.log(location);
       setMapRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
@@ -60,12 +58,10 @@ const Home = () => {
   }
 
   const startHanlder = () => {
-    console.log('Start BTN clicked!');
     setBtnText('End!');
   };
 
   const regionChangeHandler = (newRegion: any) => {
-    console.log(newRegion);
     if (newRegion) {
       setMapRegion({
         latitude: newRegion.latitude,
@@ -77,8 +73,6 @@ const Home = () => {
   };
 
   const currentLocationHanlder = () => {
-    console.log('Current location clicked!');
-    console.log(location);
     if (location?.coords) {
       setMapRegion(userRegion);
     }
@@ -133,60 +127,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  home: { height: '100%' },
-  mapContainer: {
-    width: '100%',
-    height: '100%',
-    borderColor: 'black',
-  },
-  map: {
-    width: '100%',
-    height: '100%',
-    ...StyleSheet.absoluteFillObject,
-  },
-  buttonContainer: {
-    position: 'absolute',
-    bottom: 60,
-    alignSelf: 'center',
-  },
-  button: {
-    margin: 10,
-    padding: 5,
-    borderRadius: 50,
-    backgroundColor: '#10B2C1',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    elevation: 10,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowRadius: 15,
-    shadowColor: 'gray',
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 20,
-  },
-  currentLocationBtnContainer: {
-    borderWidth: 0.5,
-    position: 'absolute',
-    top: 20,
-    right: 10,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    padding: 5,
-    backgroundColor: '#D6D3BF',
-    overflow: 'hidden',
-  },
-});
