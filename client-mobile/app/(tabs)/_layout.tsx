@@ -1,7 +1,8 @@
-import { Tabs } from 'expo-router';
-import { Pressable, Text, View, Image } from 'react-native';
+import { Tabs, Link } from 'expo-router';
+import { Pressable, Text, View, Image, Platform } from 'react-native';
 import { Provider, useSelector } from 'react-redux';
 import { RootState, store } from '../../redux/store';
+
 
 const TabsLayout = () => {
   const { isAuth } = useSelector((state: RootState) => state.user);
@@ -36,8 +37,19 @@ const TabsLayout = () => {
           headerRight: () => {
             return isAuth ? (
               <View>
-                <Pressable onPress={() => console.log('user clicked')}>
-                  <Image source={require('../../assets/user.png')} style={{height:25, width:25, margin:15}} />
+                <Pressable
+                  android_ripple={{ color: 'transparent', borderless: false }} // Add this line
+                >
+                  <Link href="/User" style={{height:25, width:25, marginRight:15}}>
+                    <Image
+                      source={require('../../assets/user.png')}
+                      style={{
+                        height: Platform.OS === 'ios' ? 25 : 20,
+                        width: Platform.OS === 'ios' ? 25 : 20, // Adjust the width as needed
+                        marginRight: 30,
+                      }}
+                    />
+                  </Link>
                 </Pressable>
               </View>
             ) : undefined;

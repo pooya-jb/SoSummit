@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { tokenValidation } from "../utils/AppService";
 
 const initialState = {
   isAuth: false

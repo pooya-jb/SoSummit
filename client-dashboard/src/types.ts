@@ -8,10 +8,10 @@ export interface UserL {
 }
 
 export interface DisplayS {
-  drawerIsOpen: boolean;
-  selectedUser: UserL | null;
-  loginModalOpen: boolean;
-  registerModalOpen: boolean;
+  drawerIsOpen: boolean,
+  selectedUser: UserL | null,
+  loginModalOpen: boolean,
+  registerModalOpen: boolean
 }
 
 export interface LocationS {
@@ -22,9 +22,18 @@ export interface LocationS {
   admins: UserL[]
 }
 
-interface AlertS {
+export interface AlertS {
   text: string,
   time: string,
   type: string,
   location: number[]
+}
+
+export interface TypedResponse extends Response {
+  error: string,
+  accessToken: string
+}
+
+export interface LoginResponse {
+  accessToken: string
 }

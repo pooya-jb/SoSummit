@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 import { fetchSignup } from '../../utils/AppService';
 import { setAuth } from '../../redux/userSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const KeyboardAvoidingComponent = ({ setAuthState }: {setAuthState: React.Dispatch<React.SetStateAction<string>>}) => {
@@ -44,6 +45,11 @@ const KeyboardAvoidingComponent = ({ setAuthState }: {setAuthState: React.Dispat
     if (email === '' || password === '') throw alert('Fields are missing');
     const res = await fetchSignup(username, email, password, age, experience, bio);
     if (res.accessToken) {
+      try {
+        await AsyncStorage.setItem('AccessToken', res.accessToken)
+      } catch (err) {
+        console.log(err)
+      }
       dispatch(setAuth(true));
     } else throw alert('Email or password is incorrect');
   };

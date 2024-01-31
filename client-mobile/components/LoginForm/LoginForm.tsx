@@ -11,16 +11,22 @@ import {
   Pressable,
 } from 'react-native';
 import { useState } from 'react';
-import { fetchLogin } from '../../utils/AppService';
+import { fetchLogin, tokenValidation } from '../../utils/AppService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginForm = ({ setAuthState }:{setAuthState: React.Dispatch<React.SetStateAction<string>>}) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
   const handleLoginPress = async () => {
     if (email === '' || password === '') throw alert('Fields are missing');
     const res = await fetchLogin(email, password);
-    if (res.accessToken) {
+    if (typeof res.accessToken === 'string' && res.accessToken.length > 0) {
+      try {
+        await AsyncStorage.setItem('AccessToken', res.accessToken)
+      } catch (err) {
+        console.log(err)
+      }
       dispatch(setAuth(true));
     } else throw alert('Email or password is incorrect');
   };

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "tsc && node ./dist/index.js"
+    "start": "tsc && node ./dist/index.js",
+    "startLive": "tsc && nodemon ./dist/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.11.7",
     "i": "^0.3.7",
+    "nodemon": "^3.0.3",
     "npm": "^10.4.0",
     "typescript": "^5.3.3"
   }

@@ -1,11 +1,15 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
+const { DATABASE_URL, DATABASE_PORT, DATABASE_NAME } = process.env;
 
 const db = mongoose
 main().catch(err => console.log(err));
 
 async function main () {
-  await db.connect('mongodb://127.0.0.1:27017/SoSummit');
-  console.log('connected to data base');
+  await db.connect(`${DATABASE_URL}${DATABASE_PORT}/${DATABASE_NAME}`);
+  console.log(`Connected to database on port ${DATABASE_PORT} 🦚`);
 }
 
 

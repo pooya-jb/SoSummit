@@ -10,27 +10,28 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    loggedIn: (state, action) => {
+    loggedIn: (state) => {
       return {
         ...state,
         isAuthenticated: true,
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName
+        // firstName: action.payload.firstName,
+        // lastName: action.payload.lastName
       }
     },
-    loggedOut: () => {
+    loggedOut: (state) => {
       return {
+        ...state,
         isAuthenticated: false,
-        firstName: '',
-        lastName: '',
+        // firstName: '',
+        // lastName: '',
       }
     },
     reloaded: (state, action) => {
       return {
         ...state,
         isAuthenticated: action.payload.isAuthenticated,
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
+        // firstName: action.payload.firstName,
+        // lastName: action.payload.lastName,
       }
     }
   }

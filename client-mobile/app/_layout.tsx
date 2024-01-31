@@ -11,14 +11,13 @@ const RootLayout = () => {
           options={{
             headerShown: false,
           }}
-        />
-          <Stack.Screen
-          name='(user)'
-          options={{
-            headerShown: false,
-          }}
-        />
-        
+        /> 
+         <Stack.Screen
+        name="User"
+        options={{
+          presentation: 'modal',
+        }}
+      />
       </Stack>
     </Provider>
   );

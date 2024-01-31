@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
-const { manifest2 } = Constants;
 const localhostUrl = process.env.EXPO_PUBLIC_LOCALHOST_URL;
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const fetchLogin = async (email: string, password: string) => {
   try {
@@ -33,3 +33,24 @@ export const fetchSignup = async (username: string, email: string, password: str
     console.log(error);
   }
 };
+
+export const tokenValidation = async () => {
+  try {
+    const token = await AsyncStorage.getItem('AccessToken')
+    if (!token ) return false
+    const res = await fetch(`${localhostUrl}/authenticate`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: { 
+        'Content-Type': 'application/json',
+      'Authorization': `bearer ${token}`
+    },
+
+    });
+    if(res.status === 200) {
+      return true}
+    else return true
+  } catch (error) {
+    console.log(error);
+  }
+;}

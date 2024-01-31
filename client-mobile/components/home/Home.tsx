@@ -114,7 +114,6 @@ const Home = () => {
             }}
             onPress={currentLocationHanlder}
           >
-            <Text style={{ fontSize: 7 }}>Current Location!</Text>
             <Image
               source={require('../../assets/location.png')}
               style={{ width: 30, height: 30 }}
