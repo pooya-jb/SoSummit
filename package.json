@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commitizen": "^4.3.0"
+    "@expo/vector-icons": "^13.0.0",
+    "commitizen": "^4.3.0",
+    "eslint": "^8.56.0"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0"

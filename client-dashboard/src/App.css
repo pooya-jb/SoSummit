@@ -1,0 +1,13 @@
+#app {
+  /* height:893px; */
+  height:100%;
+  width: 100vw;
+}
+
+:root {
+  --textmain: white;
+  --textsecond: black;
+  --backgroundmain: gray;
+  --backgroundsecond: skyblue;
+
+}
