@@ -5,6 +5,8 @@ import router from './router';
 import { Server } from "socket.io";
 import { createServer } from 'node:http';
 import http from 'http'
+import locSockCtrlr from './controllers/LocationSocket'
+import { argv } from 'node:process';
 
 dotenv.config();
 
@@ -42,24 +44,35 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
   locationsArray.forEach((location) => {
-    const locationName = `Location-${location}`;
-    const adminLocationName = `Location-${location}-Admin`;
+    const locationName : string = `Location-${location}`;
+    const adminLocationName : string = `Location-${location}-Admin`;
 
-    socket.on(locationName, (msg) => {
-      console.log(msg);
-      socket.join(locationName);
-      io.to(locationName).emit('msg', `hello ${location} room`);
-    })
-    socket.on(adminLocationName, (msg) => {
-      console.log(msg);
-      socket.join(adminLocationName);
-      io.to(adminLocationName).emit('msg', `hello ${location} admin room`);
-    })
-    socket.on(`${location}-alert`, (msg) => {
-      console.log(msg);
-      // socket.join(adminLocationName);
-      io.to(adminLocationName).emit('msg', `hello ${location} alert`);
-    })
+    socket
+      .onAny((eventName, ...args) => {
+        console.log(eventName); // 'hello'
+        console.log(args); // [ 1, '2', { 3: '4', 5: ArrayBuffer (1) [ 6 ] } ]
+        const inputs = [...args]
+        inputs[inputs.length-1]()
+      })
+      .on(locationName, async (location : string, userCoords : number []) => {
+        console.log(location, userCoords);
+        const go = await locSockCtrlr.checkCoordinates(location, userCoords);
+        if (go) {
+          socket.join(locationName)
+          io.to(locationName).emit('approval', `hello ${location} room`);
+        }
+        io.to(locationName).emit('msg', `hello ${location} room`);
+      })
+      .on(adminLocationName, (msg) => {
+        console.log(msg);
+        socket.join(adminLocationName);
+        io.to(adminLocationName).emit('msg', `hello ${location} admin room`);
+      })
+      .on(`${location}-alert`, (msg) => {
+        console.log(msg);
+        // socket.join(adminLocationName);
+        io.to(adminLocationName).emit('msg', `hello ${location} alert`);
+      })
   })
 });
 

@@ -58,3 +58,5 @@ export interface TypedRequest<Body> extends Request {
 export type IUserModel = Model<IUser, {}, {}>
 
 export type IAdminModel = Model<IAdmin, {}, {}>
+
+export type ILocationModel = Model<ILocation, {}, {}>
