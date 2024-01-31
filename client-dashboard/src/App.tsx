@@ -34,6 +34,7 @@ function App(): React.ReactNode {
   useEffect(() => {
     function onConnect() {
       dispatch(socketConnected(true));
+      socket.emit('Zermatt', 'hello from gg');
     }
 
     function onDisconnect() {
@@ -42,6 +43,11 @@ function App(): React.ReactNode {
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
+
+    socket.on('msg', (msg) => {
+      console.log(msg)
+    })
+
 
     return () => {
       socket.off('connect', onConnect);

@@ -35,10 +35,16 @@ const io = new Server(server, {
     origin: "http://localhost:5173"
   }
 });
+
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('disconnect', () => {
     console.log('user disconnected');
+  });
+  socket.on('Zermatt', (msg) => {
+    console.log(msg)
+    socket.join(`Location-Zermatt`);
+    io.to('Location-Zermatt').emit('msg', 'hello Zermatt room')
   });
 });
 

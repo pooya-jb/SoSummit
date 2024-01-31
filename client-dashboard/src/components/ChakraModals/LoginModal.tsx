@@ -23,7 +23,8 @@ function LoginModal() {
   const passwordRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
-  function closeHandler() {
+  function closeHandler(event) {
+    event.preventDefault();
     dispatch(loginSelected());
   }
 
@@ -37,7 +38,7 @@ function LoginModal() {
       alert("Wrong email or password");
     } else if (response.accessToken) {
       JWTUtil.setter(response);
-      closeHandler();
+      closeHandler(event);
       dispatch(loggedIn());
     }
   }
