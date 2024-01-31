@@ -2,8 +2,11 @@ import { Pressable, Text, View, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../redux/store';
 import { styles } from './Home.styles';
+import socket from '../../utils/socket';
+import {router} from 'expo-router'
 
 const Home = () => {
   const [location, setLocation] = useState<Location.LocationObject | null>(
@@ -22,7 +25,7 @@ const Home = () => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-
+  
   const [btnText, setBtnText] = useState<string>('Start!');
 
   useEffect(() => {
@@ -57,8 +60,8 @@ const Home = () => {
     text = JSON.stringify(location);
   }
 
-  const startHanlder = () => {
-    setBtnText('End!');
+  const connectHandler = () => {
+    router.navigate('../Locations')
   };
 
   const regionChangeHandler = (newRegion: any) => {
@@ -77,6 +80,7 @@ const Home = () => {
       setMapRegion(userRegion);
     }
   };
+  socket.on('msg', msg => console.log(msg))
 
   return (
     <View style={styles.home}>
@@ -97,7 +101,7 @@ const Home = () => {
         </MapView>
         <View style={styles.buttonContainer}>
           <Pressable
-            onPress={startHanlder}
+            onPress={connectHandler}
             style={({ pressed }) => [
               styles.button,
               { backgroundColor: pressed ? '#0A7F8C' : '#10B2C1' }, // Change color on press

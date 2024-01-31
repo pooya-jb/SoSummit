@@ -49,7 +49,27 @@ export const tokenValidation = async () => {
     });
     if(res.status === 200) {
       return true}
-    else return true
+    else return false
+  } catch (error) {
+    console.log(error);
+  }
+;}
+
+export const fetchLocations = async () => {
+  try {
+    const token = await AsyncStorage.getItem('AccessToken')
+    if (!token || token === '' ) return false
+    const res = await fetch(`${localhostUrl}/locations`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: { 
+        'Content-Type': 'application/json',
+      'Authorization': `bearer ${token}`
+    },
+
+    });
+    const data = await res.json()
+    return data
   } catch (error) {
     console.log(error);
   }
