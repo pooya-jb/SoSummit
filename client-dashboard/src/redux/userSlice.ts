@@ -1,9 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+// import socket from '../socket';
 
 const initialState = {
-  firstName: '',
-  lastName: '',
+  // firstName: '',
+  // lastName: '',
   isAuthenticated: false,
+  isConnected : false
 };
 
 export const userSlice = createSlice({
@@ -33,10 +35,16 @@ export const userSlice = createSlice({
         // firstName: action.payload.firstName,
         // lastName: action.payload.lastName,
       }
-    }
+    },
+    socketConnected: (state, action : PayloadAction<boolean>) => {
+      return {
+        ...state,
+        isConnected: action.payload
+      }
+    },
   }
 })
 
 export default userSlice.reducer;
 
-export const { loggedIn, loggedOut, reloaded } = userSlice.actions;
+export const { loggedIn, loggedOut, reloaded, socketConnected } = userSlice.actions;

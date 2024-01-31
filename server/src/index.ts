@@ -2,6 +2,9 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import router from './router';
+import { Server } from "socket.io";
+import { createServer } from 'node:http';
+import http from 'http'
 
 dotenv.config();
 
@@ -14,10 +17,31 @@ const corsConfig = {
 
 const app: Express = express();
 
+
+// io.listen(4000);
 app.use(cors(corsConfig))
 .use(express.json())
 .use(router)
 
-app.listen(SERVER_PORT, () => {
+const server = http.createServer(app);
+// const io = socketIO(server, {
+//   cors: {
+//     origin: "http://localhost:5173"
+//   }
+// });
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173"
+  }
+});
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+server.listen(SERVER_PORT, () => {
   console.log(`[server]: Server is running at http://localhost:${SERVER_PORT} 🐙`);
 });
