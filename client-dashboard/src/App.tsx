@@ -31,6 +31,7 @@ function App(): React.ReactNode {
     dispatch(socketConnected(socket.connected));
   }, []);
 
+  // subscribes on mount and unsubscribes when unmounted
   useEffect(() => {
     function onConnect() {
       dispatch(socketConnected(true));
