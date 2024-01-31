@@ -56,15 +56,25 @@ function App(): React.ReactNode {
     };
   }, []);
 
+  function checkResponse (err, response) {
+    if (err) {
+      console.log('server did not acknowledge');
+    } else {
+      console.log(response.status);
+    }
+  }
+
   useEffect(() => {
     if (isConnected) {
-      socket.emit('Zermatt', 'hello from gg(1)');
+      // socket.emit('Location-Zermatt', 'hello from gg(1)');
+      socket.timeout(5000).emit('Location-Zermatt', 'Zermatt', [23.4, 342.3], checkResponse)
     }
     if (isConnected) {
-      socket.emit('Verbier', 'hello from gg(2)');
+      socket.timeout(5000).emit('Location-Zermatt-Admin', 'Zermatt', checkResponse)
     }
     if (isConnected) {
-      socket.emit('Verbier-alert', 'location');
+      // socket.emit('Verbier-alert', 'location');
+      socket.timeout(5000).emit('Zermatt-alert', 'Zermatt', checkResponse)
     }
   }, [isConnected])
 

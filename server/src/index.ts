@@ -38,6 +38,9 @@ const io = new Server(server, {
   }
 });
 const locationsArray = ["Zermatt", "Verbier"]
+
+const acknowledge = (bool: boolean) => {return { status: bool}}
+
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('disconnect', () => {
@@ -48,30 +51,35 @@ io.on('connection', (socket) => {
     const adminLocationName : string = `Location-${location}-Admin`;
 
     socket
-      .onAny((eventName, ...args) => {
-        console.log(eventName); // 'hello'
-        console.log(args); // [ 1, '2', { 3: '4', 5: ArrayBuffer (1) [ 6 ] } ]
-        const inputs = [...args]
-        inputs[inputs.length-1]()
-      })
-      .on(locationName, async (location : string, userCoords : number []) => {
+      // .on((eventName, msg, callback) => {
+      //   // console.log(eventName); // 'hello'
+      //   // console.log(args); // [ 1, '2', { 3: '4', 5: ArrayBuffer (1) [ 6 ] } ]
+      //   // const inputs = [...args];
+      //   // inputs[inputs.length-1]();
+      //   callback({
+      //     status: 'ok'
+      //   });
+      // })
+      .on(locationName, async (location : string, userCoords : number [], callback) => {
         console.log(location, userCoords);
         const go = await locSockCtrlr.checkCoordinates(location, userCoords);
+        let status = false;
         if (go) {
+          status = true;
           socket.join(locationName)
-          io.to(locationName).emit('approval', `hello ${location} room`);
         }
-        io.to(locationName).emit('msg', `hello ${location} room`);
+        callback(acknowledge(status));
       })
-      .on(adminLocationName, (msg) => {
+      .on(adminLocationName, (msg, callback) => {
         console.log(msg);
         socket.join(adminLocationName);
-        io.to(adminLocationName).emit('msg', `hello ${location} admin room`);
+        callback(acknowledge(true));
       })
-      .on(`${location}-alert`, (msg) => {
+      .on(`${location}-alert`, (msg, callback) => {
         console.log(msg);
         // socket.join(adminLocationName);
         io.to(adminLocationName).emit('msg', `hello ${location} alert`);
+        callback(acknowledge(true));
       })
   })
 });
