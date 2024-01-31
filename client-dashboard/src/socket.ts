@@ -7,6 +7,3 @@ const socket = io(URL, {
   autoConnect: false
 });
 export default socket;
-
-
-// "undefined" means the URL will be computed from the `window.location` object

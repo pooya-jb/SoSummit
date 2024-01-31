@@ -32,20 +32,35 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173"
+    origin: "*"
   }
 });
-
+const locationsArray = ["Zermatt", "Verbier"]
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
-  socket.on('Zermatt', (msg) => {
-    console.log(msg)
-    socket.join(`Location-Zermatt`);
-    io.to('Location-Zermatt').emit('msg', 'hello Zermatt room')
-  });
+  locationsArray.forEach((location) => {
+    const locationName = `Location-${location}`;
+    const adminLocationName = `Location-${location}-Admin`;
+
+    socket.on(locationName, (msg) => {
+      console.log(msg);
+      socket.join(locationName);
+      io.to(locationName).emit('msg', `hello ${location} room`);
+    })
+    socket.on(adminLocationName, (msg) => {
+      console.log(msg);
+      socket.join(adminLocationName);
+      io.to(adminLocationName).emit('msg', `hello ${location} admin room`);
+    })
+    socket.on(`${location}-alert`, (msg) => {
+      console.log(msg);
+      // socket.join(adminLocationName);
+      io.to(adminLocationName).emit('msg', `hello ${location} alert`);
+    })
+  })
 });
 
 server.listen(SERVER_PORT, () => {

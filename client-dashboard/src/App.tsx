@@ -16,6 +16,7 @@ import socket from './socket';
 
 function App(): React.ReactNode {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
+  const isConnected = useSelector((state: RootState) => state.user.isConnected)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,7 +36,6 @@ function App(): React.ReactNode {
   useEffect(() => {
     function onConnect() {
       dispatch(socketConnected(true));
-      socket.emit('Zermatt', 'hello from gg');
     }
 
     function onDisconnect() {
@@ -55,6 +55,19 @@ function App(): React.ReactNode {
       socket.off('disconnect', onDisconnect);
     };
   }, []);
+
+  useEffect(() => {
+    if (isConnected) {
+      socket.emit('Zermatt', 'hello from gg(1)');
+    }
+    if (isConnected) {
+      socket.emit('Verbier', 'hello from gg(2)');
+    }
+    if (isConnected) {
+      socket.emit('Verbier-alert', 'location');
+    }
+  }, [isConnected])
+
 
   return (
     <>
