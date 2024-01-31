@@ -11,7 +11,7 @@ import { RootState } from './redux/store';
 import PresentationPage from './components/PresentationPage/PresentationPage';
 import JWTUtil from './utils/jwtUtil';
 import apiService from './utils/apiService';
-import { loggedIn, socketConnected } from './redux/userSlice';
+import { loggedIn, socketConnected, locationConnected, adminLocationConnected } from './redux/userSlice';
 import socket from './socket';
 
 function App(): React.ReactNode {
@@ -40,6 +40,10 @@ function App(): React.ReactNode {
 
     function onDisconnect() {
       dispatch(socketConnected(false));
+      dispatch(locationConnected(false));
+      dispatch(adminLocationConnected(false));
+
+      
     }
 
     socket.on('connect', onConnect);
@@ -56,25 +60,37 @@ function App(): React.ReactNode {
     };
   }, []);
 
-  function checkResponse (err, response) {
-    if (err) {
-      console.log('server did not acknowledge');
-    } else {
-      console.log(response.status);
+  function setLocation (status) {
+    status ? dispatch(locationConnected(true)) : null;
+  }
+  function setAdminLocation() {
+    dispatch(adminLocationConnected(true));
+  }
+
+  function checkResponse(handler) {
+
+    return (err, response) => {
+      if (err) {
+        console.log('server did not acknowledge');
+      } else {
+        if (handler) handler(response.status);
+        console.log('here:',response.status);
+      }
+      return response.status
     }
   }
 
   useEffect(() => {
     if (isConnected) {
       // socket.emit('Location-Zermatt', 'hello from gg(1)');
-      socket.timeout(5000).emit('Location-Zermatt', 'Zermatt', [23.4, 342.3], checkResponse)
+      socket.timeout(5000).emit('Location-Zermatt', 'Zermatt', [7.7, 45.9], checkResponse(setLocation))
     }
     if (isConnected) {
-      socket.timeout(5000).emit('Location-Zermatt-Admin', 'Zermatt', checkResponse)
+      socket.timeout(5000).emit('Location-Zermatt-Admin', 'Zermatt', checkResponse(setAdminLocation))
     }
     if (isConnected) {
       // socket.emit('Verbier-alert', 'location');
-      socket.timeout(5000).emit('Zermatt-alert', 'Zermatt', checkResponse)
+      socket.timeout(5000).emit('Zermatt-alert', 'Zermatt', checkResponse(null))
     }
   }, [isConnected])
 

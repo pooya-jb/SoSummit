@@ -9,7 +9,14 @@ import { RootState } from '../../redux/store';
 
 function ConnectionState() {
   const isConnected = useSelector((state: RootState) => state.user.isConnected)
-  return <p>Connected to Socket: {'' + isConnected}</p>;
+  const locationIsConnected = useSelector((state: RootState) => state.user.locationIsConnected)
+  const adminLocationIsConnected = useSelector((state: RootState) => state.user.adminLocationIsConnected)
+  return ( <>
+  <p>Connected to Socket: {'' + isConnected}</p>
+  <p>Connected to Location: {'' + locationIsConnected}</p>
+  <p>Connected to Admins: {'' + adminLocationIsConnected}</p>
+  </>
+  );
 }
 
 // function ConnectionManager() {
