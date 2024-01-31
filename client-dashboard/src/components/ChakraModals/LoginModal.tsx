@@ -23,7 +23,8 @@ function LoginModal() {
   const passwordRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
-  function closeHandler() {
+  function closeHandler(event) {
+    event.preventDefault();
     dispatch(loginSelected());
   }
 
@@ -37,7 +38,7 @@ function LoginModal() {
       alert("Wrong email or password");
     } else if (response.accessToken) {
       JWTUtil.setter(response);
-      closeHandler();
+      closeHandler(event);
       dispatch(loggedIn());
     }
   }
@@ -49,9 +50,9 @@ function LoginModal() {
         <ModalContent>
           <form onSubmit={handleLoginSubmit} className={classes.modalform}>
             <label>Email: </label>
-            <input type="email" name="email" required ref={emailRef}/>
+            <input type="email" name="email" required ref={emailRef} value='g@g'/>
             <label>Password: </label>
-            <input type="password" name="password" required ref={passwordRef}/>
+            <input type="password" name="password" required ref={passwordRef} value='abcd' />
             <div className={classes.buttonsContainer}>
               <button type="submit" className={classes.buttonForm} id={ids.loginButton}>Login</button>
               <button className={classes.buttonForm} onClick={closeHandler}>Cancel</button>

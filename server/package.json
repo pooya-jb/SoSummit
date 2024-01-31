@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "tsc && node ./dist/index.js",
-    "startLive": "tsc && nodemon ./dist/index.js"
+    "compile": "tsc && node ./dist/index.js",
+    "dev": "./node_modules/nodemon/bin/nodemon.js -e ts  --exec \"npm run compile\""
   },
   "author": "",
   "license": "ISC",
@@ -19,7 +20,8 @@
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.1.1"
+    "mongoose": "^8.1.1",
+    "socket.io": "^4.7.4"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
