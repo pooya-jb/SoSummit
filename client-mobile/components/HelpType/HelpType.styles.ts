@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '80%',
-    top: '-15%',
+    marginBottom: 15,
     gap: 16,
   },
   selectedButton: {

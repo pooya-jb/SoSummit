@@ -11,7 +11,7 @@ dotenv.config();
 const {  SERVER_PORT, CLIENT_URL, CLIENT_PORT } = process.env;
 
 const corsConfig = {
-  origin: [`${CLIENT_URL}${CLIENT_PORT}`],
+  origin: '*'  ,
   credentials: true,
 };
 
