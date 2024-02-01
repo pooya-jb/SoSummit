@@ -42,17 +42,25 @@ const KeyboardAvoidingComponent = ({ setAuthState }: {setAuthState: React.Dispat
   };
 
   const handleSignUpPress = async () => {
-    if (email === '' || password === '') throw alert('Fields are missing');
-    const res = await fetchSignup(username, email, password, age, experience, bio);
-    if (res.accessToken) {
-      try {
-        await AsyncStorage.setItem('AccessToken', res.accessToken)
-      } catch (err) {
-        console.log(err)
+    try {
+      if (email === '' || password === '') {
+        throw new Error('Fields are missing');
       }
-      dispatch(setAuth(true));
-    } else throw alert('Email or password is incorrect');
+
+      const res = await fetchSignup(username, email, password, age, experience, bio);
+      console.log('=====> res =', res)
+      if (res && res.accessToken) {
+        await AsyncStorage.setItem('AccessToken', res.accessToken);
+        dispatch(setAuth(true));
+      } else {
+        throw new Error('Email or password is incorrect');
+      }
+    } catch (error: any) {
+      console.log(error.message);
+      alert(error.message);
+    }
   };
+  
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -122,7 +130,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     fontSize: 16,
-    
+
   },
   formButtonText: {
     textAlign: 'center',
