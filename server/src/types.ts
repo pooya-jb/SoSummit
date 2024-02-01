@@ -1,5 +1,5 @@
 import { Model, ObjectId } from "mongoose"
-import {Request} from 'express'
+import { Request } from 'express'
 import { JwtPayload } from "jsonwebtoken"
 
 export interface IUser {
@@ -16,10 +16,10 @@ export interface IAdmin {
   username: string,
   password: string,
   email: string,
-  location?: string
+  location: string
 }
 
- interface IMessage {
+interface IMessage {
   text: string,
   time: string,
   from: string
@@ -32,7 +32,7 @@ export interface IConversation {
   messages: IMessage[]
 }
 
-  interface IAlert {
+interface IAlert {
   text: string,
   time: string,
   type: string,
@@ -51,8 +51,8 @@ export interface TypedJwt extends JwtPayload {
 }
 
 export interface TypedRequest<Body> extends Request {
-  user? : InstanceType<IUserModel | IAdminModel>,
-  body : Body
+  user?: InstanceType<IUserModel | IAdminModel>,
+  body: Body
 }
 
 export type IUserModel = Model<IUser, {}, {}>
