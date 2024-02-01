@@ -12,7 +12,6 @@ export default function User() {
   const handleLogout = () => {
     AsyncStorage.removeItem('AccessToken')
     dispatch(setAuth(false))
-    console.log('test')
     router.navigate('../')
   }
   return (

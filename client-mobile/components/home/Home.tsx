@@ -2,8 +2,12 @@ import { Pressable, Text, View, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../redux/store';
 import { styles } from './Home.styles';
+import socket from '../../utils/socket';
+import { router } from 'expo-router';
+import { setCoords } from '../../redux/userSlice';
 
 const Home = () => {
   const [location, setLocation] = useState<Location.LocationObject | null>(
@@ -25,6 +29,7 @@ const Home = () => {
 
   const [btnText, setBtnText] = useState<string>('Start!');
 
+  const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -35,6 +40,9 @@ const Home = () => {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
+      dispatch(
+        setCoords([location.coords.latitude, location.coords.longitude])
+      );
       setMapRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
@@ -57,8 +65,8 @@ const Home = () => {
     text = JSON.stringify(location);
   }
 
-  const startHanlder = () => {
-    setBtnText('End!');
+  const connectHandler = () => {
+    router.navigate('../Locations');
   };
 
   const regionChangeHandler = (newRegion: any) => {
@@ -77,6 +85,7 @@ const Home = () => {
       setMapRegion(userRegion);
     }
   };
+  socket.on('msg', (msg) => console.log(msg));
 
   return (
     <View style={styles.home}>
@@ -97,7 +106,7 @@ const Home = () => {
         </MapView>
         <View style={styles.buttonContainer}>
           <Pressable
-            onPress={startHanlder}
+            onPress={connectHandler}
             style={({ pressed }) => [
               styles.button,
               { backgroundColor: pressed ? '#0A7F8C' : '#10B2C1' }, // Change color on press

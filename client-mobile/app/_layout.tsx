@@ -18,6 +18,12 @@ const RootLayout = () => {
           presentation: 'modal',
         }}
       />
+        <Stack.Screen
+        name="Locations"
+        options={{
+          presentation: 'modal',
+        }}
+      />
       </Stack>
     </Provider>
   );
