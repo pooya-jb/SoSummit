@@ -6,7 +6,8 @@ const initialState : DisplayS= {
   drawerIsOpen : false,
   selectedUser : null,
   loginModalOpen : false,
-  registerModalOpen: false
+  registerModalOpen: false,
+  alertModalOpen: false
 };
 
 export const displaySlice = createSlice({
@@ -37,10 +38,17 @@ export const displaySlice = createSlice({
         ... state,
         registerModalOpen : !state.registerModalOpen
       }
+    },
+    alertSelected : (state: DisplayS) => {
+      console.log('fired')
+      return {
+        ... state,
+        alertModalOpen : !state.alertModalOpen
+      }
     }
   }
 })
 
 export default displaySlice.reducer;
 
-export const {drawerToggled, userSelected, loginSelected, registerSelected} = displaySlice.actions;
+export const {drawerToggled, userSelected, loginSelected, registerSelected, alertSelected} = displaySlice.actions;

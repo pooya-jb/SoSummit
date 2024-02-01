@@ -11,7 +11,8 @@ export interface DisplayS {
   drawerIsOpen: boolean,
   selectedUser: UserL | null,
   loginModalOpen: boolean,
-  registerModalOpen: boolean
+  registerModalOpen: boolean,
+  alertModalOpen: boolean
 }
 
 export interface LocationS {
