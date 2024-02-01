@@ -1,4 +1,4 @@
-import { Pressable, Text, View, Image } from 'react-native';
+import { Pressable, Text, View, Image, AppState } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
@@ -13,6 +13,7 @@ const Home = () => {
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
+  const [appState, setAppState] = useState(AppState.currentState);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [mapRegion, setMapRegion] = useState({
     latitude: 27.9881,
@@ -27,36 +28,48 @@ const Home = () => {
     longitudeDelta: 0.0421,
   });
 
-  const [btnText, setBtnText] = useState<string>('Start!');
+  const [btnText, setBtnText] = useState<string>('Start');
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
+  // useEffect(() => {
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      dispatch(
-        setCoords([location.coords.latitude, location.coords.longitude])
-      );
-      setMapRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      });
-      setUserRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      });
-    })();
+  // }, []);
+  useEffect(() => {
+    // Subscribe to app state changes
+  getLocation("active")
+  const appStateSubscription = AppState.addEventListener('change', (state) => {
+    console.log(state)
+    getLocation(state)});
+    // Clean up subscription on component unmount
+      return () => {
+        appStateSubscription.remove();
+      };
   }, []);
+  const getLocation2 = async () => {
+    let location = await Location.getCurrentPositionAsync({});
+        dispatch(
+          setCoords([location.coords.latitude, location.coords.longitude])
+          );
+        setLocation(location)
+        console.log('fired')
+        setMapRegion({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        });
+        setUserRegion({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        });
+  }
+   const getLocation = async (state) => {
+    if(state === "active")
+      getLocation2()
+      setInterval(getLocation2, 5000)
+    }
 
   let text = 'Waiting..';
   if (errorMsg) {
@@ -65,7 +78,7 @@ const Home = () => {
     text = JSON.stringify(location);
   }
 
-  const connectHandler = () => {
+  const connectHandler = async () => {
     router.navigate('../Locations');
   };
 
