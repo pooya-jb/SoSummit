@@ -13,6 +13,7 @@ import { loginSelected, registerSelected } from '../../../redux/displaySlice';
 import RegisterModal from '../../ChakraModals/RegisterModal';
 import { loggedOut } from '../../../redux/userSlice';
 import JWTUtil from '../../../utils/jwtUtil';
+import AlertModal from '../../ChakraModals/AlertModal';
 
 function ChakraMenu(): React.ReactNode {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated)
@@ -52,6 +53,7 @@ function ChakraMenu(): React.ReactNode {
         }
         {<LoginModal/>}
         {<RegisterModal />}
+        {<AlertModal />}
       </Menu>
 
     </>

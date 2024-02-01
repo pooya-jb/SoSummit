@@ -54,10 +54,15 @@ io.on('connection', (socket) => {
         socket.join(adminLocationName);
         callback(acknowledge(true));
       })
-      .on(`${location}-alert`, (msg, callback) => {
-        console.log(msg);
+      .on(`${location}-alert`, (msg) => {
+        console.log('msg');
         // socket.join(adminLocationName);
-        io.to(adminLocationName).emit('msg', `hello ${location} alert`);
+        io.to(adminLocationName).emit(`${location}-alert-admins`, `hello ${location} ${msg} alert`);
+        // callback(acknowledge(true));
+      })
+      .on(`Zermatt-notifications`, ({message, type}, callback) => {
+        console.log(message);
+        io.to(locationName).emit('msg', `hello ${location} alert`);
         callback(acknowledge(true));
       })
   })
