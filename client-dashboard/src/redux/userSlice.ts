@@ -4,7 +4,9 @@ const initialState = {
   // firstName: '',
   // lastName: '',
   isAuthenticated: false,
-  isConnected : false
+  isConnected : false,
+  locationIsConnected : false,
+  adminLocationIsConnected : false
 };
 
 export const userSlice = createSlice({
@@ -41,9 +43,21 @@ export const userSlice = createSlice({
         isConnected: action.payload
       }
     },
+    locationConnected: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        locationIsConnected: action.payload
+      }
+    },
+    adminLocationConnected: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        adminLocationIsConnected: action.payload
+      }
+    },
   }
 })
 
 export default userSlice.reducer;
 
-export const { loggedIn, loggedOut, reloaded, socketConnected } = userSlice.actions;
+export const { loggedIn, loggedOut, reloaded, socketConnected, locationConnected, adminLocationConnected } = userSlice.actions;

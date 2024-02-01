@@ -4,12 +4,19 @@ import { useSelector } from 'react-redux';
 
 import ids from './Navbar.module.css';
 import ChakraMenu from './ChakraMenu/ChakraMenu';
-import socket from '../../socket';
+import socket from '../../utils/socket';
 import { RootState } from '../../redux/store';
 
 function ConnectionState() {
   const isConnected = useSelector((state: RootState) => state.user.isConnected)
-  return <p>Connected to Socket: {'' + isConnected}</p>;
+  const locationIsConnected = useSelector((state: RootState) => state.user.locationIsConnected)
+  const adminLocationIsConnected = useSelector((state: RootState) => state.user.adminLocationIsConnected)
+  return ( <>
+  <p>Connected to Socket: {'' + isConnected}</p>
+  <p>Connected to Location: {'' + locationIsConnected}</p>
+  <p>Connected to Admins: {'' + adminLocationIsConnected}</p>
+  </>
+  );
 }
 
 // function ConnectionManager() {
