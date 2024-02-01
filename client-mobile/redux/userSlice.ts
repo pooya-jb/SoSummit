@@ -1,46 +1,42 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { tokenValidation } from "../utils/AppService";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { tokenValidation } from '../utils/AppService';
 
 const initialState = {
   isAuth: false,
-  isConnected : false,
+  isConnected: false,
   location: '',
-  coords: []
-}
+  coords: [0],
+};
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setAuth: (state, action) => {
-      state.isAuth = action.payload
+      state.isAuth = action.payload;
     },
-    socketConnected: (state, action : PayloadAction<boolean>) => {
+    socketConnected: (state, action: PayloadAction<boolean>) => {
       return {
         ...state,
-        isConnected: action.payload
-      }
+        isConnected: action.payload,
+      };
     },
-    setLocation: (state, action : PayloadAction<string>) => {
+    setLocation: (state, action: PayloadAction<string>) => {
       return {
         ...state,
-        location: action.payload
-      }
+        location: action.payload,
+      };
     },
-    setCoords: (state, action : PayloadAction<[]>) => {
+    setCoords: (state, action: PayloadAction<number[]>) => {
       return {
         ...state,
-        coords: action.payload
-      }
+        coords: action.payload,
+      };
     },
-  }
-})
+  },
+});
 
-export const {
-  setAuth,
-  socketConnected,
-  setLocation,
-  setCoords
-} = userSlice.actions
+export const { setAuth, socketConnected, setLocation, setCoords } =
+  userSlice.actions;
 
-export default userSlice.reducer
+export default userSlice.reducer;

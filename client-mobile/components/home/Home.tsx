@@ -6,7 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { styles } from './Home.styles';
 import socket from '../../utils/socket';
-import {router} from 'expo-router'
+import { router } from 'expo-router';
+import { setCoords } from '../../redux/userSlice';
 
 const Home = () => {
   const [location, setLocation] = useState<Location.LocationObject | null>(
@@ -25,9 +26,10 @@ const Home = () => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-  
+
   const [btnText, setBtnText] = useState<string>('Start!');
 
+  const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -38,6 +40,9 @@ const Home = () => {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
+      dispatch(
+        setCoords([location.coords.latitude, location.coords.longitude])
+      );
       setMapRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
@@ -61,7 +66,7 @@ const Home = () => {
   }
 
   const connectHandler = () => {
-    router.navigate('../Locations')
+    router.navigate('../Locations');
   };
 
   const regionChangeHandler = (newRegion: any) => {
@@ -80,7 +85,7 @@ const Home = () => {
       setMapRegion(userRegion);
     }
   };
-  socket.on('msg', msg => console.log(msg))
+  socket.on('msg', (msg) => console.log(msg));
 
   return (
     <View style={styles.home}>
