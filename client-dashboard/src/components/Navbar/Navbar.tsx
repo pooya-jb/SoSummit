@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import ids from './Navbar.module.css';
 import ChakraMenu from './ChakraMenu/ChakraMenu';
-import socket from '../../socket';
+import socket from '../../utils/socket';
 import { RootState } from '../../redux/store';
 
 function ConnectionState() {

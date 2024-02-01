@@ -12,7 +12,7 @@ import PresentationPage from './components/PresentationPage/PresentationPage';
 import JWTUtil from './utils/jwtUtil';
 import apiService from './utils/apiService';
 import { loggedIn, socketConnected, locationConnected, adminLocationConnected } from './redux/userSlice';
-import socket from './socket';
+import socket, { subscribeToSocket, unsubscribeToSocket } from './utils/socket';
 
 function App(): React.ReactNode {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
@@ -42,22 +42,13 @@ function App(): React.ReactNode {
       dispatch(socketConnected(false));
       dispatch(locationConnected(false));
       dispatch(adminLocationConnected(false));
-
-      
     }
 
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
-
-    socket.on('msg', (msg) => {
-      console.log(msg)
-    })
-
+    subscribeToSocket(onConnect, onDisconnect);
 
     return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
-    };
+     unsubscribeToSocket(onConnect, onDisconnect)
+    }
   }, []);
 
   function setLocation (status) {
@@ -83,14 +74,9 @@ function App(): React.ReactNode {
   useEffect(() => {
     if (isConnected) {
       // socket.emit('Location-Zermatt', 'hello from gg(1)');
-      socket.timeout(5000).emit('Location-Zermatt', 'Zermatt', [7.7, 45.9], checkResponse(setLocation))
-    }
-    if (isConnected) {
       socket.timeout(5000).emit('Location-Zermatt-Admin', 'Zermatt', checkResponse(setAdminLocation))
-    }
-    if (isConnected) {
-      // socket.emit('Verbier-alert', 'location');
-      socket.timeout(5000).emit('Zermatt-alert', 'Zermatt', checkResponse(null))
+      socket.timeout(5000).emit('Location-Zermatt', 'Zermatt', [7.7, 45.9], checkResponse(setLocation))
+      // socket.timeout(5000).emit('Zermatt-alert', 'Zermatt', checkResponse(null))
     }
   }, [isConnected])
 
