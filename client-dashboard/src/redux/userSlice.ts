@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-// import socket from '../socket';
 
 const initialState = {
   // firstName: '',

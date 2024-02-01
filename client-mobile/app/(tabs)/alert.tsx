@@ -13,7 +13,7 @@ const Alert = () => {
       {!showMessage ?
       <HelpScreen isPressed={isPressed} setIsPressed={setIsPressed} countdown={countdown} setCountdown={setCountdown} setShowMessage={setShowMessage} />
       :
-      <ChatScreen setShowMessage={setShowMessage}/>}
+      <ChatScreen />}
     </SafeAreaView>
   );
 };

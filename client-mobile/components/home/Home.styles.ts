@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   currentLocationBtnContainer: {
-    backgroundColor: '#D6D3BF',
+    backgroundColor: 'rgba(214, 211, 191, 0.6)',
     borderRadius: 50,
     borderWidth: 0.5,
     justifyContent: 'center',
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
   },
   mapContainer: {
     borderColor: 'black',
-    height: '100%',
+    height: '97%',
     width: '100%',
   },
 });
