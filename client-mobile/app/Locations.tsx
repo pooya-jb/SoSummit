@@ -6,7 +6,9 @@ import {
   SafeAreaView,
   FlatList,
   ActivityIndicator,
+  Alert
 } from 'react-native';
+import { router } from 'expo-router';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useDispatch } from 'react-redux';
@@ -19,16 +21,56 @@ export default function Locations() {
   const [loading, setLoading] = useState(false);
   const locations = useSelector((state: RootState) => state.location.locations);
   const coords = useSelector((state: RootState) => state.user.coords);
+  const coordsMock = [7.7, 45.9]
+
   const handleLocationClick = async (title: string) => {
     dispatch(setLocation('Zermatt'));
-    console.log('fired');
-    socket.connect();
-    socket.emit(title, {
-      userId: 'userId',
-      coords: coords,
-    });
+    socket
+    .connect()
+    .timeout(5000)
+    .emit(`Location-${title}`, title, coordsMock, checkResponse(setLocationState, null));
     setLoading(true);
   };
+
+
+  function checkResponse(successHandler, errorHandler) {
+    return (err, response) => {
+      if (err) {
+        console.log('server did not acknowledge');
+        Alert.alert('Error', 'Server did not respond. Please try again in one minute.', [
+          {
+            text: 'Cancel',
+            style: 'cancel'
+          }
+        ])
+        setLoading(false);
+        if (errorHandler) errorHandler();
+      } else {
+        if (successHandler) successHandler(response.status);
+      }
+      // return response.status
+    }
+  }
+
+  function setLocationState (status) {
+    if (status) {
+      dispatch(setLocation(status));
+      router.navigate('../');
+    } else {
+      Alert.alert('Error', 'You are not in a protected area. Please try again when you enter one.', [
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        }
+      ]);
+    }
+    setLoading(false);
+  }
+
+  // {
+  //   userId: 'userId',
+  //   coords: coords,
+  // }
 
   type ItemProps = { title: string };
   const Item = ({ title }: ItemProps) => (
