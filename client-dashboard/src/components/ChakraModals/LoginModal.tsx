@@ -36,7 +36,6 @@ function LoginModal() {
     if (response.error) {
       alert("Wrong email or password");
     } else if (response.accessToken) {
-      console.log(response)
       const {username, location, email} = response.userInfo
       JWTUtil.setter(response);
       closeHandler();
