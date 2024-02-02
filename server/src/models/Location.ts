@@ -23,6 +23,10 @@ const LocationSchema = new db.Schema<ILocation> ({
     location:{
       type: [Number],
       required: true
+    },
+    username : {
+      type: String,
+      required : true
     }
   }],
   notifications : [{

@@ -11,7 +11,7 @@ async function checkCoordinates (locationName : string, userLocation : number[])
       return xUser > xMin && xUser < xMax && yUser > yMin && yUser < yMax ?
         { status : true, info: {notifications : location.notifications}} : 
         { status : false, info: undefined };
-    }
+    } else return { status: false, info: undefined };
   } catch (err) {
     console.log(err)
     return { status: false, info: undefined };
@@ -44,6 +44,7 @@ async function addAlert(locationName: string, userCoords: number[], helpType: st
       await Location.findOneAndUpdate({ name: locationName }, { alerts});
       return { status: true , info : alert};
     }
+    else return { status: false, info: undefined };
 
   } catch (err) {
     console.log(err);
