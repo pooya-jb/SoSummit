@@ -9,7 +9,7 @@ async function checkCoordinates (locationName : string, userLocation : number[])
       const [xUser, yUser] = userLocation;
    
       return xUser > xMin && xUser < xMax && yUser > yMin && yUser < yMax ?
-        { status : true, info: {notifications : location.notifications}} : 
+        { status : true, info: {notifications : location.notifications, location: locationName}} : 
         { status : false, info: undefined };
     } else return { status: false, info: undefined };
   } catch (err) {

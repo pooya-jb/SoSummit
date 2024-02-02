@@ -71,3 +71,5 @@ export type IUserModel = Model<IUser, {}, {}>
 export type IAdminModel = Model<IAdmin, {}, {}>
 
 export type ILocationModel = Model<ILocation, {}, {}>
+
+export type Alert = { location: string, userCoords: number[], helpType: string, username: string }

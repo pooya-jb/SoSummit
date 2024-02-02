@@ -60,20 +60,23 @@ function App(): React.ReactNode {
     }
   }, []);
 
-  function setLocation (status) {
-    status ? dispatch(locationConnected(true)) : null;
+  function setLocation (response) {
+    response.status ? dispatch(locationConnected(true)) : null;
+    console.log(response.info.alerts)
   }
-  function setAdminLocation() {
+  function setAdminLocation(response) {
     dispatch(adminLocationConnected(true));
+    console.log(response.info.notifications)
   }
 
   function checkResponse(handler) {
+
     return (err, response) => {
       if (err) {
         console.log(err);
       } else {
-        if (handler) handler(response.status);
-        console.log('here:',response.status);
+        if (handler) handler(response);
+        // console.log('here:',response.status);
       }
       return response.status
     }
@@ -83,7 +86,7 @@ function App(): React.ReactNode {
     if (isConnected) {
       console.log(location)
       socket.timeout(5000).emit(`Location-${location}-Admin`, location, checkResponse(setAdminLocation))
-      socket.timeout(5000).emit(`Location-${location}`, location, [7.7, 46], checkResponse(setLocation))
+      socket.timeout(5000).emit(`Location-${location}`, {location, userCoords : [7.7, 46]}, checkResponse(setLocation))
     }
   }, [isConnected])
 

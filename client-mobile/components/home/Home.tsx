@@ -55,7 +55,7 @@ const Home = () => {
 
   useEffect(() => {
     // Subscribe to app state changes
-    getLocation('active');
+    liveLocation()
     const appStateSubscription = AppState.addEventListener(
       'change',
       (state) => {

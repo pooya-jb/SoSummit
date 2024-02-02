@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
 import { setLocation } from '../redux/userSlice';
-import socket from '../utils/socket';
+import socket, {checkResponse} from '../utils/socket';
 
 export default function Locations() {
   const dispatch = useDispatch();
@@ -29,36 +29,27 @@ export default function Locations() {
     socket
       .connect()
       .timeout(5000)
-      .emit(title, title, [x, y], checkResponse(setLocationState, null));
+      .emit(`Location-${title}`, {location : title, userCoords : [y, x]}, checkResponse(setLocationState, alertOfNoResponse));
     setLoading(true);
   };
 
-  function checkResponse(successHandler, errorHandler) {
-    return (err, response) => {
-      if (err) {
-        console.log('server did not acknowledge');
-        Alert.alert(
-          'Error',
-          'Server did not respond. Please try again in one minute.',
-          [
-            {
-              text: 'Cancel',
-              style: 'cancel',
-            },
-          ]
-        );
-        setLoading(false);
-        if (errorHandler) errorHandler();
-      } else {
-        if (successHandler) successHandler(response.status);
-      }
-      // return response.status
-    };
+  function alertOfNoResponse () {
+    Alert.alert(
+      'Error',
+      'Server did not respond. Please try again in one minute.',
+      [
+        {
+          text: 'Ok',
+          style: 'cancel',
+        },
+      ]
+    );
+    setLoading(false);
   }
 
-  function setLocationState(status) {
-    if (status) {
-      dispatch(setLocation(status));
+  function setLocationState(response) {
+    if (response.status) {
+      dispatch(setLocation(response.info.location));
       router.navigate('../');
     } else {
       Alert.alert(
@@ -105,7 +96,7 @@ export default function Locations() {
       {!loading && (
         <FlatList
           data={locations}
-          renderItem={({ item }) => <Item title={item.name} />}
+          renderItem={({ item }) => <Item title={item} />}
         />
       )}
     </SafeAreaView>
