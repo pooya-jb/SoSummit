@@ -20,9 +20,9 @@ async function getUserInfo(req: TypedRequest<boolean>, res: Response) {
 
       const locationInstance: InstanceType<ILocationModel> | null = await Location.findOne({ name: location });
       if (locationInstance) {
-        const { alerts } = locationInstance;
-        console.log({ userInfo: { username, location, email }, locationInfo: { alerts } })
-        res.status(200).send({ userInfo: { username, location, email }, locationInfo: { alerts } });
+        const { alerts, notifications } = locationInstance;
+        console.log({ userInfo: { username, location, email }, locationInfo: { alerts, notifications } })
+        res.status(200).send({ userInfo: { username, location, email }, locationInfo: { alerts, notifications } });
       }
     } catch (error) {
       res

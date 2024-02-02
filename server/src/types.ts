@@ -33,7 +33,7 @@ export interface IConversation {
 }
 
 export interface IAlert {
-  text: string,
+  username: string,
   time: string,
   type: string,
   location: number[]
