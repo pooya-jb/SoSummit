@@ -1,6 +1,11 @@
-import { useState, useCallback } from "react";
-import { View, StyleSheet, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat";
+import { useState, useCallback } from 'react';
+import {
+  View,
+  StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 
 interface Message {
   _id: number;
@@ -27,14 +32,14 @@ export default function ChatScreen() {
   return (
     <TouchableWithoutFeedback onPress={handleTapOutside}>
       <View style={styles.container}>
-          <GiftedChat
-            messages={messages}
-            onSend={(newMessages) => onSend(newMessages)}
-            user={{
-              _id: 1,
-            }}
-            placeholder="Send us any other information:"
-          />
+        <GiftedChat
+          messages={messages}
+          onSend={(newMessages) => onSend(newMessages)}
+          user={{
+            _id: 1,
+          }}
+          placeholder='Send us any other information:'
+        />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -43,7 +48,7 @@ export default function ChatScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
-    alignSelf: "center",
+    width: '100%',
+    alignSelf: 'center',
   },
 });
