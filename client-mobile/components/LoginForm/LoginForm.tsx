@@ -1,23 +1,33 @@
 import { useDispatch } from 'react-redux';
-import { setAuth, setLocation, setUsername, setAge, setEmail, setBio, setExperience } from '../../redux/userSlice';
+import {
+  setAuth,
+  setLocation,
+  setUsername,
+  setAge,
+  setEmail,
+  setBio,
+  setExperience,
+} from '../../redux/userSlice';
 import {
   View,
   TextInput,
   Text,
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-  TextInputProps,
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
 import { useState } from 'react';
-import { fetchLogin, tokenValidation } from '../../utils/ApiService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { updateLocations } from '../../redux/locationSlice';
 
-const LoginForm = ({ setAuthState }: { setAuthState: React.Dispatch<React.SetStateAction<string>> }) => {
+import { fetchLogin } from '../../utils/ApiService';
+import { updateLocations } from '../../redux/locationSlice';
+import { styles } from './LoginForm.styles';
+
+const LoginForm = ({
+  setAuthState,
+}: {
+  setAuthState: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const dispatch = useDispatch();
   const [emailForm, setEmailForm] = useState('');
   const [password, setPassword] = useState('');
@@ -26,17 +36,18 @@ const LoginForm = ({ setAuthState }: { setAuthState: React.Dispatch<React.SetSta
     const res = await fetchLogin(emailForm, password);
     if (typeof res.accessToken === 'string' && res.accessToken.length > 0) {
       try {
-        await AsyncStorage.setItem('AccessToken', res.accessToken)
-        const { username, location, email, age, bio, experience } = res.userInfo
-        dispatch(setUsername(username))
-        dispatch(setLocation(location))
-        dispatch(setEmail(email))
-        dispatch(setAge(age))
-        dispatch(setBio(bio))
-        dispatch(setExperience(experience))
-        dispatch(updateLocations(res.locations))
+        await AsyncStorage.setItem('AccessToken', res.accessToken);
+        const { username, location, email, age, bio, experience } =
+          res.userInfo;
+        dispatch(setUsername(username));
+        dispatch(setLocation(location));
+        dispatch(setEmail(email));
+        dispatch(setAge(age));
+        dispatch(setBio(bio));
+        dispatch(setExperience(experience));
+        dispatch(updateLocations(res.locations));
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
       dispatch(setAuth(true));
     } else throw alert('Email or password is incorrect');
@@ -50,11 +61,10 @@ const LoginForm = ({ setAuthState }: { setAuthState: React.Dispatch<React.SetSta
   };
 
   const handleTapOutside = () => {
-    Keyboard.dismiss()
-  }
+    Keyboard.dismiss();
+  };
   return (
     <TouchableWithoutFeedback onPress={handleTapOutside}>
-
       <View style={styles.formContainer}>
         <TextInput
           value={emailForm}
@@ -85,33 +95,3 @@ const LoginForm = ({ setAuthState }: { setAuthState: React.Dispatch<React.SetSta
 };
 
 export default LoginForm;
-
-const styles = StyleSheet.create({
-  formContainer: {
-    gap: 30,
-    padding: 40,
-    marginTop: 40,
-  },
-
-  formInput: {
-    borderColor: 'black',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 16,
-  },
-
-  formButtonText: {
-    textAlign: 'center',
-    fontSize: 20,
-  },
-
-  formButton: {
-    backgroundColor: 'orange',
-    padding: 10,
-    borderRadius: 5,
-    borderColor: 'black',
-    borderStyle: 'solid',
-    borderWidth: 1,
-  },
-});

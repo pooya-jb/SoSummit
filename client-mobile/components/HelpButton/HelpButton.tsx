@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 
 import { styles } from './HelpButton.styles';
@@ -13,7 +13,7 @@ const HelpButton: React.FC<ButtonProps> = ({
   setIsPressed,
   setShowMessage,
 }) => {
-  const intervalRef = React.useRef<string | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (isPressed) {
@@ -30,12 +30,10 @@ const HelpButton: React.FC<ButtonProps> = ({
         });
       }, COUNTDOWN_UNIT);
     } else {
-      // Clear interval if unpressed
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     }
-    // Cleanup interval on component unmount
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);

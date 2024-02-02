@@ -3,7 +3,6 @@ import {
   View,
   KeyboardAvoidingView,
   TextInput,
-  StyleSheet,
   Text,
   Platform,
   TouchableWithoutFeedback,
@@ -13,13 +12,25 @@ import {
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
-import { fetchSignup } from '../../utils/ApiService';
-import { setAuth, setLocation, setUsername, setAge, setEmail, setBio, setExperience } from '../../redux/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { fetchSignup } from '../../utils/ApiService';
+import {
+  setAuth,
+  setUsername,
+  setAge,
+  setEmail,
+  setBio,
+  setExperience,
+} from '../../redux/userSlice';
 import { updateLocations } from '../../redux/locationSlice';
+import { styles } from './SignupForm.styles';
 
-
-const KeyboardAvoidingComponent = ({ setAuthState }: { setAuthState: React.Dispatch<React.SetStateAction<string>> }) => {
+const KeyboardAvoidingComponent = ({
+  setAuthState,
+}: {
+  setAuthState: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [usernameForm, setUsernameForm] = useState('');
   const [emailForm, setEmailForm] = useState('');
   const [password, setPassword] = useState('');
@@ -29,14 +40,8 @@ const KeyboardAvoidingComponent = ({ setAuthState }: { setAuthState: React.Dispa
   const dispatch = useDispatch();
   const experienceOptions = [
     { label: 'Beginner', value: 'beginner' },
-    {
-      label: 'Intermediate',
-      value: 'intermediate',
-    },
-    {
-      label: 'Expert',
-      value: 'expert',
-    },
+    { label: 'Intermediate', value: 'intermediate' },
+    { label: 'Expert', value: 'expert' },
   ];
   const changeAuthState = () => {
     setAuthState('login');
@@ -48,16 +53,23 @@ const KeyboardAvoidingComponent = ({ setAuthState }: { setAuthState: React.Dispa
         throw new Error('Fields are missing');
       }
 
-      const res = await fetchSignup(usernameForm, emailForm, password, ageForm, experienceForm, bioForm);
+      const res = await fetchSignup(
+        usernameForm,
+        emailForm,
+        password,
+        ageForm,
+        experienceForm,
+        bioForm
+      );
       if (res && res.accessToken) {
         await AsyncStorage.setItem('AccessToken', res.accessToken);
         dispatch(setAuth(true));
-        dispatch(setUsername(usernameForm))
-        dispatch(setEmail(emailForm))
-        dispatch(setAge(ageForm))
-        dispatch(setBio(bioForm))
-        dispatch(setExperience(experienceForm))
-        dispatch(updateLocations(res.locations))
+        dispatch(setUsername(usernameForm));
+        dispatch(setEmail(emailForm));
+        dispatch(setAge(ageForm));
+        dispatch(setBio(bioForm));
+        dispatch(setExperience(experienceForm));
+        dispatch(updateLocations(res.locations));
       } else {
         throw new Error('Email or password is incorrect');
       }
@@ -68,33 +80,54 @@ const KeyboardAvoidingComponent = ({ setAuthState }: { setAuthState: React.Dispa
   };
 
   const handleTapOutside = () => {
-    Keyboard.dismiss()
-  }
+    Keyboard.dismiss();
+  };
   return (
-    <TouchableWithoutFeedback onPress={handleTapOutside} >
-
+    <TouchableWithoutFeedback onPress={handleTapOutside}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-            <TextInput placeholder='Username' value={usernameForm} onChangeText={setUsernameForm} style={styles.textInput} />
+            <TextInput
+              placeholder='Username'
+              value={usernameForm}
+              onChangeText={setUsernameForm}
+              style={styles.textInput}
+            />
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-            <TextInput placeholder='Email' value={emailForm} onChangeText={setEmailForm} style={styles.textInput} />
+            <TextInput
+              placeholder='Email'
+              value={emailForm}
+              onChangeText={setEmailForm}
+              style={styles.textInput}
+            />
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-            <TextInput placeholder='Password' secureTextEntry={true} value={password} onChangeText={setPassword} style={styles.textInput} />
+            <TextInput
+              placeholder='Password'
+              secureTextEntry={true}
+              value={password}
+              onChangeText={setPassword}
+              style={styles.textInput}
+            />
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-            <TextInput placeholder='Age' value={ageForm} onChangeText={setAgeForm} keyboardType='numeric' style={styles.textInput} />
+            <TextInput
+              placeholder='Age'
+              value={ageForm}
+              onChangeText={setAgeForm}
+              keyboardType='numeric'
+              style={styles.textInput}
+            />
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -109,7 +142,14 @@ const KeyboardAvoidingComponent = ({ setAuthState }: { setAuthState: React.Dispa
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-            <TextInput placeholder='Bio' value={bioForm} onChangeText={setBioForm} multiline={true} numberOfLines={4} style={styles.textInput} />
+            <TextInput
+              placeholder='Bio'
+              value={bioForm}
+              onChangeText={setBioForm}
+              multiline={true}
+              numberOfLines={4}
+              style={styles.textInput}
+            />
           </View>
         </TouchableWithoutFeedback>
         <View style={{}}>
@@ -122,48 +162,7 @@ const KeyboardAvoidingComponent = ({ setAuthState }: { setAuthState: React.Dispa
         </Pressable>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
-
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    gap: 10,
-    padding: 40,
-    marginTop: 10,
-  },
-  inner: {
-    flex: 1,
-  },
-  textInput: {
-    borderColor: 'black',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 16,
-
-  },
-  formButtonText: {
-    textAlign: 'center',
-    fontSize: 20,
-  },
-
-  formButton: {
-    backgroundColor: 'orange',
-    padding: 10,
-    borderRadius: 5,
-    borderColor: 'black',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    marginBottom: 15
-  },
-  picker: {
-    borderColor: 'black',
-    borderWidth: 1,
-    padding: 5
-
-  }
-});
 
 export default KeyboardAvoidingComponent;
