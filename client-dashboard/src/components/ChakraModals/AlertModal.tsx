@@ -4,7 +4,7 @@ import {
   ModalContent,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRef, SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 
 import { alertSelected } from "../../redux/displaySlice";
 import { RootState } from "../../redux/store";
@@ -30,7 +30,7 @@ function AlertModal() {
   function closeHandler() {
     dispatch(alertSelected());
   }
-  function checkResponse(handler) {
+  function checkResponse(handler:()=>void) {
 
     return (err, response) => {
       if (err) {
@@ -53,9 +53,9 @@ function AlertModal() {
         <ModalContent>
           <form onSubmit={handleLoginSubmit} className={classes.modalform}>
             <label>Type: </label>
-            <input type="text" name="type" required placeholder="insert type of notification" onChange={(e)=>handleTypeChange(e)}/>
+            <input type="text" name="type" required placeholder="insert type of notification" onChange={handleTypeChange}/>
             <label>Message: </label>
-            <input type="text" name="message" required onChange={(e)=>handleMessageChange(e)} placeholder="insert message" />
+            <input type="text" name="message" required onChange={handleMessageChange} placeholder="insert message" />
             <div className={classes.buttonsContainer}>
               <button type="submit" className={classes.buttonForm} id={ids.loginButton}>Send</button>
               <button className={classes.buttonForm} onClick={closeHandler}>Cancel</button>

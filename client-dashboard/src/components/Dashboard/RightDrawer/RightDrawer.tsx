@@ -3,7 +3,6 @@ import classes from './RightDrawer.module.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../redux/store';
 import { alertSelected, drawerToggled } from '../../../redux/displaySlice';
-import { clippingParents } from '@popperjs/core';
 
 function RightDrawer(): React.ReactNode {
   const isOpen: boolean = useSelector((state: RootState) => state.display.drawerIsOpen)

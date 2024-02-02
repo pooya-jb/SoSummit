@@ -19,16 +19,6 @@ function ConnectionState() {
   );
 }
 
-// function ConnectionManager() {
-  
-//   return (
-//     <>
-//       <button onClick={connect}>Connect</button>
-//       <button onClick={disconnect}>Disconnect</button>
-//     </>
-//   );
-// }
-
 function Navbar(): React.ReactNode {
   function connect() {
     socket.connect();
@@ -39,7 +29,6 @@ function Navbar(): React.ReactNode {
   }
   
   const isAuthenticated = useSelector((state : RootState) => state.user.isAuthenticated)
-  const isConnected = useSelector((state: RootState) => state.user.isConnected)
   useEffect(()=>{
     isAuthenticated === true ? connect() : disconnect(); 
   }, [isAuthenticated])
@@ -51,7 +40,6 @@ function Navbar(): React.ReactNode {
           <h2>SoSummit</h2>
         </button>
         <ConnectionState />
-        {/* {isAuthenticated && <ConnectionManager />} */}
         <ChakraMenu />
       </div>
     </>

@@ -18,24 +18,18 @@ export const userSlice = createSlice({
       return {
         ...state,
         isAuthenticated: true,
-        // firstName: action.payload.firstName,
-        // lastName: action.payload.lastName
       }
     },
     loggedOut: (state) => {
       return {
         ...state,
         isAuthenticated: false,
-        // firstName: '',
-        // lastName: '',
       }
     },
     reloaded: (state, action) => {
       return {
         ...state,
         isAuthenticated: action.payload.isAuthenticated,
-        // firstName: action.payload.firstName,
-        // lastName: action.payload.lastName,
       }
     },
     socketConnected: (state, action : PayloadAction<boolean>) => {

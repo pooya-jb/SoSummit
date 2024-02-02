@@ -1,9 +1,5 @@
-// import socketIO from "socket.io-client"
-// const socket = socketIO.connect("http://localhost:3000")
 import { io } from 'socket.io-client';
 import { store } from '../redux/store';
-// import { adminLocationConnected, locationConnected, socketConnected } from '../redux/userSlice';
-// import { useDispatch } from 'react-redux';
 
 const currentStore = store.getState()
 const location = currentStore.user.location
