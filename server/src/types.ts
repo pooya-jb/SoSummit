@@ -32,18 +32,29 @@ export interface IConversation {
   messages: IMessage[]
 }
 
-interface IAlert {
+export interface IAlert {
   text: string,
   time: string,
   type: string,
   location: number[]
+}
 
+export interface INotification {
+  type : string,
+  text : string,
+  time : string
+}
+
+export interface ISocketControllerResponse {
+  status : boolean,
+  info : object | undefined
 }
 
 export interface ILocation {
   name: string,
   coordinates: number[],
-  alerts: IAlert[]
+  alerts: IAlert[],
+  notifications : INotification[]
 }
 
 export interface TypedJwt extends JwtPayload {

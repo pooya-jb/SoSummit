@@ -10,4 +10,13 @@ async function getAllLocations(req: Request, res: Response) {
     res.status(500).send({ error, message: 'Internal Server Error' });
   }
 }
-export default { getAllLocations }
+
+async function getAllLocationsBoot() : Promise<string[] | false> {
+  try {
+    const locations: InstanceType<ILocationModel>[] = await Location.find();
+    return locations.map(location => location.name);
+  } catch (error) {
+    return false;
+  }
+}
+export default { getAllLocations, getAllLocationsBoot }

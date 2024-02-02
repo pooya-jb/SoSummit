@@ -24,8 +24,21 @@ const LocationSchema = new db.Schema<ILocation> ({
       type: [Number],
       required: true
     }
+  }],
+  notifications : [{
+    text: {
+      type: String,
+      required: true
+    },
+    time: {
+      type: String,
+      required: true
+    },
+    type: {
+      type: String,
+      required: true
+    }
   }]
-  
 })
 
 const Location = db.model<ILocation>('Location', LocationSchema);
