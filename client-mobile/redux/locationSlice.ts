@@ -1,24 +1,22 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  locations: ['']
-}
-
-
+  locations: [''],
+};
 
 export const locationSlice = createSlice({
   name: 'locations',
   initialState,
   reducers: {
-    updateLocations: (state, action: PayloadAction<string[]> ) => {
-      return{
+    updateLocations: (state, action: PayloadAction<string[]>) => {
+      return {
         ...state,
-        locations: action.payload
-      }
-    }
-  }
-})
+        locations: action.payload,
+      };
+    },
+  },
+});
 
-export const {updateLocations} = locationSlice.actions
+export const { updateLocations } = locationSlice.actions;
 
-export default locationSlice.reducer
+export default locationSlice.reducer;
