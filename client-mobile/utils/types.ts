@@ -17,5 +17,6 @@ export interface ButtonProps {
   setCountdown: React.Dispatch<React.SetStateAction<number>>
   isPressed: boolean,
   setIsPressed: React.Dispatch<React.SetStateAction<boolean>>,
-  setShowMessage: React.Dispatch<React.SetStateAction<boolean>>
+  setShowMessage: React.Dispatch<React.SetStateAction<boolean>>,
+  helpType: string
 }
