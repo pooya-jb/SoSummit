@@ -2,18 +2,15 @@ import { Pressable, Text, View, Image, AppState } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import { router } from 'expo-router';
+
 import { styles } from './Home.styles';
 import socket from '../../utils/socket';
-import { router } from 'expo-router';
 import { setCoords } from '../../redux/userSlice';
 
 const Home = () => {
-  const [location, setLocation] = useState<Location.LocationObject | null>(
-    null
-  );
-  const [appState, setAppState] = useState(AppState.currentState);
+  const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [mapRegion, setMapRegion] = useState({
     latitude: 27.9881,
@@ -31,51 +28,44 @@ const Home = () => {
   const [btnText, setBtnText] = useState<string>('Start');
 
   const dispatch = useDispatch();
-  // useEffect(() => {
 
-  // }, []);
+  const getLocation = async (state: string) => {
+    if(state === "active")
+      liveLocation()
+      setInterval(liveLocation, 5000)
+    }
+
+  const liveLocation = async () => {
+    let location = await Location.getCurrentPositionAsync({});
+    dispatch(
+      setCoords([location.coords.latitude, location.coords.longitude])
+      );
+    setLocation(location)
+    setMapRegion({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    });
+    setUserRegion({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    });
+  }
+
   useEffect(() => {
     // Subscribe to app state changes
-  getLocation("active")
-  const appStateSubscription = AppState.addEventListener('change', (state) => {
+    getLocation("active")
+    const appStateSubscription = AppState.addEventListener('change', (state) => {
     console.log(state)
     getLocation(state)});
     // Clean up subscription on component unmount
-      return () => {
-        appStateSubscription.remove();
-      };
+    return () => {
+      appStateSubscription.remove();
+    };
   }, []);
-  const getLocation2 = async () => {
-    let location = await Location.getCurrentPositionAsync({});
-        dispatch(
-          setCoords([location.coords.latitude, location.coords.longitude])
-          );
-        setLocation(location)
-        setMapRegion({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        });
-        setUserRegion({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        });
-  }
-   const getLocation = async (state) => {
-    if(state === "active")
-      getLocation2()
-      setInterval(getLocation2, 5000)
-    }
-
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
 
   const connectHandler = async () => {
     router.navigate('../Locations');
@@ -92,7 +82,7 @@ const Home = () => {
     }
   };
 
-  const currentLocationHanlder = () => {
+  const currentLocationHandler = () => {
     if (location?.coords) {
       setMapRegion(userRegion);
     }
@@ -101,8 +91,6 @@ const Home = () => {
 
   return (
     <View style={styles.home}>
-      <Text>Your location was sent to the resort 2 minutes ago!</Text>
-
       <View style={styles.mapContainer}>
         <MapView
           style={styles.map}
@@ -121,7 +109,7 @@ const Home = () => {
             onPress={connectHandler}
             style={({ pressed }) => [
               styles.button,
-              { backgroundColor: pressed ? '#0A7F8C' : '#10B2C1' }, // Change color on press
+              { backgroundColor: pressed ? '#0A7F8C' : '#10B2C1' }
             ]}
           >
             <Text style={styles.buttonText}>{btnText}</Text>
@@ -133,7 +121,7 @@ const Home = () => {
               alignItems: 'center',
               padding: 2,
             }}
-            onPress={currentLocationHanlder}
+            onPress={currentLocationHandler}
           >
             <Image
               source={require('../../assets/location.png')}

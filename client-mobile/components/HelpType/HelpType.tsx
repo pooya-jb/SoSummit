@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from './HelpType.styles';
 
 export default function HelpType () {
-  const [helpType, setHelpType] = useState('');
+  const [helpType, setHelpType] = useState<string>('');
 
   useEffect(() => {
     setHelpType('')
