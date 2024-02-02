@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import AuthScreen from '../../screens/AuthScreen';
-import { tokenValidation } from '../../utils/AppService';
+import { tokenValidation } from '../../utils/ApiService';
 import { useDispatch } from 'react-redux';
 import { setAuth } from '../../redux/userSlice';
 import { HomeScreen } from '../../screens/HomeScreen';

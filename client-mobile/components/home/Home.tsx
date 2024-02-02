@@ -51,7 +51,6 @@ const Home = () => {
           setCoords([location.coords.latitude, location.coords.longitude])
           );
         setLocation(location)
-        console.log('fired')
         setMapRegion({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,

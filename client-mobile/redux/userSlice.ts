@@ -1,7 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { tokenValidation } from '../utils/AppService';
+import { tokenValidation } from '../utils/ApiService';
 
 const initialState = {
+  username: '',
+  email:'',
+  bio:'',
+  age:'',
+  experience: '',
   isAuth: false,
   isConnected: false,
   location: '',
@@ -33,10 +38,40 @@ export const userSlice = createSlice({
         coords: action.payload,
       };
     },
+    setUsername: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        username: action.payload,
+      };
+    },
+    setEmail: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        email: action.payload,
+      };
+    },
+    setAge: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        age: action.payload,
+      };
+    },
+    setBio: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        bio: action.payload,
+      };
+    },
+    setExperience: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        experience: action.payload,
+      };
+    },
   },
 });
 
-export const { setAuth, socketConnected, setLocation, setCoords } =
+export const { setAuth, socketConnected, setLocation, setCoords, setUsername, setAge, setBio, setEmail, setExperience } =
   userSlice.actions;
 
 export default userSlice.reducer;

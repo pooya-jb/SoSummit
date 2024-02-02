@@ -19,7 +19,7 @@ function AlertModal() {
     (state: RootState) => state.display.alertModalOpen
   );
   const dispatch = useDispatch();
-
+  const location = useSelector((state: RootState) => state.user.location)
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value)
   }
@@ -37,16 +37,13 @@ function AlertModal() {
         console.log('server did not acknowledge');
       } else {
         if (handler) handler(response.status);
-        console.log('here:',response.status);
       }
       return response.status
     }
   }
   async function handleLoginSubmit(event: SyntheticEvent) {
     event.preventDefault();
-    socket.timeout(5000).emit('Zermatt-notifications', {message, type}, checkResponse(null))
-
-    
+    socket.timeout(5000).emit(`${location}-notifications`, {message, type}, checkResponse(null))
   }
 
   return (

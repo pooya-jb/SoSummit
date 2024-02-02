@@ -18,6 +18,7 @@ function App(): React.ReactNode {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
   const isConnected = useSelector((state: RootState) => state.user.isConnected)
   const dispatch = useDispatch();
+  const location = useSelector((state: RootState) => state.user.location)
 
   useEffect(() => {
     const checkAuthentication = async (accessToken: string | null) => {
@@ -73,10 +74,8 @@ function App(): React.ReactNode {
 
   useEffect(() => {
     if (isConnected) {
-      // socket.emit('Location-Zermatt', 'hello from gg(1)');
-      socket.timeout(5000).emit('Location-Zermatt-Admin', 'Zermatt', checkResponse(setAdminLocation))
-      socket.timeout(5000).emit('Location-Zermatt', 'Zermatt', [7.7, 45.9], checkResponse(setLocation))
-      // socket.timeout(5000).emit('Zermatt-alert', 'Zermatt', checkResponse(null))
+      socket.timeout(5000).emit(`${location}-Admin`, location, checkResponse(setAdminLocation))
+      socket.timeout(5000).emit(location, location, checkResponse(setLocation))
     }
   }, [isConnected])
 

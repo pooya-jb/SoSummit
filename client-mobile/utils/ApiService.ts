@@ -61,17 +61,14 @@ export const tokenValidation = async () => {
   }
 };
 
-export const fetchLocations = async () => {
+export const fetchAdminLogin = async (email: string, password: string) => {
   try {
-    const token = await AsyncStorage.getItem('AccessToken');
-    if (!token || token === '') return false;
-    const res = await fetch(`${localhostUrl}/locations`, {
-      method: 'GET',
+    if (email === '' || password === '') throw Error();
+    const res = await fetch(`${localhostUrl}/login-admin`, {
+      method: 'POST',
       mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `bearer ${token}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
     });
     const data = await res.json();
     return data;

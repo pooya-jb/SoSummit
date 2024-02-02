@@ -28,6 +28,17 @@ const apiService = {
       .then((res) => res)
       .catch((err) => console.log(err));
   },
+  register : async (registerForm:{email : string, password: string, username: string, location:string}) : Promise<TypedResponse> => {
+    return await fetch(`${BASE_URL}/register-admin`, {
+      method: 'POST',
+      // credentials: 'include',
+      // mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(registerForm),
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+  },
 
   invalidateJWT:  async (accessToken) => {
     

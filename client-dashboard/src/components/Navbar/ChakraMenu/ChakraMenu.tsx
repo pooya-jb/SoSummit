@@ -42,13 +42,12 @@ function ChakraMenu(): React.ReactNode {
         { isAuthenticated?
           <MenuList color="var(--textmain)" bg="var(--backgroundmain)" zIndex='999'>
           <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Settings</MenuItem>
-          <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Account settings</MenuItem>
+          <MenuItem color="var(--textmain)" bg="var(--backgroundmain)" onClick={handleRegisterClick}>Register a new admin</MenuItem>
             <MenuItem color="var(--textmain)" bg="var(--backgroundmain)" onClick={handleLogoutClick}>Log out</MenuItem>
         </MenuList>
         :
         <MenuList color="var(--textmain)" bg="var(--backgroundmain)" zIndex='999'>
-            <MenuItem color="var(--textmain)" bg="var(--backgroundmain)" onClick={handleLoginClick}>Login as an admin</MenuItem>
-          <MenuItem color="var(--textmain)" bg="var(--backgroundmain)" onClick={handleRegisterClick}>Register as an admin</MenuItem>
+            <MenuItem color="var(--textmain)" bg="var(--backgroundmain)" onClick={handleLoginClick}>Login</MenuItem>
         </MenuList>
         }
         {<LoginModal/>}
