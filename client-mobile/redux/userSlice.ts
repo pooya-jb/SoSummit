@@ -3,9 +3,9 @@ import { tokenValidation } from '../utils/ApiService';
 
 const initialState = {
   username: '',
-  email:'',
-  bio:'',
-  age:'',
+  email: '',
+  bio: '',
+  age: '',
   experience: '',
   isAuth: false,
   isConnected: false,
@@ -71,7 +71,16 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setAuth, socketConnected, setLocation, setCoords, setUsername, setAge, setBio, setEmail, setExperience } =
-  userSlice.actions;
+export const {
+  setAuth,
+  socketConnected,
+  setLocation,
+  setCoords,
+  setUsername,
+  setAge,
+  setBio,
+  setEmail,
+  setExperience,
+} = userSlice.actions;
 
 export default userSlice.reducer;

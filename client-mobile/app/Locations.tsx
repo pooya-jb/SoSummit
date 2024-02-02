@@ -6,15 +6,16 @@ import {
   SafeAreaView,
   FlatList,
   ActivityIndicator,
-  Alert
+  Alert,
 } from 'react-native';
 import { router } from 'expo-router';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+
 import { setLocation } from '../redux/userSlice';
 import socket from '../utils/socket';
-import { useState } from 'react';
 
 export default function Locations() {
   const dispatch = useDispatch();
@@ -26,47 +27,53 @@ export default function Locations() {
     dispatch(setLocation(title));
     const [x, y] = coords;
     socket
-    .connect()
-    .timeout(5000)
-    .emit(title, title, [x, y], checkResponse(setLocationState, null));
+      .connect()
+      .timeout(5000)
+      .emit(title, title, [x, y], checkResponse(setLocationState, null));
     setLoading(true);
   };
-
 
   function checkResponse(successHandler, errorHandler) {
     return (err, response) => {
       if (err) {
         console.log('server did not acknowledge');
-        Alert.alert('Error', 'Server did not respond. Please try again in one minute.', [
-          {
-            text: 'Cancel',
-            style: 'cancel'
-          }
-        ])
+        Alert.alert(
+          'Error',
+          'Server did not respond. Please try again in one minute.',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+          ]
+        );
         setLoading(false);
         if (errorHandler) errorHandler();
       } else {
         if (successHandler) successHandler(response.status);
       }
       // return response.status
-    }
+    };
   }
 
-  function setLocationState (status) {
+  function setLocationState(status) {
     if (status) {
       dispatch(setLocation(status));
       router.navigate('../');
     } else {
-      Alert.alert('Error', 'You are not in a protected area. Please try again when you enter one.', [
-        {
-          text: 'Okay',
-          style: 'default'
-        }
-      ]);
+      Alert.alert(
+        'Error',
+        'You are not in a protected area. Please try again when you enter one.',
+        [
+          {
+            text: 'Okay',
+            style: 'default',
+          },
+        ]
+      );
     }
     setLoading(false);
   }
-
 
   type ItemProps = { title: string };
   const Item = ({ title }: ItemProps) => (
@@ -74,7 +81,7 @@ export default function Locations() {
       <Pressable
         style={({ pressed }) => [
           styles.button,
-          { backgroundColor: pressed ? '#669FA8' : '#C5FEFF' }, // Change color on press
+          { backgroundColor: pressed ? '#669FA8' : '#C5FEFF' }
         ]}
         onPress={() => handleLocationClick(title)}
       >

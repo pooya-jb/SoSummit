@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LocationS, UserL } from '../types';
+import { AlertS, LocationS, UserL } from '../types';
 const userMock: UserL[] = [{ username: 'greg', email: 'greg@mail', age: '12', experience: 'expert', bio: 'i am greg', location: 'botswana ski resort' }, { username: 'jack', email: 'greg@mail', age: '12', experience: 'expert', bio: 'i am greg', location: 'botswana ski resort' }]
 const adminMock: UserL[] = [{ username: 'Bob', email: 'greg@mail', age: '12', experience: 'expert', bio: 'i am greg', location: 'botswana ski resort' }, { username: 'jack', email: 'greg@mail', age: '12', experience: 'expert', bio: 'i am greg', location: 'botswana ski resort' }]
 
@@ -43,9 +43,15 @@ export const locationSlice = createSlice({
         admins: state.admins.filter(admin => admin.email !== action.payload.email)
       }
     },
+    updateAlerts : (state : LocationS, action: PayloadAction<any>) => {
+      return {
+        ...state,
+        alerts: [...state.alerts, ...action.payload]
+      }
+    },
   }
 })
 
 export default locationSlice.reducer;
 
-export const {userEntered, userLeft, adminEntered, adminLeft} = locationSlice.actions;
+export const {userEntered, userLeft, adminEntered, adminLeft, updateAlerts} = locationSlice.actions;

@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
   },
   mapContainer: {
     borderColor: 'black',
-    height: '97%',
+    height: '100%',
     width: '100%',
   },
 });

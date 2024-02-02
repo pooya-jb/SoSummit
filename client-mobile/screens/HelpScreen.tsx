@@ -1,5 +1,6 @@
 import { Text, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 import HelpButton from '../components/HelpButton/HelpButton';
 import HelpType from '../components/HelpType/HelpType';
@@ -14,6 +15,7 @@ const HelpScreen: React.FC<ButtonProps> = ({
   setShowMessage,
 }) => {
   const location = useSelector((state: RootState) => state.user.location);
+  const [helpType, setHelpType] = useState<string>('');
 
   return (
     <>
@@ -21,13 +23,14 @@ const HelpScreen: React.FC<ButtonProps> = ({
       <Text style={styles.questionTwo}>
         Select an option and hold SOS button
       </Text>
-      <HelpType />
+      <HelpType helpType={helpType} setHelpType={setHelpType}/>
       <HelpButton
         isPressed={isPressed}
         setIsPressed={setIsPressed}
         countdown={countdown}
         setCountdown={setCountdown}
         setShowMessage={setShowMessage}
+        helpType={helpType}
       />
     </>
   );
