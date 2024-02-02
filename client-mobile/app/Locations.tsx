@@ -12,9 +12,10 @@ import { router } from 'expo-router';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+
 import { setLocation } from '../redux/userSlice';
 import socket from '../utils/socket';
-import { useState } from 'react';
 
 export default function Locations() {
   const dispatch = useDispatch();
@@ -74,7 +75,7 @@ export default function Locations() {
       <Pressable
         style={({ pressed }) => [
           styles.button,
-          { backgroundColor: pressed ? '#669FA8' : '#C5FEFF' }, // Change color on press
+          { backgroundColor: pressed ? '#669FA8' : '#C5FEFF' }
         ]}
         onPress={() => handleLocationClick(title)}
       >

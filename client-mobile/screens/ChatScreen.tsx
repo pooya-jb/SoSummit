@@ -1,9 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   View,
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert
 } from 'react-native';
 import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 
@@ -21,6 +22,14 @@ interface Message {
 export default function ChatScreen() {
   const [messages, setMessages] = useState<Message[]>([]);
 
+  useEffect(() => {
+    Alert.alert('Help is on the way', 'Your request has been received. Please send us any additional info here.', [
+      {
+        text: 'Okay',
+        style: 'default',
+      }
+    ])
+  }, [])
   const onSend = useCallback((newMessages = []) => {
     setMessages((prevMessages) => GiftedChat.append(prevMessages, newMessages));
   }, []);
