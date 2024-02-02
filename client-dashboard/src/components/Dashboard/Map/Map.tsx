@@ -24,7 +24,7 @@ console.log(alerts)
           {alerts.length > 1 && alerts.map(alert => {
             console.log(alert)
             return (
-            <Marker position={[alert.coords[0], alert.coords[1]]}>
+            <Marker position={[alert.location[0], alert.location[1]]}>
               <Popup>
                 {alert.username}
               </Popup>

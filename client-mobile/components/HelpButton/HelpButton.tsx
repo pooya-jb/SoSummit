@@ -2,12 +2,12 @@ import React, { useRef, useEffect, useState } from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
-import { Audio } from 'expo-av';
+// import { Audio } from 'expo-av';
 import * as Animatable from 'react-native-animatable';
 
 import { styles } from './HelpButton.styles';
 import { ButtonProps } from '../../utils/types';
-import socket from '../../utils/socket';
+import socket, {checkResponse} from '../../utils/socket';
 
 const COUNTDOWN_UNIT = 1000;
 
@@ -52,35 +52,35 @@ const HelpButton: React.FC<ButtonProps> = ({
     };
   }, [isPressed]);
 
-  useEffect(() => {
-    return () => {
-      if (soundInstance) {
-        soundInstance.unloadAsync();
-      }
-    };
-  }, [soundInstance]);
+  // useEffect(() => {
+  //   return () => {
+  //     if (soundInstance) {
+  //       soundInstance.unloadAsync();
+  //     }
+  //   };
+  // }, [soundInstance]);
 
   function triggerAlert () {
     socket
     .timeout(5000)
-    .emit(`Location-${location}-alert`, location, userCoords, helpType, username);
+    .emit(`Location-${location}-alert`, {location, userCoords, helpType, username}, checkResponse());
   }
 
   async function handlePress() {
     setIsPressed(true);
     setCountdown(3);
-    const { sound } = await Audio.Sound.createAsync(require('../../assets/siren.mp3'));
-    setSoundInstance(sound);
-    await sound.playAsync();
+    // const { sound } = await Audio.Sound.createAsync(require('../../assets/siren.mp3'));
+    // setSoundInstance(sound);
+    // await sound.playAsync();
   }
 
   function handleUnPress() {
     setIsPressed(false);
     setCountdown(0);
-    if (soundInstance) {
-      soundInstance.stopAsync();
-      soundInstance.unloadAsync();
-    }
+    // if (soundInstance) {
+    //   soundInstance.stopAsync();
+    //   soundInstance.unloadAsync();
+    // }
   }
 
   const PulseAnimatable = Animatable.createAnimatableComponent(View);

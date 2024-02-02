@@ -3,9 +3,9 @@ import { Server } from "socket.io";
 import http from 'http'
 
 import app from './express'
-import locSockCtrlr from './controllers/LocationSocket'
+import SocketControllers from './controllers/LocationSocket'
 import locationControllers from './controllers/Location'
-import { ISocketControllerResponse } from './types';
+import { ISocketControllerResponse, Alert } from './types';
 
 dotenv.config();
 const { CLIENT_URL, CLIENT_PORT } = process.env;
@@ -42,31 +42,31 @@ async function serverBoot () {
         socket
 
           // Check if user is in location area. On true join lobby and send back notifications 
-          .on(locationName, async (location: string, userCoords: number[], callback) => {
-            const {status, info} : ISocketControllerResponse = await locSockCtrlr.checkCoordinates(location, userCoords);
+          .on(locationName, async ({location, userCoords} : {location : string, userCoords : number[]}, callback) => {
+            const {status, info} : ISocketControllerResponse = await SocketControllers.checkCoordinates(location, userCoords);
             status && socket.join(locationName);
             callback(acknowledge(status, info));
           })
 
           // Join admin to lobby and send back location alerts
           .on(adminLocationName, async (msg, callback) => {
-            // const { status, info }: ISocketControllerResponse = await locSockCtrlr.getAlertsAndNotifications(location);
+            // const { status, info }: ISocketControllerResponse = await SocketControllers.getAlertsAndNotifications(location);
             const status = true;
             const info = undefined;
             socket.join(adminLocationName);
             callback(acknowledge(status, info ));
           })
-
           // Add alert to location in database and send alert to admins
-          .on(`${locationName}-alert`, async (location : string, userCoords: number[], helpType : string, username: string, callback) => {
-            const { status, info } : ISocketControllerResponse = await locSockCtrlr.addAlert(location, userCoords, helpType, username)
-            status && io.to(adminLocationName).emit(`${location}-alert-admins`, alert);
+          .on(`${locationName}-alert`, async ({location, userCoords, helpType, username} : Alert, callback) => {
+            console.log(location, userCoords, helpType, username)
+            const { status, info } : ISocketControllerResponse = await SocketControllers.addAlert(location, userCoords, helpType, username)
+            io.to(adminLocationName).emit(`${location}-alert-admins`, info);
             callback(acknowledge(status, info));
           })
 
           // Add notification to location in database and send notification to location lobby
-          .on(`Zermatt-notifications`, async ({message, type}, callback) => {
-            const { status, info }: ISocketControllerResponse = await locSockCtrlr.addNotification(location, type, message)
+          .on(`${location}-notifications`, async ({message, type}, callback) => {
+            const { status, info }: ISocketControllerResponse = await SocketControllers.addNotification(location, type, message)
             status && io.to(locationName).emit('msg', `hello ${location} alert`);
             callback(acknowledge(status, info)); // Controller Missing
           })

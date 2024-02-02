@@ -1,61 +1,34 @@
 import db from './index';
 import { ILocation } from '../types';
-
 const LocationSchema = new db.Schema<ILocation>({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   coordinates: [Number],
-  alerts: [
-    {
-      text: {
-        type: String,
-        required: true,
-      },
-      time: {
-        type: String,
-        required: true,
-      },
-      type: {
-        type: String,
-        required: true,
-      },
-      location: {
-        type: [Number],
-        required: true,
-      },
+  alerts: [{
+    text: {
+      type: String,
+      required: true
     },
-  ],
-  notifications: [
-    {
-      text: {
-        type: String,
-        required: true,
-      },
-      time: {
-        type: String,
-        required: true,
-      },
-      type: {
-        type: String,
-        required: true,
-      },
+    time: {
+      type: String,
+      required: true
     },
     type: {
       type: String,
       required: true
     },
-    location:{
+    location: {
       type: [Number],
       required: true
     },
-    username : {
+    username: {
       type: String,
-      required : true
+      required: true
     }
   }],
-  notifications : [{
+  notifications: [{
     text: {
       type: String,
       required: true
@@ -70,7 +43,5 @@ const LocationSchema = new db.Schema<ILocation>({
     }
   }]
 })
-
 const Location = db.model<ILocation>('Location', LocationSchema);
-
 export default Location;
