@@ -52,22 +52,24 @@ async function addAlert(locationName: string, userCoords: number[], helpType: st
   }
 }
 
-// async function addNotification(locationName: string, type: string, text: string): Promise<ISocketControllerResponse> {
-//   try {
-//     const location: InstanceType<ILocationModel> | null = await Location.findOne({ name: locationName });
-//     if (location) {
-//       const alerts = location.alerts.concat([{
-//         text,
-//         time: `${new Date().getTime()}`,
-//         type: helpType,
-//       }]);
-//       await Location.findOneAndUpdate({ name: locationName }, { alerts });
-//       return location { status: true, info: { notifications: location.notifications, alerts: location.alerts } } : { status: false, info: undefined };
-//     }
+async function addNotification(locationName: string, type: string, text: string): Promise<ISocketControllerResponse> {
+  try {
+    const location: InstanceType<ILocationModel> | null = await Location.findOne({ name: locationName });
+    if (location) {
+      const notification = {
+        text,
+        time: `${new Date().getTime()}`,
+        type,
+      }
+      const notifications = location.notifications.concat([notification]);
+      await Location.findOneAndUpdate({ name: locationName }, { notifications });
+      return { status: true, info: notification };
+    }
+    else return { status: false, info: undefined };
 
-//   } catch (err) {
-//     console.log(err);
-//     return { status: false, info: undefined };
-//   }
-// }
-export default {checkCoordinates, getAlertsAndNotifications, addAlert};
+  } catch (err) {
+    console.log(err);
+    return { status: false, info: undefined };
+  }
+}
+export default {checkCoordinates, getAlertsAndNotifications, addAlert, addNotification};

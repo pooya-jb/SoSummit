@@ -65,9 +65,10 @@ async function serverBoot () {
           })
 
           // Add notification to location in database and send notification to location lobby
-          .on(`Zermatt-notifications`, ({message, type}, callback) => {
-            io.to(locationName).emit('msg', `hello ${location} alert`);
-            callback(acknowledge(true)); // Controller Missing
+          .on(`Zermatt-notifications`, async ({message, type}, callback) => {
+            const { status, info }: ISocketControllerResponse = await locSockCtrlr.addNotification(location, type, message)
+            status && io.to(locationName).emit('msg', `hello ${location} alert`);
+            callback(acknowledge(status, info)); // Controller Missing
           })
       })
     });
