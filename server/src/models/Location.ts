@@ -42,8 +42,34 @@ const LocationSchema = new db.Schema<ILocation>({
         required: true,
       },
     },
-  ],
-});
+    type: {
+      type: String,
+      required: true
+    },
+    location:{
+      type: [Number],
+      required: true
+    },
+    username : {
+      type: String,
+      required : true
+    }
+  }],
+  notifications : [{
+    text: {
+      type: String,
+      required: true
+    },
+    time: {
+      type: String,
+      required: true
+    },
+    type: {
+      type: String,
+      required: true
+    }
+  }]
+})
 
 const Location = db.model<ILocation>('Location', LocationSchema);
 
