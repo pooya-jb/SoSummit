@@ -44,21 +44,24 @@ async function serverBoot () {
           // Check if user is in location area. On true join lobby and send back notifications 
           .on(locationName, async (location: string, userCoords: number[], callback) => {
             const {status, info} : ISocketControllerResponse = await locSockCtrlr.checkCoordinates(location, userCoords);
-            console.log(status)
             status && socket.join(locationName);
             callback(acknowledge(status, info));
           })
 
           // Join admin to lobby and send back location alerts
-          .on(adminLocationName, (msg, callback) => {
+          .on(adminLocationName, async (msg, callback) => {
+            // const { status, info }: ISocketControllerResponse = await locSockCtrlr.getAlertsAndNotifications(location);
+            const status = true;
+            const info = undefined;
             socket.join(adminLocationName);
-            callback(acknowledge(true)); // Info and Controller Missing
+            callback(acknowledge(status, info ));
           })
 
           // Add alert to location in database and send alert to admins
-          .on(`${location}-alert`, (msg, callback) => {
-            io.to(adminLocationName).emit(`${location}-alert-admins`, `hello ${location} ${msg} alert`);
-            callback(acknowledge(true)); // Controller missing
+          .on(`${locationName}-alert`, async (location : string, userCoords: number[], helpType : string, username: string, callback) => {
+            const { status, info } : ISocketControllerResponse = await locSockCtrlr.addAlert(location, userCoords, helpType, username)
+            status && io.to(adminLocationName).emit(`${location}-alert-admins`, alert);
+            callback(acknowledge(status, info));
           })
 
           // Add notification to location in database and send notification to location lobby

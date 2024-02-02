@@ -27,7 +27,8 @@ export interface AlertS {
   text: string,
   time: string,
   type: string,
-  location: number[]
+  username: string,
+  coords: number[]
 }
 
 export interface TypedResponse extends Response {
