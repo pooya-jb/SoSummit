@@ -11,8 +11,9 @@ import { RootState } from './redux/store';
 import PresentationPage from './components/PresentationPage/PresentationPage';
 import JWTUtil from './utils/jwtUtil';
 import apiService from './utils/apiService';
-import { loggedIn, socketConnected, locationConnected, adminLocationConnected } from './redux/userSlice';
+import { loggedIn, socketConnected, locationConnected, adminLocationConnected, setUsername, setEmail } from './redux/userSlice';
 import socket, { subscribeToSocket, unsubscribeToSocket } from './utils/socket';
+import { updateAlerts } from './redux/locationSlice';
 
 function App(): React.ReactNode {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
@@ -26,7 +27,14 @@ function App(): React.ReactNode {
       if (response.status !== 200) {
         console.log('not authenticated')
       } else {
-        dispatch(loggedIn())
+        const res = await response.json()
+        console.log(res)
+        const alerts = res.locationInfo.alerts
+        // dispatch(setUsername(res.userInfo.username))
+        // dispatch(setLocation(res.userInfo.location))
+        // dispatch(setEmail(res.userInfo.email))
+        dispatch(updateAlerts(alerts))
+        dispatch(loggedIn(res))
       }
     };
     checkAuthentication(JWTUtil.getter());
@@ -60,10 +68,9 @@ function App(): React.ReactNode {
   }
 
   function checkResponse(handler) {
-
     return (err, response) => {
       if (err) {
-        console.log('server did not acknowledge');
+        console.log(err);
       } else {
         if (handler) handler(response.status);
         console.log('here:',response.status);
@@ -74,8 +81,9 @@ function App(): React.ReactNode {
 
   useEffect(() => {
     if (isConnected) {
-      socket.timeout(5000).emit(`${location}-Admin`, location, checkResponse(setAdminLocation))
-      socket.timeout(5000).emit(location, location, checkResponse(setLocation))
+      console.log(location)
+      socket.timeout(5000).emit(`Location-${location}-Admin`, location, checkResponse(setAdminLocation))
+      socket.timeout(5000).emit(`Location-${location}`, location, [7.7, 46], checkResponse(setLocation))
     }
   }, [isConnected])
 

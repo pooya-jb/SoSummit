@@ -43,7 +43,7 @@ function AlertModal() {
   }
   async function handleLoginSubmit(event: SyntheticEvent) {
     event.preventDefault();
-    socket.timeout(5000).emit(`${location}-notifications`, {message, type}, checkResponse(null))
+    socket.timeout(5000).emit(`${location}-notifications`, {message, type, location}, checkResponse(null))
   }
 
   return (

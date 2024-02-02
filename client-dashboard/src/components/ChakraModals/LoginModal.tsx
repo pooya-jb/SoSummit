@@ -10,10 +10,11 @@ import { loginSelected } from "../../redux/displaySlice";
 import { RootState } from "../../redux/store";
 import apiService from "../../utils/apiService";
 import JWTUtil from "../../utils/jwtUtil";
-import { loggedIn, setEmail, setLocation, setUsername } from "../../redux/userSlice";
+import { loggedIn } from "../../redux/userSlice";
 import { TypedResponse } from "../../types";
 import classes from "./Modal.module.css"
 import ids from "./Modal.module.css"
+import { updateAlerts } from "../../redux/locationSlice";
 
 function LoginModal() {
   const displayLogin = useSelector(
@@ -36,13 +37,11 @@ function LoginModal() {
     if (response.error) {
       alert("Wrong email or password");
     } else if (response.accessToken) {
-      const {username, location, email} = response.userInfo
+      console.log(response)
       JWTUtil.setter(response);
       closeHandler();
-      dispatch(loggedIn());
-      dispatch(setUsername(username))
-      dispatch(setLocation(location))
-      dispatch(setEmail(email))
+      dispatch(updateAlerts(response.locationInfo.alerts))
+      dispatch(loggedIn(response));
     }
   }
 
