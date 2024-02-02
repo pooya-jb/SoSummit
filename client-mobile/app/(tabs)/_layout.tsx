@@ -3,7 +3,6 @@ import { Pressable, Text, View, Image, Platform } from 'react-native';
 import { Provider, useSelector } from 'react-redux';
 import { RootState, store } from '../../redux/store';
 
-
 const TabsLayout = () => {
   const { isAuth } = useSelector((state: RootState) => state.user);
   return (
@@ -18,6 +17,7 @@ const TabsLayout = () => {
         name='index'
         options={{
           headerTitle: `${isAuth ? 'Home' : 'Auth'}`,
+          headerTitleAlign: 'center',
           title: '',
           tabBarIcon: () => {
             return (
@@ -40,12 +40,38 @@ const TabsLayout = () => {
                 <Pressable
                   android_ripple={{ color: 'transparent', borderless: false }} // Add this line
                 >
-                  <Link href="/User" style={{height:25, width:25, marginRight:15}}>
+                  <Link
+                    href='/User'
+                    style={{ height: 25, width: 25, marginRight: 15 }}
+                  >
                     <Image
                       source={require('../../assets/user.png')}
                       style={{
                         height: Platform.OS === 'ios' ? 25 : 20,
                         width: Platform.OS === 'ios' ? 25 : 20, // Adjust the width as needed
+                        marginRight: 30,
+                      }}
+                    />
+                  </Link>
+                </Pressable>
+              </View>
+            ) : undefined;
+          },
+          headerLeft: () => {
+            return isAuth ? (
+              <View>
+                <Pressable
+                  android_ripple={{ color: 'transparent', borderless: false }} // Add this line
+                >
+                  <Link
+                    href='/Notifications'
+                    style={{ height: 30, width: 30, marginLeft: 15 }}
+                  >
+                    <Image
+                      source={require('../../assets/notification.png')}
+                      style={{
+                        height: Platform.OS === 'ios' ? 25 : 22,
+                        width: Platform.OS === 'ios' ? 25 : 22, // Adjust the width as needed
                         marginRight: 30,
                       }}
                     />
@@ -60,6 +86,7 @@ const TabsLayout = () => {
         name='alert'
         options={{
           headerTitle: 'Help',
+          headerTitleAlign: 'center',
           title: '',
           tabBarIcon: () => {
             return (
