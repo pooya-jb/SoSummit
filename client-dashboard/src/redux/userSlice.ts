@@ -1,8 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  // firstName: '',
-  // lastName: '',
+  username: '',
+  email: '',
+  location: '',
   isAuthenticated: false,
   isConnected : false,
   locationIsConnected : false,
@@ -55,9 +56,27 @@ export const userSlice = createSlice({
         adminLocationIsConnected: action.payload
       }
     },
+    setUsername: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        username: action.payload,
+      };
+    },
+    setEmail: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        email: action.payload,
+      };
+    },
+    setLocation: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        location: action.payload,
+      };
+    },
   }
 })
 
 export default userSlice.reducer;
 
-export const { loggedIn, loggedOut, reloaded, socketConnected, locationConnected, adminLocationConnected } = userSlice.actions;
+export const { loggedIn, loggedOut, reloaded, socketConnected, locationConnected, adminLocationConnected, setEmail, setLocation, setUsername } = userSlice.actions;

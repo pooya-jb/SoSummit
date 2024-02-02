@@ -2,6 +2,8 @@ import { Text, StyleSheet } from "react-native";
 import HelpButton from "../components/HelpButton/HelpButton";
 import HelpType from "../components/HelpType/HelpType";
 import { ButtonProps } from "../utils/types";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const HelpScreen: React.FC<ButtonProps> = ({
   isPressed,
@@ -10,6 +12,10 @@ const HelpScreen: React.FC<ButtonProps> = ({
   setCountdown,
   setShowMessage
 }) => {
+
+  const location = useSelector((state: RootState) => state.user.location)
+
+
   return (
     <>
       <Text style={styles.questionOne}>What kind of help do you need?</Text>

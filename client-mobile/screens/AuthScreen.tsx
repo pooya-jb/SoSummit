@@ -6,8 +6,10 @@ const AuthScreen = () => {
   const [authState, setAuthState] = useState('login');
   if (authState === 'signup') {
     return <SignupForm setAuthState={setAuthState} />;
-  } else {
+  } else if(authState === 'login') {
     return <LoginForm setAuthState={setAuthState} />;
+  } else {
+    return <LoginAdminForm setAuthState={setAuthState}/>
   }
 };
 

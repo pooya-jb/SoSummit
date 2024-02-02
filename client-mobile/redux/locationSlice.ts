@@ -1,17 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchLocations } from "../utils/AppService";
-
-// const initialLocations = fetchLocations()
-const initialLocations = [
-  {name: 'Zermatt'}, 
-  {name: 'Ordino'}, 
-  {name: 'Pal Arinsal'}, 
-  {name: 'Gran Balira'}, 
-  {name: 'Boi taull'} 
-]
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  locations: initialLocations
+  locations: ['']
 }
 
 
@@ -19,7 +9,16 @@ const initialState = {
 export const locationSlice = createSlice({
   name: 'locations',
   initialState,
-  reducers: {}
+  reducers: {
+    updateLocations: (state, action: PayloadAction<string[]> ) => {
+      return{
+        ...state,
+        locations: action.payload
+      }
+    }
+  }
 })
+
+export const {updateLocations} = locationSlice.actions
 
 export default locationSlice.reducer

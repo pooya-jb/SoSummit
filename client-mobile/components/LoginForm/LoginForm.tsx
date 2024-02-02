@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { setAuth } from '../../redux/userSlice';
+import { setAuth, setLocation, setUsername, setAge, setEmail, setBio, setExperience } from '../../redux/userSlice';
 import {
   View,
   TextInput,
@@ -9,21 +9,32 @@ import {
   TextStyle,
   TextInputProps,
   Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import { useState } from 'react';
-import { fetchLogin, tokenValidation } from '../../utils/AppService';
+import { fetchLogin, tokenValidation } from '../../utils/ApiService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { updateLocations } from '../../redux/locationSlice';
 
-const LoginForm = ({ setAuthState }:{setAuthState: React.Dispatch<React.SetStateAction<string>>}) => {
+const LoginForm = ({ setAuthState }: { setAuthState: React.Dispatch<React.SetStateAction<string>> }) => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
+  const [emailForm, setEmailForm] = useState('');
   const [password, setPassword] = useState('');
   const handleLoginPress = async () => {
-    if (email === '' || password === '') throw alert('Fields are missing');
-    const res = await fetchLogin(email, password);
+    if (emailForm === '' || password === '') throw alert('Fields are missing');
+    const res = await fetchLogin(emailForm, password);
     if (typeof res.accessToken === 'string' && res.accessToken.length > 0) {
       try {
         await AsyncStorage.setItem('AccessToken', res.accessToken)
+        const { username, location, email, age, bio, experience } = res.userInfo
+        dispatch(setUsername(username))
+        dispatch(setLocation(location))
+        dispatch(setEmail(email))
+        dispatch(setAge(age))
+        dispatch(setBio(bio))
+        dispatch(setExperience(experience))
+        dispatch(updateLocations(res.locations))
       } catch (err) {
         console.log(err)
       }
@@ -34,29 +45,42 @@ const LoginForm = ({ setAuthState }:{setAuthState: React.Dispatch<React.SetState
   const changeAuthState = () => {
     setAuthState('signup');
   };
+  const changeAuthStateAdmin = () => {
+    setAuthState('admin');
+  };
 
+  const handleTapOutside = () => {
+    Keyboard.dismiss()
+  }
   return (
-    <View style={styles.formContainer}>
-      <TextInput
-        value={email}
-        placeholder='Email'
-        style={styles.formInput}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        value={password}
-        placeholder='Password'
-        style={styles.formInput}
-        onChangeText={setPassword}
-      />
+    <TouchableWithoutFeedback onPress={handleTapOutside}>
 
-      <Pressable style={styles.formButton} onPress={handleLoginPress}>
-        <Text style={styles.formButtonText}>Login</Text>
-      </Pressable>
-      <Pressable style={{}} onPress={changeAuthState}>
-        <Text style={{}}>Don't have an account?</Text>
-      </Pressable>
-    </View>
+      <View style={styles.formContainer}>
+        <TextInput
+          value={emailForm}
+          placeholder='Email'
+          style={styles.formInput}
+          onChangeText={setEmailForm}
+        />
+        <TextInput
+          value={password}
+          placeholder='Password'
+          style={styles.formInput}
+          onChangeText={setPassword}
+          secureTextEntry={true}
+        />
+
+        <Pressable style={styles.formButton} onPress={handleLoginPress}>
+          <Text style={styles.formButtonText}>Login</Text>
+        </Pressable>
+        <Pressable style={{}} onPress={changeAuthState}>
+          <Text style={{}}>Don't have an account?</Text>
+        </Pressable>
+        <Pressable style={{}} onPress={changeAuthStateAdmin}>
+          <Text style={{}}>I'm an admin</Text>
+        </Pressable>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -14,8 +14,6 @@ import { RootState } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { setLocation } from '../redux/userSlice';
 import socket from '../utils/socket';
-import { setCoords } from '../redux/userSlice';
-import * as Location from 'expo-location';
 import { useState } from 'react';
 
 export default function Locations() {
@@ -23,15 +21,14 @@ export default function Locations() {
   const [loading, setLoading] = useState(false);
   const locations = useSelector((state: RootState) => state.location.locations);
   const coords = useSelector((state: RootState) => state.user.coords);
-  // const coordsMock = [7.7, 45.9]
 
   const handleLocationClick = async (title: string) => {
-    dispatch(setLocation('Zermatt'));
+    dispatch(setLocation(title));
     const [x, y] = coords;
     socket
     .connect()
     .timeout(5000)
-    .emit(`Location-${title}`, title, [y, x], checkResponse(setLocationState, null));
+    .emit(title, title, [x, y], checkResponse(setLocationState, null));
     setLoading(true);
   };
 
@@ -70,10 +67,6 @@ export default function Locations() {
     setLoading(false);
   }
 
-  // {
-  //   userId: 'userId',
-  //   coords: coords,
-  // }
 
   type ItemProps = { title: string };
   const Item = ({ title }: ItemProps) => (
