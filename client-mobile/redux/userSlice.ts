@@ -11,6 +11,7 @@ const initialState = {
   isConnected: false,
   location: '',
   coords: [0],
+  isAdmin : false
 };
 
 export const userSlice = createSlice({
@@ -68,6 +69,12 @@ export const userSlice = createSlice({
         experience: action.payload,
       };
     },
+    setAdmin: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        isAdmin: action.payload,
+      };
+    },
   },
 });
 
@@ -81,6 +88,7 @@ export const {
   setBio,
   setEmail,
   setExperience,
+  setAdmin
 } = userSlice.actions;
 
 export default userSlice.reducer;

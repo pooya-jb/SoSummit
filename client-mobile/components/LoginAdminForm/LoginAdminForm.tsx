@@ -19,6 +19,7 @@ import {
   setEmail,
   setLocation,
   setUsername,
+  setAdmin
 } from '../../redux/userSlice';
 import { styles } from './LoginAdminForm.styles';
 
@@ -41,6 +42,7 @@ const KeyboardAvoidingComponent = ({
         dispatch(setEmail(email));
         dispatch(setUsername(username));
         dispatch(setLocation(location));
+        dispatch(setAdmin(true));
       } catch (err) {
         console.log(err);
       }

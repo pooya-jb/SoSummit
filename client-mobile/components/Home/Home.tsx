@@ -1,15 +1,21 @@
-import { Pressable, Text, View, Image, AppState } from 'react-native';
+import { Pressable, Text, View, Image, AppState, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { router } from 'expo-router';
+
 import socket from '../../utils/socket';
-import { setCoords } from '../../redux/userSlice';
+import { setCoords, setLocation } from '../../redux/userSlice';
 import { styles } from './Home.styles';
+import { RootState } from '../../redux/store';
+import { checkResponse } from '../../utils/socket';
+import { updateNotifications, addNotification, updateAlerts, addAlert } from '../../redux/locationSlice';
 
 const Home = () => {
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+
+  // STATE AND USE EFFECT 
+  const [inMapLocation, setInMapLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [mapRegion, setMapRegion] = useState({
     latitude: 27.9881,
@@ -23,11 +29,51 @@ const Home = () => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const resort = useSelector((state: RootState) => state.user.location);
+  const isAdmin = useSelector((state: RootState) => state.user.isAdmin);
+  const userName = useSelector((state : RootState) => state.user.username)
 
-  const [btnText, setBtnText] = useState<string>('Start');
+  useEffect(() => {
+    // Subscribe to app state changes
+    liveLocation()
+    const appStateSubscription = AppState.addEventListener(
+      'change',
+      (state) => {
+        getLocation(state);
+      }
+    );
+    // Clean up subscription on component unmount
+    return () => {
+      appStateSubscription.remove();
+    };
+  }, []);
 
   const dispatch = useDispatch();
+  
+  // START AND STOP BUTTON HANDLERS
+  const connectHandler = async () => {
+    router.navigate('../Locations');
+  };
+  const adminConnectHandler = async () => {
+    // SHOULD ADD LOGIC 
+    // socket.on('connect', onConnect);
+    // socket.on('disconnect', onDisconnect);
+    socket.off('connect', onConnect);
+    socket.off('disconnect', onDisconnect);
+    socket.connect().timeout(5000).emit(`Location-${resort}-Admin`, {location : resort, userName : userName  }, checkResponse(adminLobbyJoined, alertOfNoResponse))
+  }
 
+  const stopBtnHandler = async () => {
+    // SHOULD ADD LOGIC 
+    // socket.off('connect', onConnect);
+    // socket.off('disconnect', onDisconnect);
+    socket.disconnect();
+    dispatch(setLocation(''));
+    dispatch(updateAlerts([]));
+    dispatch(updateNotifications([]));
+  }
+
+  // MAP FUNCTIONS
   const getLocation = async (state: string) => {
     if (state === 'active') liveLocation();
     setInterval(liveLocation, 5000);
@@ -36,7 +82,7 @@ const Home = () => {
   const liveLocation = async () => {
     let location = await Location.getCurrentPositionAsync({});
     dispatch(setCoords([location.coords.latitude, location.coords.longitude]));
-    setLocation(location);
+    setInMapLocation(location);
     setMapRegion({
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
@@ -51,26 +97,6 @@ const Home = () => {
     });
   };
 
-  useEffect(() => {
-    // Subscribe to app state changes
-    liveLocation()
-    const appStateSubscription = AppState.addEventListener(
-      'change',
-      (state) => {
-        getLocation(state);
-      }
-    );
-    // Clean up subscription on component unmount
-    return () => {
-
-      appStateSubscription.remove();
-    };
-  }, []);
-
-  const connectHandler = async () => {
-    router.navigate('../Locations');
-  };
-
   const regionChangeHandler = (newRegion: any) => {
     if (newRegion) {
       setMapRegion({
@@ -83,11 +109,44 @@ const Home = () => {
   };
 
   const currentLocationHandler = () => {
-    if (location?.coords) {
+    if (inMapLocation?.coords) {
       setMapRegion(userRegion);
     }
   };
-  socket.on('msg', (msg) => console.log(msg));
+
+  // SOCKET CONNECTIONS RESPONSE HANDLERS
+  function alertOfNoResponse() {
+    Alert.alert(
+      'Error',
+      'Server did not respond. Please try again in one minute.',
+      [
+        {
+          text: 'Okay',
+          style: 'cancel',
+        },
+      ]
+    );
+  }
+
+  function adminLobbyJoined (response) {
+    if (response.status) {
+      dispatch(updateNotifications(response.info.notifications));
+      dispatch(updateAlerts(response.info.alerts));
+      socket.on(`${response.info.location}-notifications-received`, (info) => dispatch(addNotification(info)));
+      socket.on(`${response.info.location}-alerts-received`, (info) => dispatch(addAlert(info)));
+    } else {
+      Alert.alert(
+        'Error',
+        'Failed to enter admins lobby',
+        [
+          {
+            text: 'Okay',
+            style: 'default',
+          },
+        ]
+      );
+    }
+  }
 
   return (
     <View style={styles.home}>
@@ -104,16 +163,27 @@ const Home = () => {
             />
           </Marker>
         </MapView>
+
         <View style={styles.buttonContainer}>
-          <Pressable
-            onPress={connectHandler}
+        {/* RENDER START OR END BUTTON */}
+          {resort === '' || resort === undefined ? <Pressable
+            onPress={isAdmin ? adminConnectHandler : connectHandler}
             style={({ pressed }) => [
               styles.button,
               { backgroundColor: pressed ? '#0A7F8C' : '#10B2C1' },
             ]}
           >
-            <Text style={styles.buttonText}>{btnText}</Text>
-          </Pressable>
+            <Text style={styles.buttonText}>Start</Text>
+          </Pressable> : <Pressable
+            onPress={stopBtnHandler}
+            style={({ pressed }) => [
+              styles.button,
+              { backgroundColor: pressed ? '#0A7F8C' : '#10B2C1' },
+            ]}
+          >
+             <Text style={styles.buttonText}>Stop</Text>
+          </Pressable>}
+
         </View>
         <View style={styles.currentLocationBtnContainer}>
           <Pressable

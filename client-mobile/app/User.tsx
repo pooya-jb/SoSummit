@@ -3,7 +3,7 @@ import { Link, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { setAuth } from '../redux/userSlice';
+import { setAdmin, setAuth, setEmail, setLocation, setUsername, setAge, setExperience, setBio} from '../redux/userSlice';
 
 
 export default function User() {
@@ -12,6 +12,13 @@ export default function User() {
   const handleLogout = () => {
     AsyncStorage.removeItem('AccessToken')
     dispatch(setAuth(false))
+    dispatch(setLocation(''))
+    dispatch(setAdmin(false));
+    dispatch(setUsername(''));
+    dispatch(setEmail(''))
+    dispatch(setAge(''))
+    dispatch(setExperience(''))
+    dispatch(setBio(''))
     router.navigate('../')
   }
   return (

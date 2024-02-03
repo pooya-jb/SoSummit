@@ -27,3 +27,11 @@ export interface INotification {
   text : string,
   time : string
 }
+
+export interface IAlert {
+  _id : string;
+  username: string;
+  time: string;
+  type: string;
+  location: number[];
+}
