@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
 import { setLocation } from '../redux/userSlice';
+import { addNotification, updateNotifications } from '../redux/locationSlice';
 import socket, {checkResponse} from '../utils/socket';
 
 export default function Locations() {
@@ -30,7 +31,7 @@ export default function Locations() {
       .connect()
       .timeout(5000)
       .emit(`Location-${title}`, {location : title, userCoords : [y, x]}, checkResponse(setLocationState, alertOfNoResponse));
-    setLoading(true);
+    setLoading(true)
   };
 
   function alertOfNoResponse () {
@@ -50,7 +51,9 @@ export default function Locations() {
   function setLocationState(response) {
     if (response.status) {
       dispatch(setLocation(response.info.location));
+      dispatch(updateNotifications(response.info.notifications));
       router.navigate('../');
+      socket.on(`${response.info.location}-notifications`, (info) => dispatch(addNotification(info)));
     } else {
       Alert.alert(
         'Error',

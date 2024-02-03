@@ -9,9 +9,7 @@ import { setCoords } from '../../redux/userSlice';
 import { styles } from './Home.styles';
 
 const Home = () => {
-  const [location, setLocation] = useState<Location.LocationObject | null>(
-    null
-  );
+  const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [mapRegion, setMapRegion] = useState({
     latitude: 27.9881,
@@ -59,13 +57,12 @@ const Home = () => {
     const appStateSubscription = AppState.addEventListener(
       'change',
       (state) => {
-        console.log(state);
         getLocation(state);
       }
     );
     // Clean up subscription on component unmount
     return () => {
-      
+
       appStateSubscription.remove();
     };
   }, []);

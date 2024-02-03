@@ -20,3 +20,10 @@ export interface ButtonProps {
   setShowMessage: React.Dispatch<React.SetStateAction<boolean>>,
   helpType: string
 }
+
+export interface INotification {
+  _id: string,
+  type : string,
+  text : string,
+  time : string
+}

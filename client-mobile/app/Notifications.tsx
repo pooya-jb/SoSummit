@@ -1,19 +1,32 @@
-import { View, Pressable, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { Link, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 export default function User() {
   const dispatch = useDispatch();
   const isPresented = router.canGoBack();
+  const notifications = useSelector((state: RootState) => state.location.notifications);
+
+  type ItemProps = { type: string, text: string, time: string };
+  const Item = ({ type, text, time }: ItemProps) => (
+    <View>
+      <Text>{type}</Text>
+      <Text style={styles.notificationText}>{text}</Text>
+      <Text style={styles.notificationTime}>{time}</Text>
+    </View>
+  );
 
   return (
     <View style={styles.notifications}>
       {!isPresented && <Link href='../'></Link>}
       <StatusBar style='light' />
       <View style={styles.notificationContainer}>
-        <Text style={styles.notificationText}>First notification</Text>
-        <Text style={styles.notificationTime}>12:20</Text>
+        <FlatList
+          data={notifications}
+          renderItem={({ item }) => <Item type={item.type} text={item.text} time={item.time} />}
+        />
       </View>
     </View>
   );
