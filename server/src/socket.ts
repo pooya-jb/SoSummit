@@ -76,7 +76,7 @@ async function serverBoot() {
                 `${adminLocationName}-receive-live`,
                 info
               );
-              acknowledge(status, info);
+              callback(acknowledge(status, info));
             }
           )
 
@@ -92,10 +92,10 @@ async function serverBoot() {
               socket.join(adminLocationName);
               const { status, info }: ISocketControllerResponse =
                 await SocketControllers.addActiveAdmin(location, userName);
-              io.to(adminLocationName).emit(
-                `${adminLocationName}-joined`,
-                info
-              );
+              status &&
+                io
+                  .to(adminLocationName)
+                  .emit(`${adminLocationName}-joined`, info);
               callback(acknowledge(status, info));
             }
           )
@@ -110,7 +110,10 @@ async function serverBoot() {
                 await SocketControllers.removeActiveAdmin(location, userName);
 
               socket.leave(adminLocationName);
-              io.to(adminLocationName).emit(`${adminLocationName}-left`, info);
+              status &&
+                io
+                  .to(adminLocationName)
+                  .emit(`${adminLocationName}-left`, info);
               callback(acknowledge(status, info));
             }
           )
@@ -129,7 +132,8 @@ async function serverBoot() {
                   helpType,
                   username
                 );
-              io.to(adminLocationName).emit(`${location}-alert-admins`, info);
+              status &&
+                io.to(adminLocationName).emit(`${location}-alert-admins`, info);
               callback(acknowledge(status, info));
             }
           )
