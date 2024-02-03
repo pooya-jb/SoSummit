@@ -14,7 +14,7 @@ import { RootState } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
-import { setLocation } from '../redux/userSlice';
+import { setLocation, socketConnected, tripStarted } from '../redux/userSlice';
 import { addNotification, updateNotifications } from '../redux/locationSlice';
 import socket, {checkResponse} from '../utils/socket';
 
@@ -28,10 +28,9 @@ export default function Locations() {
     setLoading(true);
       dispatch(setLocation(title));
       const [x, y] = coords;
-    // SHOULD ADD LOGIC 
-    // socket.on('connect', onConnect);
-    // socket.on('disconnect', onDisconnect);
       socket
+        .on('connect', () => dispatch(socketConnected(true)))
+        .on('disconnect', () => dispatch(socketConnected(false)))
         .connect()
         .timeout(5000)
         .emit(
@@ -47,7 +46,7 @@ export default function Locations() {
       'Server did not respond. Please try again in one minute.',
       [
         {
-          text: 'AyAy',
+          text: 'Okay',
           style: 'cancel',
         },
       ]
@@ -59,6 +58,7 @@ export default function Locations() {
     if (response.status) {
       dispatch(setLocation(response.info.location));
       dispatch(updateNotifications(response.info.notifications));
+      dispatch(tripStarted(true));
       router.navigate('../');
       socket.on(`${response.info.location}-notifications-received`, (info) => dispatch(addNotification(info)));
     } else {

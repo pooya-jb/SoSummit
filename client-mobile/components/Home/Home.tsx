@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { router } from 'expo-router';
 
 import socket from '../../utils/socket';
-import { setCoords, setLocation } from '../../redux/userSlice';
+import { setCoords, setLocation, socketConnected, tripStarted } from '../../redux/userSlice';
 import { styles } from './Home.styles';
 import { RootState } from '../../redux/store';
 import { checkResponse } from '../../utils/socket';
@@ -14,7 +14,7 @@ import { updateNotifications, addNotification, updateAlerts, addAlert } from '..
 
 const Home = () => {
 
-  // STATE AND USE EFFECT 
+  // STATE AND USE EFFECT
   const [inMapLocation, setInMapLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [mapRegion, setMapRegion] = useState({
@@ -31,7 +31,9 @@ const Home = () => {
   });
   const resort = useSelector((state: RootState) => state.user.location);
   const isAdmin = useSelector((state: RootState) => state.user.isAdmin);
-  const userName = useSelector((state : RootState) => state.user.username)
+  const userName = useSelector((state: RootState) => state.user.username);
+  const isConnected = useSelector((state: RootState) => state.user.isConnected);
+  const onTrip = useSelector((state: RootState) => state.user.tripStarted);
 
   useEffect(() => {
     // Subscribe to app state changes
@@ -49,25 +51,23 @@ const Home = () => {
   }, []);
 
   const dispatch = useDispatch();
-  
+
   // START AND STOP BUTTON HANDLERS
   const connectHandler = async () => {
     router.navigate('../Locations');
   };
+
   const adminConnectHandler = async () => {
-    // SHOULD ADD LOGIC 
-    // socket.on('connect', onConnect);
-    // socket.on('disconnect', onDisconnect);
-    socket.off('connect', onConnect);
-    socket.off('disconnect', onDisconnect);
+    socket.on('connect', () => dispatch(socketConnected(true)));
+    socket.on('disconnect', () => dispatch(socketConnected(false)));
     socket.connect().timeout(5000).emit(`Location-${resort}-Admin`, {location : resort, userName : userName  }, checkResponse(adminLobbyJoined, alertOfNoResponse))
   }
 
   const stopBtnHandler = async () => {
-    // SHOULD ADD LOGIC 
-    // socket.off('connect', onConnect);
-    // socket.off('disconnect', onDisconnect);
     socket.disconnect();
+    socket.off('connect');
+    socket.off('disconnect');
+    dispatch(tripStarted(false));
     dispatch(setLocation(''));
     dispatch(updateAlerts([]));
     dispatch(updateNotifications([]));
@@ -132,6 +132,7 @@ const Home = () => {
     if (response.status) {
       dispatch(updateNotifications(response.info.notifications));
       dispatch(updateAlerts(response.info.alerts));
+      dispatch(tripStarted(true));
       socket.on(`${response.info.location}-notifications-received`, (info) => dispatch(addNotification(info)));
       socket.on(`${response.info.location}-alerts-received`, (info) => dispatch(addAlert(info)));
     } else {
@@ -165,8 +166,7 @@ const Home = () => {
         </MapView>
 
         <View style={styles.buttonContainer}>
-        {/* RENDER START OR END BUTTON */}
-          {resort === '' || resort === undefined ? <Pressable
+          {!onTrip ? <Pressable
             onPress={isAdmin ? adminConnectHandler : connectHandler}
             style={({ pressed }) => [
               styles.button,
@@ -181,7 +181,7 @@ const Home = () => {
               { backgroundColor: pressed ? '#0A7F8C' : '#10B2C1' },
             ]}
           >
-             <Text style={styles.buttonText}>Stop</Text>
+            <Text style={styles.buttonText}>Stop</Text>
           </Pressable>}
 
         </View>
