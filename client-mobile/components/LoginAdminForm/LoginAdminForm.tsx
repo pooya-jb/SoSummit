@@ -84,7 +84,7 @@ const KeyboardAvoidingComponent = ({
         </TouchableWithoutFeedback>
         <View style={{}}>
           <Pressable style={styles.formButton} onPress={handleAdminLogin}>
-            <Text style={styles.formButtonText}>Sign up</Text>
+            <Text style={styles.formButtonText}>Log in</Text>
           </Pressable>
         </View>
         <Pressable style={{}} onPress={changeAuthState}>

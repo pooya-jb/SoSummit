@@ -32,7 +32,6 @@ const Home = () => {
   const resort = useSelector((state: RootState) => state.user.location);
   const isAdmin = useSelector((state: RootState) => state.user.isAdmin);
   const userName = useSelector((state: RootState) => state.user.username);
-  const isConnected = useSelector((state: RootState) => state.user.isConnected);
   const onTrip = useSelector((state: RootState) => state.user.tripStarted);
 
   useEffect(() => {
@@ -81,12 +80,12 @@ const Home = () => {
 
   // MAP FUNCTIONS
   const getLocation = async (state: string) => {
-    if (state === 'active') liveLocation();
-    setInterval(liveLocation, 5000);
+    if (state === 'active') setInterval(liveLocation, 5000);
   };
 
   const liveLocation = async () => {
     let location = await Location.getCurrentPositionAsync({});
+    console.log(location);
     dispatch(setCoords([location.coords.latitude, location.coords.longitude]));
     setInMapLocation(location);
     setMapRegion({
