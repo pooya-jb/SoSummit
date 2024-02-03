@@ -145,7 +145,9 @@ async function serverBoot() {
                   message
                 );
               status &&
-                io.to(locationName).emit('msg', `hello ${location} alert`);
+                io
+                  .to(locationName)
+                  .emit(`${location}-notifications-received`, info);
               callback(acknowledge(status, info)); // Controller Missing
             }
           );
