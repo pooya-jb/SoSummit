@@ -60,17 +60,23 @@ const Home = () => {
   const adminConnectHandler = async () => {
     socket.on('connect', () => dispatch(socketConnected(true)));
     socket.on('disconnect', () => dispatch(socketConnected(false)));
-    socket.connect().timeout(5000).emit(`Location-${resort}-Admin`, {location : resort, userName : userName  }, checkResponse(adminLobbyJoined, alertOfNoResponse))
+    socket.connect().timeout(5000).emit(`Location-${resort}-Admin`, { location : resort, userName : userName }, checkResponse(adminLobbyJoined, alertOfNoResponse))
   }
 
   const stopBtnHandler = async () => {
-    socket.disconnect();
-    socket.off('connect');
-    socket.off('disconnect');
-    dispatch(tripStarted(false));
-    dispatch(setLocation(''));
-    dispatch(updateAlerts([]));
-    dispatch(updateNotifications([]));
+    if (isAdmin) {
+      socket
+      .timeout(5000)
+      .emit(`Location-${resort}-Admin-leave`, { location : resort, userName : userName }, checkResponse(adminLobbyLeft, alertOfNoResponse));
+    } else {
+      socket.disconnect();
+      socket.off('connect');
+      socket.off('disconnect');
+      dispatch(tripStarted(false));
+      dispatch(setLocation(''));
+      dispatch(updateAlerts([]));
+      dispatch(updateNotifications([]));
+    }
   }
 
   // MAP FUNCTIONS
@@ -139,6 +145,29 @@ const Home = () => {
       Alert.alert(
         'Error',
         'Failed to enter admins lobby',
+        [
+          {
+            text: 'Okay',
+            style: 'default',
+          },
+        ]
+      );
+    }
+  }
+
+  function adminLobbyLeft (response) {
+    if (response.status) {
+      socket.disconnect();
+      socket.off('connect');
+      socket.off('disconnect');
+      dispatch(tripStarted(false));
+      dispatch(setLocation(''));
+      dispatch(updateAlerts([]));
+      dispatch(updateNotifications([]));
+    } else {
+      Alert.alert(
+        'Error',
+        'Failed to leave admins lobby',
         [
           {
             text: 'Okay',

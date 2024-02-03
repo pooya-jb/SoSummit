@@ -1,29 +1,40 @@
-import { View, Pressable, Text, StyleSheet} from 'react-native';
+import { View, Pressable, Text, StyleSheet, Alert} from 'react-native';
 import { Link, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { setAdmin, setAuth, setEmail, setLocation, setUsername, setAge, setExperience, setBio, socketConnected, tripStarted} from '../redux/userSlice';
+
+import { setAdmin, setAuth, setEmail, setLocation, setUsername, setAge, setExperience, setBio, socketConnected, tripStarted } from '../redux/userSlice';
 import socket from '../utils/socket';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 
 export default function User() {
   const dispatch = useDispatch()
   const isPresented = router.canGoBack();
+  const onTrip = useSelector((state: RootState) => state.user.tripStarted);
   const handleLogout = () => {
-    AsyncStorage.removeItem('AccessToken')
-    dispatch(setAuth(false));
-    dispatch(setLocation(''));
-    dispatch(setAdmin(false));
-    dispatch(setUsername(''));
-    dispatch(setEmail(''));
-    dispatch(setAge(''));
-    dispatch(setExperience(''));
-    dispatch(setBio(''));
-    socket.disconnect();
-    dispatch(socketConnected(false));
-    dispatch(tripStarted(false));
-    router.navigate('../');
+    if (onTrip === true) {
+      Alert.alert('Error', 'Please end your trip before logging out', [
+      {
+        text: 'Okay',
+        style: 'cancel',
+      }])
+    } else {
+      AsyncStorage.removeItem('AccessToken')
+      dispatch(setAuth(false));
+      dispatch(setLocation(''));
+      dispatch(setAdmin(false));
+      dispatch(setUsername(''));
+      dispatch(setEmail(''));
+      dispatch(setAge(''));
+      dispatch(setExperience(''));
+      dispatch(setBio(''));
+      dispatch(socketConnected(false));
+      dispatch(tripStarted(false));
+      router.navigate('../');
+    }
   }
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
