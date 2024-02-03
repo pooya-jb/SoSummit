@@ -28,10 +28,10 @@ const createAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
     const locationInstance: InstanceType<ILocationModel> | null =
       await Location.findOne({ name: adminLocation });
     if (locationInstance) {
-      const newAdmins = locationInstance.admins.push(username);
+      locationInstance.admins.push(username);
       await Location.findOneAndUpdate(
         { name: adminLocation },
-        { admins: newAdmins }
+        { admins: locationInstance.admins }
       );
       res.status(201);
     } else throw Error();

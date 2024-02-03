@@ -1,57 +1,132 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AlertS, LocationS, UserL } from '../types';
-const userMock: UserL[] = [{ username: 'greg', email: 'greg@mail', age: '12', experience: 'expert', bio: 'i am greg', location: 'botswana ski resort' }, { username: 'jack', email: 'greg@mail', age: '12', experience: 'expert', bio: 'i am greg', location: 'botswana ski resort' }]
-const adminMock: UserL[] = [{ username: 'Bob', email: 'greg@mail', age: '12', experience: 'expert', bio: 'i am greg', location: 'botswana ski resort' }, { username: 'jack', email: 'greg@mail', age: '12', experience: 'expert', bio: 'i am greg', location: 'botswana ski resort' }]
+import { ActiveAdminS, AlertS, LocationS, UserL } from '../types';
+import { RootState } from './store';
+// const userMock: UserL[] = [
+//   {
+//     username: 'greg',
+//     email: 'greg@mail',
+//     age: '12',
+//     experience: 'expert',
+//     bio: 'i am greg',
+//     location: 'botswana ski resort',
+//   },
+//   {
+//     username: 'jack',
+//     email: 'greg@mail',
+//     age: '12',
+//     experience: 'expert',
+//     bio: 'i am greg',
+//     location: 'botswana ski resort',
+//   },
+// ];
+// const adminMock: UserL[] = [
+//   {
+//     username: 'Bob',
+//     email: 'greg@mail',
+//     age: '12',
+//     experience: 'expert',
+//     bio: 'i am greg',
+//     location: 'botswana ski resort',
+//   },
+//   {
+//     username: 'jack',
+//     email: 'greg@mail',
+//     age: '12',
+//     experience: 'expert',
+//     bio: 'i am greg',
+//     location: 'botswana ski resort',
+//   },
+// ];
 
-
-const initialState : LocationS= {
+const initialState: LocationS = {
   name: '',
-  coordinates : [],
+  coordinates: [],
   alerts: [],
-  users: userMock,
-  admins: adminMock,
+  activeAdmins: [],
+  admins: [],
 };
 
 export const locationSlice = createSlice({
   name: 'location',
   initialState,
   reducers: {
-    userEntered : (state : LocationS, action: PayloadAction<UserL>) => {
+    activeAdminUpdate: (
+      state: RootState,
+      action: PayloadAction<ActiveAdminS>
+    ) => {
       return {
         ...state,
-        users: [...state.users, action.payload]
-      }
+        activeAdmins: state.activeAdmins.forEach((admin: ActiveAdminS) => {
+          if (admin.username === action.payload.username)
+            admin.coords = action.payload.coords;
+        }),
+      };
     },
 
-    userLeft : (state : LocationS, action: PayloadAction<UserL>) => {
+    activeAdminEntered: (
+      state: LocationS,
+      action: PayloadAction<ActiveAdminS>
+    ) => {
       return {
         ...state,
-        users: state.users.filter(user => user.email !== action.payload.email)
-      }
+        activeAdmins: [...state.activeAdmins, action.payload],
+      };
     },
 
-    adminEntered : (state : LocationS, action: PayloadAction<UserL>) => {
+    activeAdminLeft: (state: LocationS, action: PayloadAction<UserL>) => {
       return {
         ...state,
-        admins: [...state.admins, action.payload]
-      }
+        users: state.activeAdmins.filter((user) => user !== action.payload),
+      };
     },
 
-    adminLeft : (state : LocationS, action: PayloadAction<UserL>) => {
+    adminEntered: (state: LocationS, action: PayloadAction<string>) => {
       return {
         ...state,
-        admins: state.admins.filter(admin => admin.email !== action.payload.email)
-      }
+        admins: [...state.admins, action.payload],
+      };
     },
-    updateAlerts : (state : LocationS, action: PayloadAction<any>) => {
+
+    adminLeft: (state: LocationS, action: PayloadAction<string>) => {
       return {
         ...state,
-        alerts: [...state.alerts, ...action.payload]
-      }
+        admins: state.admins.filter((admin) => admin !== action.payload),
+      };
     },
-  }
-})
+    updateAlerts: (state: LocationS, action: PayloadAction<AlertS>) => {
+      return {
+        ...state,
+        alerts: [...state.alerts, ...action.payload],
+      };
+    },
+
+    updateAdmins: (state: LocationS, action: PayloadAction<string[]>) => {
+      return {
+        ...state,
+        admins: action.payload,
+      };
+    },
+    updateActiveAdmins: (
+      state: LocationS,
+      action: PayloadAction<ActiveAdminS[]>
+    ) => {
+      return {
+        ...state,
+        activeAdmins: action.payload,
+      };
+    },
+  },
+});
 
 export default locationSlice.reducer;
 
-export const {userEntered, userLeft, adminEntered, adminLeft, updateAlerts} = locationSlice.actions;
+export const {
+  activeAdminUpdate,
+  activeAdminEntered,
+  activeAdminLeft,
+  adminEntered,
+  adminLeft,
+  updateAlerts,
+  updateActiveAdmins,
+  updateAdmins,
+} = locationSlice.actions;
