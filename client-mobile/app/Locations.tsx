@@ -15,7 +15,8 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
 import { setLocation } from '../redux/userSlice';
-import socket, { checkResponse } from '../utils/socket';
+import { addNotification, updateNotifications } from '../redux/locationSlice';
+import socket, {checkResponse} from '../utils/socket';
 
 export default function Locations() {
   const dispatch = useDispatch();
@@ -54,7 +55,9 @@ export default function Locations() {
   function setLocationState(response) {
     if (response.status) {
       dispatch(setLocation(response.info.location));
+      dispatch(updateNotifications(response.info.notifications));
       router.navigate('../');
+      socket.on(`${response.info.location}-notifications-received`, (info) => dispatch(addNotification(info)));
     } else {
       Alert.alert(
         'Error',

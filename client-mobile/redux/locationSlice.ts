@@ -1,7 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { INotification } from '../utils/types';
 
 const initialState = {
   locations: [''],
+  notifications: [{_id: "asdfasdfasdf", text: "asdf", time: "asdf", type: "asdf"}]
 };
 
 export const locationSlice = createSlice({
@@ -14,9 +16,21 @@ export const locationSlice = createSlice({
         locations: action.payload,
       };
     },
+    updateNotifications: (state, action: PayloadAction<INotification[]>) => {
+      return {
+        ...state,
+        notifications: action.payload
+      }
+    },
+    addNotification: (state, action: PayloadAction<INotification>) => {
+      return {
+        ... state,
+        notifications: [...state.notifications, action.payload]
+      }
+    }
   },
 });
 
-export const { updateLocations } = locationSlice.actions;
+export const { updateLocations, updateNotifications, addNotification } = locationSlice.actions;
 
 export default locationSlice.reducer;
