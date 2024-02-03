@@ -40,7 +40,6 @@ export const displaySlice = createSlice({
       }
     },
     alertSelected : (state: DisplayS) => {
-      console.log('fired')
       return {
         ... state,
         alertModalOpen : !state.alertModalOpen

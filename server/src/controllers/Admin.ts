@@ -58,11 +58,11 @@ const loginAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
     const locationInstance: InstanceType<ILocationModel> | null =
       await Location.findOne({ name: location });
     if (locationInstance) {
-      const { alerts, notifications, activeAdmins, admins } = locationInstance;
+      const { alerts, notifications, activeAdmins, admins, coordinates } = locationInstance;
       res.status(200).send({
         accessToken,
         userInfo: { username, location, email },
-        locationInfo: { alerts, notifications, activeAdmins, admins },
+        locationInfo: { alerts, notifications, activeAdmins, admins, coordinates },
       });
     } else throw Error();
   } catch (error) {

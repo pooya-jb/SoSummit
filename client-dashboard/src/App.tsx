@@ -28,6 +28,8 @@ import {
   updateActiveAdmins,
   updateAdmins,
   activeAdminUpdate,
+  updateCoords,
+  addAlert
 } from './redux/locationSlice';
 
 function App(): React.ReactNode {
@@ -45,15 +47,15 @@ function App(): React.ReactNode {
         console.log('not authenticated');
       } else {
         const res = await response.json();
-        console.log(res);
         const alerts = res.locationInfo.alerts;
         // dispatch(setUsername(res.userInfo.username))
         // dispatch(setLocation(res.userInfo.location))
         // dispatch(setEmail(res.userInfo.email))
+        dispatch(loggedIn(res));
         dispatch(updateAlerts(alerts));
         dispatch(updateActiveAdmins(res.locationInfo.activeAdmins));
         dispatch(updateAdmins(res.locationInfo.admins));
-        dispatch(loggedIn(res));
+        dispatch(updateCoords(res.locationInfo.coordinates))
       }
     };
     checkAuthentication(JWTUtil.getter());
@@ -81,32 +83,29 @@ function App(): React.ReactNode {
 
   function setLocation(response) {
     response.status ? dispatch(locationConnected(true)) : null;
-    console.log(response.info.alerts);
   }
   function setAdminLocation(response) {
     dispatch(adminLocationConnected(true));
-    console.log(response.info.notifications);
-    socket.on(`Location-${location}-Admin-live`, (info) => {
-      dispatch(activeAdminUpdate(info));
-    });
-    socket.on(`Location-${location}-Admin-alert`, (info) => {
-      dispatch(updateAlerts(info));
-    });
-    socket.on(`Location-${location}-Admin-joined`, (info) => {
-      dispatch(activeAdminEntered(info.userName));
-    });
-    socket.on(`Location-${location}-Admin-leave`, (info) => {
-      dispatch(activeAdminLeft(info.userName));
-    });
   }
-
+  socket.on(`Location-${location}-Admin-live`, (info) => {
+    dispatch(activeAdminUpdate(info));
+  });
+  socket.on(`Location-${location}-Admin-joined`, (info) => {
+    dispatch(activeAdminEntered(info.userName));
+  });
+  socket.on(`Location-${location}-Admin-leave`, (info) => {
+    dispatch(activeAdminLeft(info.userName));
+  });
+  socket.on(`${location}-alert-admins`, (info) => {
+    dispatch(addAlert(info));
+  });
+  
   function checkResponse(handler) {
     return (err, response) => {
       if (err) {
         console.log(err);
       } else {
         if (handler) handler(response);
-        // console.log('here:',response.status);
       }
       return response.status;
     };
@@ -114,7 +113,6 @@ function App(): React.ReactNode {
 
   useEffect(() => {
     if (isConnected) {
-      console.log(location);
       socket
         .timeout(5000)
         .emit(

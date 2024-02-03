@@ -32,15 +32,15 @@ async function getUserInfo(req: TypedRequest<boolean>, res: Response) {
       const locationInstance: InstanceType<ILocationModel> | null =
         await Location.findOne({ name: location });
       if (locationInstance) {
-        const { alerts, notifications, activeAdmins, admins } =
+        const { alerts, notifications, activeAdmins, admins, coordinates } =
           locationInstance;
         console.log({
           userInfo: { username, location, email },
-          locationInfo: { alerts, notifications, activeAdmins, admins },
+          locationInfo: { alerts, notifications, activeAdmins, admins, coordinates },
         });
         res.status(200).send({
           userInfo: { username, location, email },
-          locationInfo: { alerts, notifications, activeAdmins, admins },
+          locationInfo: { alerts, notifications, activeAdmins, admins,coordinates },
         });
       }
     } catch (error) {

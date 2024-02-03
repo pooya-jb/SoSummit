@@ -26,6 +26,7 @@ export interface LocationS {
   alerts: AlertS[];
   activeAdmins: ActiveAdminS[];
   admins: string[];
+  displayCoords: number[];
 }
 
 export interface AlertS {
