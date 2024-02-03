@@ -30,11 +30,15 @@ export default function Locations() {
     socket
       .connect()
       .timeout(5000)
-      .emit(`Location-${title}`, {location : title, userCoords : [y, x]}, checkResponse(setLocationState, alertOfNoResponse));
-    setLoading(true)
+      .emit(
+        `Location-${title}`,
+        { location: title, userCoords: [y, x] },
+        checkResponse(setLocationState, alertOfNoResponse)
+      );
+    setLoading(true);
   };
 
-  function alertOfNoResponse () {
+  function alertOfNoResponse() {
     Alert.alert(
       'Error',
       'Server did not respond. Please try again in one minute.',
@@ -75,7 +79,7 @@ export default function Locations() {
       <Pressable
         style={({ pressed }) => [
           styles.button,
-          { backgroundColor: pressed ? '#669FA8' : '#C5FEFF' }
+          { backgroundColor: pressed ? '#669FA8' : '#C5FEFF' },
         ]}
         onPress={() => handleLocationClick(title)}
       >
