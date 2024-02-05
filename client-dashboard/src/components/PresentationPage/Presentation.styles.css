@@ -1,0 +1,57 @@
+.header-slogan {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: flex-end;
+  padding-right: 10rem;
+  text-decoration: black;
+  height: 100vh;
+  justify-content: center;
+}
+
+.main-logo {
+  font-size: 6rem;
+  color: white;
+  font-weight: bolder;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  font-family: 'Protest Strike', sans-serif;
+}
+
+.logo-red {
+  color: red;
+}
+
+.slogan {
+  color: black;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.features {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.features h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+.feature {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.feature h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.feature p {
+  font-size: 16px;
+  color: #666;
+}
