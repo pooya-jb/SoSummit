@@ -41,8 +41,16 @@ const apiService = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({time, location}),
     })
-  return res
+    return res
   },
+  deleteAlert : async (username : string, location: string) : Promise<TypedResponse> => {
+    const res = await fetch(`${BASE_URL}/delete-alert`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({username, location}),
+    })
+    return res
+  }
 }
 
 export default apiService;

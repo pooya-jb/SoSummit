@@ -10,12 +10,11 @@ const NotificationColumn = () => {
   const noots = useSelector((state: RootState) => state.location.noots)
   const dispatch = useDispatch()
   const location = useSelector((state: RootState) => state.user.location)
- 
+
   const deleteNoot = async (e, time) => {
-   const res = await apiService.deleteNoot(time, location)
-   console.log(res)
-   const newNoots = noots.filter(noot => noot.time !== time)
-   if (res.status === 200) dispatch(updateNoots(newNoots))
+    const res = await apiService.deleteNoot(time, location)
+    const newNoots = noots.filter(noot => noot.time !== time)
+    if (res.status === 200) dispatch(updateNoots(newNoots))
   }
 
   return (
