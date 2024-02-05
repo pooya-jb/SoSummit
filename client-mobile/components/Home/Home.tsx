@@ -1,55 +1,79 @@
 import { Pressable, Text, View, Image, AppState, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as Location from 'expo-location';
 import { useDispatch, useSelector } from 'react-redux';
 import { router } from 'expo-router';
+import * as TaskManager from 'expo-task-manager';
 
 import socket from '../../utils/socket';
-import { setCoords, setLocation, socketConnected, tripStarted } from '../../redux/userSlice';
+import { mapRegionUpdated, setLocation, socketConnected, tripStarted, userLocationUpdated } from '../../redux/userSlice';
 import { styles } from './Home.styles';
 import { RootState } from '../../redux/store';
 import { checkResponse } from '../../utils/socket';
 import { updateNotifications, addNotification, updateAlerts, addAlert } from '../../redux/locationSlice';
+import { mapPosition } from '../../utils/types';
 
 const Home = () => {
-
+  
   // STATE AND USE EFFECT
-  const [inMapLocation, setInMapLocation] = useState<Location.LocationObject | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [mapRegion, setMapRegion] = useState({
-    latitude: 27.9881,
-    longitude: 86.925,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
-  const [userRegion, setUserRegion] = useState({
-    latitude: 27.9881,
-    longitude: 86.925,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
+  const [status, requestPermission] = Location.useForegroundPermissions();
+  const [backgroundStatus, requestBackgroundPermission] = Location.useBackgroundPermissions();
+  
   const resort = useSelector((state: RootState) => state.user.location);
   const isAdmin = useSelector((state: RootState) => state.user.isAdmin);
   const userName = useSelector((state: RootState) => state.user.username);
   const onTrip = useSelector((state: RootState) => state.user.tripStarted);
+  const userLocation = useSelector((state: RootState) => state.user.userLocation);
+  const mapRegion = useSelector((state: RootState) => state.user.mapRegion);
+  const subscription = useRef({foreground : null, background : null});
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Subscribe to app state changes
-    liveLocation()
-    const appStateSubscription = AppState.addEventListener(
-      'change',
-      (state) => {
-        getLocation(state);
-      }
-    );
-    // Clean up subscription on component unmount
-    return () => {
-      appStateSubscription.remove();
-    };
-  }, []);
+    console.log('mounted')
+    foregroundTrackingSubscribe(subscription);
+    // isAdmin ? requestBackgroundPermission() : null;
 
-  const dispatch = useDispatch();
+    TaskManager.defineTask('BACKGROUND_LOCATION_SUBSCRIPTION', ({ data: { locations }, error }) => {
+      if (error) {
+        // check `error.message` for more details.
+        return;
+      }
+      console.log('Received new locations', locations);
+    });
+
+  //   return () => {subscription.foreground ? subscription.foreground.remove() : null; console.log('Home Unmounted'); console.log(Location)}
+  return () => {console.log('unmounted')}
+  }, [])
+  
+  // Foreground live Position Functions
+      
+  function permissionAbsent () {
+        console.log('Permission to access location was denied')
+    isAdmin ? Alert.alert('Please allow always location permissions and log back in') :
+      Alert.alert('Please give this app the location permissions and log back in')
+  }
+
+  async function foregroundTrackingSubscribe (subscription) {
+    const { granted } = status || await requestPermission();
+    if (!granted) {
+      permissionAbsent();
+    } 
+    // else {
+    //   subscription.foreground = await Location.watchPositionAsync({
+    //     accuracy: Location.Accuracy.Highest,
+    //     timeInterval: 5000,
+    //     distanceInterval: 0,
+    //   }, (location) => {
+    //     dispatch(userLocationUpdated({
+    //       latitude: location.coords.latitude,
+    //       longitude: location.coords.longitude,
+    //       latitudeDelta: mapRegion.latitudeDelta,
+    //       longitudeDelta: mapRegion.longitudeDelta
+    //     }))
+    //   })
+    // }
+  }
 
   // START AND STOP BUTTON HANDLERS
   const connectHandler = async () => {
@@ -57,6 +81,27 @@ const Home = () => {
   };
 
   const adminConnectHandler = async () => {
+    // const {granted} = await Location.requestBackgroundPermissionsAsync()
+    await requestBackgroundPermission()
+    // if (!backgroundStatus || !backgroundStatus.granted) {
+    //   const {granted} = await requestBackgroundPermission();
+    //   console.log(granted)
+    //   if (!granted) {
+    //     permissionAbsent();
+    //     return;
+    //   }
+
+    if (!backgroundStatus || !backgroundStatus.granted) {
+      permissionAbsent();
+      return;
+     }
+      // if (!granted) {
+      //   permissionAbsent();
+      //   return;
+      // } 
+    // }
+    
+
     socket.on('connect', () => dispatch(socketConnected(true)));
     socket.on('disconnect', () => dispatch(socketConnected(false)));
     socket.connect().timeout(5000).emit(`Location-${resort}-Admin`, { location : resort, userName : userName }, checkResponse(adminLobbyJoined, alertOfNoResponse))
@@ -72,52 +117,10 @@ const Home = () => {
       socket.off('connect');
       socket.off('disconnect');
       dispatch(tripStarted(false));
-      dispatch(setLocation(''));
       dispatch(updateAlerts([]));
       dispatch(updateNotifications([]));
     }
   }
-
-  // MAP FUNCTIONS
-  const getLocation = async (state: string) => {
-    if (state === 'active') setInterval(liveLocation, 5000);
-  };
-
-  const liveLocation = async () => {
-    let location = await Location.getCurrentPositionAsync({});
-    console.log(location);
-    dispatch(setCoords([location.coords.latitude, location.coords.longitude]));
-    setInMapLocation(location);
-    setMapRegion({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
-    });
-    setUserRegion({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
-    });
-  };
-
-  const regionChangeHandler = (newRegion: any) => {
-    if (newRegion) {
-      setMapRegion({
-        latitude: newRegion.latitude,
-        longitude: newRegion.longitude,
-        latitudeDelta: newRegion.latitudeDelta,
-        longitudeDelta: newRegion.longitudeDelta,
-      });
-    }
-  };
-
-  const currentLocationHandler = () => {
-    if (inMapLocation?.coords) {
-      setMapRegion(userRegion);
-    }
-  };
 
   // SOCKET CONNECTIONS RESPONSE HANDLERS
   function alertOfNoResponse() {
@@ -133,13 +136,19 @@ const Home = () => {
     );
   }
 
-  function adminLobbyJoined (response) {
+  async function adminLobbyJoined (response) {
     if (response.status) {
       dispatch(updateNotifications(response.info.notifications));
       dispatch(updateAlerts(response.info.alerts));
       dispatch(tripStarted(true));
       socket.on(`${response.info.location}-notifications-received`, (info) => dispatch(addNotification(info)));
       socket.on(`${response.info.location}-alerts-received`, (info) => dispatch(addAlert(info)));
+        await Location.requestBackgroundPermissionsAsync()
+        const subBack = await Location.startLocationUpdatesAsync('BACKGROUND_LOCATION_SUBSCRIPTION', {
+          accuracy: Location.Accuracy.Highest,
+          timeInterval: 5000,
+          distanceInterval: 0,
+        })
     } else {
       Alert.alert(
         'Error',
@@ -156,11 +165,11 @@ const Home = () => {
 
   function adminLobbyLeft (response) {
     if (response.status) {
+      Location.stopLocationUpdatesAsync('BACKGROUND_LOCATION_SUBSCRIPTION')
       socket.disconnect();
       socket.off('connect');
       socket.off('disconnect');
       dispatch(tripStarted(false));
-      dispatch(setLocation(''));
       dispatch(updateAlerts([]));
       dispatch(updateNotifications([]));
     } else {
@@ -177,20 +186,41 @@ const Home = () => {
     }
   }
 
+  // MAP FUNCTIONS
+  const regionChangeHandler = (newRegion: mapPosition) => {
+    if (newRegion) {
+      dispatch(mapRegionUpdated(newRegion))
+    }
+  };
+
+  const currentLocationHandler = () => {
+    if (userLocation.latitude && userLocation.longitude) {
+      dispatch(mapRegionUpdated({
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
+        latitudeDelta: mapRegion.latitudeDelta,
+        longitudeDelta: mapRegion.longitudeDelta
+      }))
+    }
+  };
+
+
   return (
     <View style={styles.home}>
       <View style={styles.mapContainer}>
         <MapView
           style={styles.map}
-          region={mapRegion}
+          region={ mapRegion }
           onRegionChangeComplete={regionChangeHandler}
+          // REACT_NATIVE_MAPS INBUILT LOCATION TRACKING AND MOVE TO BUTTON
+          showsUserLocation={true}
         >
-          <Marker coordinate={userRegion} title='You are here'>
+          {/* <Marker coordinate={userLocation} title='You are here'>
             <Image
               source={require('../../assets/marker2.png')}
               style={{ width: 40, height: 40 }}
             />
-          </Marker>
+          </Marker> */}
         </MapView>
 
         <View style={styles.buttonContainer}>
@@ -214,7 +244,7 @@ const Home = () => {
 
         </View>
         <View style={styles.currentLocationBtnContainer}>
-          <Pressable
+          {/* <Pressable
             style={{
               alignItems: 'center',
               padding: 2,
@@ -225,7 +255,7 @@ const Home = () => {
               source={require('../../assets/location.png')}
               style={{ width: 30, height: 30 }}
             />
-          </Pressable>
+          </Pressable> */}
         </View>
       </View>
     </View>

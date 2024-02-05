@@ -21,10 +21,11 @@ const HelpButton: React.FC<ButtonProps> = ({
 }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const location = useSelector((state: RootState) => state.user.location);
-  const userCoords = useSelector((state: RootState) => state.user.coords);
+  const userLocation = useSelector((state: RootState) => state.user.userLocation);
   const username = useSelector((state: RootState) => state.user.username);
-  const [soundInstance, setSoundInstance] = useState<Audio.Sound | undefined>(undefined);
-
+  const userCoords = [userLocation.latitude, userLocation.longitude]
+  // const [soundInstance, setSoundInstance] = useState<Audio.Sound | undefined>(undefined);
+  
   useEffect(() => {
     if (isPressed) {
       intervalRef.current = setInterval(() => {

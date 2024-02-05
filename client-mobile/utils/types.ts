@@ -35,3 +35,10 @@ export interface IAlert {
   type: string;
   location: number[];
 }
+
+export interface mapPosition {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+}

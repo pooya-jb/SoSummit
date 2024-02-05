@@ -22,12 +22,11 @@ export default function Locations() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const locations = useSelector((state: RootState) => state.location.locations);
-  const coords = useSelector((state: RootState) => state.user.coords);
+  const userLocation = useSelector((state: RootState) => state.user.userLocation);
 
   const handleLocationClick = async (title: string) => {
     setLoading(true);
       dispatch(setLocation(title));
-      const [x, y] = coords;
       socket
         .on('connect', () => dispatch(socketConnected(true)))
         .on('disconnect', () => dispatch(socketConnected(false)))
@@ -35,7 +34,7 @@ export default function Locations() {
         .timeout(5000)
         .emit(
           `Location-${title}`,
-          { location: title, userCoords: [y, x] },
+          { location: title, userCoords: [userLocation.longitude, userLocation.latitude] },
           checkResponse(setUserStart, alertOfNoResponse)
         );
   };
