@@ -33,10 +33,19 @@ const Home = () => {
     console.log('mounted')
     foregroundTrackingSubscribe(subscription);
     // isAdmin ? requestBackgroundPermission() : null;
-
-  //   return () => {subscription.foreground ? subscription.foreground.remove() : null; console.log('Home Unmounted'); console.log(Location)}
+    //   return () => {subscription.foreground ? subscription.foreground.remove() : null; console.log('Home Unmounted'); console.log(Location)}
+    TaskManager.defineTask('BACKGROUND_LOCATION_SUBSCRIPTION', ({ data: { locations }, error }) => {
+      if (error) {
+        // check `error.message` for more details.
+        return;
+      }
+      const {coords} = locations[0];
+      console.log('Received new locations from app', locations);
+      socket
+        .timeout(5000).emit(`Location-${resort}-Admin-live`, {coords : [coords.latitude, coords.longitude], username : userName}, checkResponse((response) => {console.log(response)}, alertOfNoResponse))
+    });
     return () => {
-      console.log('unmounted')
+      console.log('unmounted'); Location.stopLocationUpdatesAsync('BACKGROUND_LOCATION_SUBSCRIPTION');
     }
   }, [])
   

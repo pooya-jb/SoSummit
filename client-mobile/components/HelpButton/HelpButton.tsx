@@ -4,6 +4,7 @@ import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
 // import { Audio } from 'expo-av';
 import * as Animatable from 'react-native-animatable';
+import * as Location from 'expo-location';
 
 import { styles } from './HelpButton.styles';
 import { ButtonProps } from '../../utils/types';
@@ -61,10 +62,17 @@ const HelpButton: React.FC<ButtonProps> = ({
   //   };
   // }, [soundInstance]);
 
-  function triggerAlert () {
+  async function triggerAlert() {
+
+    const {coords} = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Highest,
+        timeInterval: 5000,
+        distanceInterval: 0
+    })
+    const {latitude, longitude} = coords;
     socket
     .timeout(5000)
-    .emit(`Location-${location}-alert`, {location, userCoords, helpType, username}, checkResponse());
+    .emit(`Location-${location}-alert`, {location, userCoords : [latitude, longitude], helpType, username}, checkResponse());
   }
 
   async function handlePress() {

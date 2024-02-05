@@ -54,7 +54,7 @@ export const tokenValidation = async () => {
       },
     });
     if (res.status === 200) {
-      return true;
+      return await res.json();
     } else return false;
   } catch (error) {
     console.log(error);

@@ -12,9 +12,7 @@
     "@expo/vector-icons": "^13.0.0",
     "aos": "^2.3.4",
     "commitizen": "^4.3.0",
-    "eslint": "^8.56.0",
-    "react-parallax": "^3.5.1",
-    "react-scroll-parallax": "^3.4.5"
+    "eslint": "^8.56.0"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0"
