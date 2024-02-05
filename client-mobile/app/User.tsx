@@ -1,18 +1,30 @@
-import { View, Pressable, Text, StyleSheet} from 'react-native';
+import { View, Pressable, Text, StyleSheet, Alert} from 'react-native';
 import { Link, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { setAuth } from '../redux/userSlice';
+
+import { loggedOut } from '../redux/userSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 
 export default function User() {
   const dispatch = useDispatch()
   const isPresented = router.canGoBack();
+  const onTrip = useSelector((state: RootState) => state.user.tripStarted);
   const handleLogout = () => {
-    AsyncStorage.removeItem('AccessToken')
-    dispatch(setAuth(false))
-    router.navigate('../')
+    if (onTrip === true) {
+      Alert.alert('Error', 'Please end your trip before logging out', [
+      {
+        text: 'Okay',
+        style: 'cancel',
+      }])
+    } else {
+      AsyncStorage.removeItem('AccessToken')
+      dispatch(loggedOut())
+      router.navigate('../');
+    }
   }
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

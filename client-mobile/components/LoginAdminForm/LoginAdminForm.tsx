@@ -19,6 +19,7 @@ import {
   setEmail,
   setLocation,
   setUsername,
+  setAdmin
 } from '../../redux/userSlice';
 import { styles } from './LoginAdminForm.styles';
 
@@ -41,6 +42,7 @@ const KeyboardAvoidingComponent = ({
         dispatch(setEmail(email));
         dispatch(setUsername(username));
         dispatch(setLocation(location));
+        dispatch(setAdmin(true));
       } catch (err) {
         console.log(err);
       }
@@ -82,7 +84,7 @@ const KeyboardAvoidingComponent = ({
         </TouchableWithoutFeedback>
         <View style={{}}>
           <Pressable style={styles.formButton} onPress={handleAdminLogin}>
-            <Text style={styles.formButtonText}>Sign up</Text>
+            <Text style={styles.formButtonText}>Log in</Text>
           </Pressable>
         </View>
         <Pressable style={{}} onPress={changeAuthState}>

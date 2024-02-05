@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { tokenValidation } from '../utils/ApiService';
+import { mapPosition } from '../utils/types';
 
 const initialState = {
   username: '',
@@ -10,7 +11,20 @@ const initialState = {
   isAuth: false,
   isConnected: false,
   location: '',
-  coords: [0],
+  isAdmin: false,
+  tripStarted: false,
+  userLocation : {
+    latitude: 27.9881,
+    longitude: 86.925,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  },
+  mapRegion : {
+    latitude: 27.9881,
+    longitude: 86.925,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  }
 };
 
 export const userSlice = createSlice({
@@ -30,12 +44,6 @@ export const userSlice = createSlice({
       return {
         ...state,
         location: action.payload,
-      };
-    },
-    setCoords: (state, action: PayloadAction<number[]>) => {
-      return {
-        ...state,
-        coords: action.payload,
       };
     },
     setUsername: (state, action: PayloadAction<string>) => {
@@ -68,6 +76,33 @@ export const userSlice = createSlice({
         experience: action.payload,
       };
     },
+    setAdmin: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        isAdmin: action.payload,
+      };
+    },
+    tripStarted: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        tripStarted: action.payload,
+      };
+    },
+    userLocationUpdated : (state, action : PayloadAction<mapPosition>) => {
+      return {
+        ...state,
+        userLocation : action.payload
+      }
+    },
+    mapRegionUpdated: (state, action: PayloadAction<mapPosition>) => {
+      return {
+        ...state,
+        mapRegion: action.payload
+      }
+    },
+    loggedOut : (state) => {
+      return initialState
+    }
   },
 });
 
@@ -75,12 +110,16 @@ export const {
   setAuth,
   socketConnected,
   setLocation,
-  setCoords,
   setUsername,
   setAge,
   setBio,
   setEmail,
   setExperience,
+  setAdmin,
+  tripStarted,
+  userLocationUpdated,
+  mapRegionUpdated,
+  loggedOut
 } = userSlice.actions;
 
 export default userSlice.reducer;
