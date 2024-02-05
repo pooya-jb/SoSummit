@@ -11,6 +11,7 @@ import { RootState } from "../../redux/store";
 import classes from "./Modal.module.css"
 import ids from "./Modal.module.css"
 import socket from "../../utils/socket";
+import { addNoot } from "../../redux/locationSlice";
 
 function AlertModal() {
   const [message, setMessage] = useState('')
@@ -27,6 +28,9 @@ function AlertModal() {
   const handleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setType(e.target.value)
   }
+  const addNewNoot = (response) => {
+    dispatch(addNoot(response.info))
+  }
   function closeHandler() {
     dispatch(alertSelected());
   }
@@ -36,14 +40,15 @@ function AlertModal() {
       if (err) {
         console.log('server did not acknowledge');
       } else {
-        if (handler) handler(response.status);
+        if (handler) handler(response);
       }
       return response.status
     }
   }
   async function handleLoginSubmit(event: SyntheticEvent) {
     event.preventDefault();
-    socket.timeout(5000).emit(`${location}-notifications`, {message, type, location}, checkResponse(null))
+    socket.timeout(5000).emit(`${location}-notifications`, {message, type, location}, checkResponse(addNewNoot))
+    closeHandler()
   }
 
   return (

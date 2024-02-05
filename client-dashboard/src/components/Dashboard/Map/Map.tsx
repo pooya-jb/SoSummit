@@ -14,17 +14,12 @@ function Map(): React.ReactNode {
     <>
       <div className="map-container">
 
-        <MapContainer center={[displayCoord[1], displayCoord[0] ]} zoom={15} scrollWheelZoom={true}>
+        <MapContainer center={[displayCoord[1], displayCoord[0] ]} zoom={10} scrollWheelZoom={true}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={[displayCoord[1], displayCoord[0] ]}>
-              <Popup>
-                Hi
-              </Popup>
-            </Marker>
-          {alerts && alerts.map((alert: {location: number[], username:string}, index) => {
+          {alerts && alerts.map((alert: {location: number[], username:string}, index:number) => {
             return (
             <Marker key={index} position={[alert.location[0], alert.location[1]]}>
               <Popup>

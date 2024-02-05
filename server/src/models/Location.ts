@@ -46,6 +46,10 @@ const LocationSchema = new db.Schema<ILocation>({
       },
     },
   ],
+  phone:  {
+    type: String,
+    required: true,
+  },
   admins: [String],
   activeAdmins: [String],
 });

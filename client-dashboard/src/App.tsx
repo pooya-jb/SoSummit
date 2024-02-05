@@ -29,7 +29,8 @@ import {
   updateAdmins,
   activeAdminUpdate,
   updateCoords,
-  addAlert
+  addAlert,
+  updateNoots
 } from './redux/locationSlice';
 
 function App(): React.ReactNode {
@@ -56,6 +57,7 @@ function App(): React.ReactNode {
         dispatch(updateActiveAdmins(res.locationInfo.activeAdmins));
         dispatch(updateAdmins(res.locationInfo.admins));
         dispatch(updateCoords(res.locationInfo.coordinates))
+        dispatch(updateNoots(res.locationInfo.notifications))
       }
     };
     checkAuthentication(JWTUtil.getter());

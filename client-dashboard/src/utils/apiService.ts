@@ -1,4 +1,6 @@
+import { useSelector } from "react-redux";
 import { TypedResponse } from "../types";
+import { RootState } from "../redux/store";
 
 const BASE_URL = 'http://localhost:3000'
 
@@ -32,6 +34,14 @@ const apiService = {
     })
       .then((res) => res.json())
       .catch((err) => console.log(err));
+  },
+  deleteNoot : async (time : string, location: string) : Promise<TypedResponse> => {
+    const res = await fetch(`${BASE_URL}/delete-noot`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({time, location}),
+    })
+  return res
   },
 }
 

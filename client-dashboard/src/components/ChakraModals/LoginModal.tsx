@@ -15,6 +15,7 @@ import {
   updateAlerts,
   updateActiveAdmins,
   updateCoords,
+  updateNoots,
 } from '../../redux/locationSlice';
 
 function LoginModal() {
@@ -50,6 +51,7 @@ function LoginModal() {
       dispatch(updateAdmins(response.locationInfo.admins));
       dispatch(updateActiveAdmins(response.locationInfo.activeAdmins));
       dispatch(updateCoords(response.locationInfo.coordinates))
+      dispatch(updateNoots(response.locationInfo.notifications))
       dispatch(loggedIn(response));
     }
   }

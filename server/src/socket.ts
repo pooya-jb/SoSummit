@@ -119,21 +119,15 @@ async function serverBoot() {
           )
           // Add alert to location in database and send alert to admins
           .on(
-            `${locationName}-alert`,
+            `${locationName}-alert-delete`,
             async (
-              { location, userCoords, helpType, username }: Alert,
+              { username, location }: Alert,
               callback
             ) => {
-              console.log(location, userCoords, helpType, username);
               const { status, info }: ISocketControllerResponse =
-                await SocketControllers.addAlert(
-                  location,
-                  userCoords,
-                  helpType,
-                  username
-                );
+                await SocketControllers.deleteAlert(username, location);
               status &&
-                io.to(adminLocationName).emit(`${location}-alert-admins`, info);
+                io.to(adminLocationName).emit(`${locationName}-alert-deleted`, info);
               callback(acknowledge(status, info));
             }
           )
@@ -155,13 +149,26 @@ async function serverBoot() {
                   .emit(`${location}-notifications-received`, info);
               callback(acknowledge(status, info)); // Controller Missing
             }
+          )
+          .on(
+            `${location}-notifications-delete`,
+            async ({ location }, callback) => {
+              const { status, info }: ISocketControllerResponse =
+                await SocketControllers.deleteNoots(
+                  location
+                );
+              status &&
+                io
+                  .to(locationName)
+                  .to(adminLocationName)
+                  .emit(`${location}-notifications-deleted`, info);
+              callback(acknowledge(status, info)); // Controller Missing
+            }
           );
       });
     });
   }
   return server;
 }
-
-// serverBoot();
 
 export default serverBoot;

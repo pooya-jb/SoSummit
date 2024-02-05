@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ActiveAdminS, AlertS, LocationS, UserL } from '../types';
+import { ActiveAdminS, AlertS, LocationS, NotificationS, UserL } from '../types';
 import { RootState } from './store';
 // const userMock: UserL[] = [
 //   {
@@ -44,7 +44,8 @@ const initialState: LocationS = {
   alerts: [],
   activeAdmins: [],
   admins: [],
-  displayCoords: []
+  displayCoords: [],
+  noots: []
 };
 
 export const locationSlice = createSlice({
@@ -97,7 +98,7 @@ export const locationSlice = createSlice({
     updateAlerts: (state: LocationS, action: PayloadAction<AlertS[]>) => {
       return {
         ...state,
-        alerts: [...state.alerts, ...action.payload]
+        alerts: action.payload
       };
     },
 
@@ -116,22 +117,36 @@ export const locationSlice = createSlice({
         activeAdmins: action.payload,
       };
     },
-  
-    updateCoords: (state: LocationS, action:PayloadAction<number[]>) => {
+
+    updateCoords: (state: LocationS, action: PayloadAction<number[]>) => {
       return {
         ...state,
-        coordinates: action.payload,	
-        displayCoords: [(action.payload[1] + action.payload[0]) / 2 , (action.payload[3] + action.payload[2]) / 2 ]
+        coordinates: action.payload,
+        displayCoords: [(action.payload[1] + action.payload[0]) / 2, (action.payload[3] + action.payload[2]) / 2]
       }
     },
     addAlert: (state: LocationS, action: PayloadAction<AlertS>) => {
-      if(!state.alerts.some(alert => alert.username === action.payload.username)) {
+      if (!state.alerts.some(alert => alert.username === action.payload.username)) {
 
         return {
           ...state,
           alerts: [...state.alerts, action.payload]
         };
       } else return state
+    },
+    addNoot: (state: LocationS, action: PayloadAction<AlertS>) => {
+
+        return {
+          ...state,
+          noots: [...state.noots, action.payload]
+        };
+    },
+    updateNoots: (state: LocationS, action: PayloadAction<NotificationS[]>) => {
+        return {
+          ...state,
+          noots:  action.payload
+        };
+   
       },
   },
 });
@@ -148,6 +163,8 @@ export const {
   updateActiveAdmins,
   updateAdmins,
   updateCoords,
-  addAlert
+  addAlert,
+  addNoot,
+  updateNoots
 
 } = locationSlice.actions;

@@ -27,6 +27,7 @@ export interface LocationS {
   activeAdmins: ActiveAdminS[];
   admins: string[];
   displayCoords: number[];
+  noots: NotificationS[]
 }
 
 export interface AlertS {
@@ -44,4 +45,10 @@ export interface TypedResponse extends Response {
 
 export interface LoginResponse {
   accessToken: string;
+}
+
+export interface NotificationS {
+  type: string;
+  text: string;
+  time: string;
 }
