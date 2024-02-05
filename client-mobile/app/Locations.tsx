@@ -66,7 +66,6 @@ export default function Locations() {
       dispatch(setLocation(response.info.location));
       dispatch(updateNotifications(response.info.notifications));
       dispatch(tripStarted(true));
-      dispatch(setLocation(selectedLocation));
       router.navigate('../');
       socket.on(`${response.info.location}-notifications-received`, (info) => dispatch(addNotification(info)));
     } else {
