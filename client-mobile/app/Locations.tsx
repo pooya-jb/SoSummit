@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import * as Location from 'expo-location'
 
 import { setLocation, socketConnected, tripStarted } from '../redux/userSlice';
 import { addNotification, updateNotifications } from '../redux/locationSlice';
@@ -21,12 +22,19 @@ import socket, {checkResponse} from '../utils/socket';
 export default function Locations() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('')
   const locations = useSelector((state: RootState) => state.location.locations);
   const userLocation = useSelector((state: RootState) => state.user.userLocation);
 
   const handleLocationClick = async (title: string) => {
     setLoading(true);
-      dispatch(setLocation(title));
+    setSelectedLocation(title)
+    const { coords } = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Highest,
+      timeInterval: 5000,
+      distanceInterval: 0
+    })
+    const { latitude, longitude } = coords;
       socket
         .on('connect', () => dispatch(socketConnected(true)))
         .on('disconnect', () => dispatch(socketConnected(false)))
@@ -34,7 +42,7 @@ export default function Locations() {
         .timeout(5000)
         .emit(
           `Location-${title}`,
-          { location: title, userCoords: [userLocation.longitude, userLocation.latitude] },
+          { location: title, userCoords: [longitude, latitude] },
           checkResponse(setUserStart, alertOfNoResponse)
         );
   };
@@ -58,6 +66,7 @@ export default function Locations() {
       dispatch(setLocation(response.info.location));
       dispatch(updateNotifications(response.info.notifications));
       dispatch(tripStarted(true));
+      dispatch(setLocation(selectedLocation));
       router.navigate('../');
       socket.on(`${response.info.location}-notifications-received`, (info) => dispatch(addNotification(info)));
     } else {

@@ -102,6 +102,27 @@ export const userSlice = createSlice({
     },
     loggedOut : (state) => {
       return initialState
+    },
+    userLoggedIn : (state, action) => {
+      return {
+        ...state, 
+        username : action.payload.username,
+        email: action.payload.email,
+        age: action.payload.age,
+        bio: action.payload.bio,
+        experience: action.payload.experience,
+        isAuth: true,
+      }
+    },
+    adminLoggedIn: (state, action) => {
+      return {
+        ...state,
+        username: action.payload.username,
+        location: action.payload.location,
+        email: action.payload.email,
+        isAuth: true,
+        isAdmin : true
+      }
     }
   },
 });
@@ -119,7 +140,9 @@ export const {
   tripStarted,
   userLocationUpdated,
   mapRegionUpdated,
-  loggedOut
+  loggedOut,
+  userLoggedIn,
+  adminLoggedIn
 } = userSlice.actions;
 
 export default userSlice.reducer;

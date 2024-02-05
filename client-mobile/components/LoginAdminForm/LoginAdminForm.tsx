@@ -14,14 +14,9 @@ import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { fetchAdminLogin } from '../../utils/ApiService';
-import {
-  setAuth,
-  setEmail,
-  setLocation,
-  setUsername,
-  setAdmin
-} from '../../redux/userSlice';
+import {adminLoggedIn} from '../../redux/userSlice';
 import { styles } from './LoginAdminForm.styles';
+import { updateNotifications, updateAlerts } from '../../redux/locationSlice';
 
 const KeyboardAvoidingComponent = ({
   setAuthState,
@@ -39,14 +34,13 @@ const KeyboardAvoidingComponent = ({
       try {
         await AsyncStorage.setItem('AccessToken', res.accessToken);
         const { username, location, email } = res.userInfo;
-        dispatch(setEmail(email));
-        dispatch(setUsername(username));
-        dispatch(setLocation(location));
-        dispatch(setAdmin(true));
+        dispatch(adminLoggedIn({ username, location, email }))
+        dispatch(updateNotifications(res.locationInfo.notifications))
+        dispatch(updateAlerts(res.locationInfo.alerts))
+
       } catch (err) {
         console.log(err);
       }
-      dispatch(setAuth(true));
     } else throw alert('Email or password is incorrect');
   };
   const handleTapOutside = () => {

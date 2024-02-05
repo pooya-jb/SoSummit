@@ -1,12 +1,7 @@
 import { useDispatch } from 'react-redux';
 import {
   setAuth,
-  setLocation,
-  setUsername,
-  setAge,
-  setEmail,
-  setBio,
-  setExperience,
+  userLoggedIn,
 } from '../../redux/userSlice';
 import {
   View,
@@ -37,19 +32,12 @@ const LoginForm = ({
     if (typeof res.accessToken === 'string' && res.accessToken.length > 0) {
       try {
         await AsyncStorage.setItem('AccessToken', res.accessToken);
-        const { username, location, email, age, bio, experience } = res.userInfo;
-          console.log(res.locations)
-        dispatch(setUsername(username));
-        dispatch(setLocation(location));
-        dispatch(setEmail(email));
-        dispatch(setAge(age));
-        dispatch(setBio(bio));
-        dispatch(setExperience(experience));
+        const { username, email, age, bio, experience } = res.userInfo;
+        dispatch(userLoggedIn({ username, email, age, bio, experience }))
         dispatch(updateLocations(res.locations));
       } catch (err) {
         console.log(err);
       }
-      dispatch(setAuth(true));
     } else throw alert('Email or password is incorrect');
   };
 

@@ -33,17 +33,20 @@ const Home = () => {
     console.log('mounted')
     foregroundTrackingSubscribe(subscription);
     // isAdmin ? requestBackgroundPermission() : null;
-
+    //   return () => {subscription.foreground ? subscription.foreground.remove() : null; console.log('Home Unmounted'); console.log(Location)}
     TaskManager.defineTask('BACKGROUND_LOCATION_SUBSCRIPTION', ({ data: { locations }, error }) => {
       if (error) {
         // check `error.message` for more details.
         return;
       }
-      console.log('Received new locations', locations);
+      const {coords} = locations[0];
+      console.log('Received new locations from app', locations);
+      socket
+        .timeout(5000).emit(`Location-${resort}-Admin-live`, {coords : [coords.latitude, coords.longitude], username : userName}, checkResponse((response) => {console.log(response)}, alertOfNoResponse))
     });
-
-  //   return () => {subscription.foreground ? subscription.foreground.remove() : null; console.log('Home Unmounted'); console.log(Location)}
-  return () => {console.log('unmounted')}
+    return () => {
+      console.log('unmounted'); Location.stopLocationUpdatesAsync('BACKGROUND_LOCATION_SUBSCRIPTION');
+    }
   }, [])
   
   // Foreground live Position Functions
@@ -82,6 +85,10 @@ const Home = () => {
 
   const adminConnectHandler = async () => {
     // const {granted} = await Location.requestBackgroundPermissionsAsync()
+    if (!backgroundStatus || !backgroundStatus.granted) {
+      permissionAbsent();
+      return;
+     }
     await requestBackgroundPermission()
     // if (!backgroundStatus || !backgroundStatus.granted) {
     //   const {granted} = await requestBackgroundPermission();
@@ -91,10 +98,6 @@ const Home = () => {
     //     return;
     //   }
 
-    if (!backgroundStatus || !backgroundStatus.granted) {
-      permissionAbsent();
-      return;
-     }
       // if (!granted) {
       //   permissionAbsent();
       //   return;
@@ -147,6 +150,12 @@ const Home = () => {
         const subBack = await Location.startLocationUpdatesAsync('BACKGROUND_LOCATION_SUBSCRIPTION', {
           accuracy: Location.Accuracy.Highest,
           timeInterval: 5000,
+          showsBackgroundLocationIndicator: true,
+            foregroundService: {
+                notificationTitle: 'SoSummit',
+                notificationBody: 'Sending location',
+                notificationColor: '#008000',
+            },
           distanceInterval: 0,
         })
     } else {
@@ -214,6 +223,7 @@ const Home = () => {
           onRegionChangeComplete={regionChangeHandler}
           // REACT_NATIVE_MAPS INBUILT LOCATION TRACKING AND MOVE TO BUTTON
           showsUserLocation={true}
+          
         >
           {/* <Marker coordinate={userLocation} title='You are here'>
             <Image
@@ -243,8 +253,8 @@ const Home = () => {
           </Pressable>}
 
         </View>
-        <View style={styles.currentLocationBtnContainer}>
-          {/* <Pressable
+        {/* <View style={styles.currentLocationBtnContainer}>
+          <Pressable
             style={{
               alignItems: 'center',
               padding: 2,
@@ -255,8 +265,8 @@ const Home = () => {
               source={require('../../assets/location.png')}
               style={{ width: 30, height: 30 }}
             />
-          </Pressable> */}
-        </View>
+          </Pressable>
+        </View> */}
       </View>
     </View>
   );
