@@ -26,7 +26,7 @@ const HelpButton: React.FC<ButtonProps> = ({
   const username = useSelector((state: RootState) => state.user.username);
   const userCoords = [userLocation.latitude, userLocation.longitude]
   // const [soundInstance, setSoundInstance] = useState<Audio.Sound | undefined>(undefined);
-  
+
   useEffect(() => {
     if (isPressed) {
       intervalRef.current = setInterval(() => {
@@ -35,7 +35,7 @@ const HelpButton: React.FC<ButtonProps> = ({
             return prevCountdown - 1;
           } else {
             setIsPressed(false);
-            triggerAlert();
+            triggerAlert(location);
             setShowMessage(true);
             clearInterval(intervalRef.current!);
             return 0;
@@ -62,17 +62,22 @@ const HelpButton: React.FC<ButtonProps> = ({
   //   };
   // }, [soundInstance]);
 
-  async function triggerAlert() {
-
-    const {coords} = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Highest,
-        timeInterval: 5000,
-        distanceInterval: 0
-    })
-    const {latitude, longitude} = coords;
-    socket
-    .timeout(5000)
-    .emit(`Location-${location}-alert`, {location, userCoords : [latitude, longitude], helpType, username}, checkResponse());
+  async function triggerAlert(location) {
+    try {
+      console.log('line 67', location)
+      const {coords} = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Highest,
+          timeInterval: 5000,
+          distanceInterval: 0
+        })
+        const {latitude, longitude} = coords
+        console.log('line 74', location)
+        socket
+        .timeout(5000)
+        .emit(`Location-${location}-alert`, {location, userCoords : [latitude, longitude], helpType, username}, checkResponse());
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   async function handlePress() {

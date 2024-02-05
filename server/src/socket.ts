@@ -119,6 +119,25 @@ async function serverBoot() {
           )
           // Add alert to location in database and send alert to admins
           .on(
+            `${locationName}-alert`,
+            async (
+              { location, userCoords, helpType, username }: Alert,
+              callback
+            ) => {
+              console.log(location, userCoords, helpType, username);
+              const { status, info }: ISocketControllerResponse =
+                await SocketControllers.addAlert(
+                  location,
+                  userCoords,
+                  helpType,
+                  username
+                );
+              status &&
+                io.to(adminLocationName).emit(`${location}-alert-admins`, info);
+              callback(acknowledge(status, info));
+            }
+          )
+          .on(
             `${locationName}-alert-delete`,
             async (
               { username, location }: Alert,

@@ -1,5 +1,5 @@
 import { Pressable, Text, View, Image, AppState, Alert } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { useEffect, useRef, useState } from 'react';
 import * as Location from 'expo-location';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,11 +15,11 @@ import { updateNotifications, addNotification, updateAlerts, addAlert } from '..
 import { mapPosition } from '../../utils/types';
 
 const Home = () => {
-  
+
   // STATE AND USE EFFECT
   const [status, requestPermission] = Location.useForegroundPermissions();
   const [backgroundStatus, requestBackgroundPermission] = Location.useBackgroundPermissions();
-  
+
   const resort = useSelector((state: RootState) => state.user.location);
   const isAdmin = useSelector((state: RootState) => state.user.isAdmin);
   const userName = useSelector((state: RootState) => state.user.username);
@@ -32,6 +32,8 @@ const Home = () => {
   useEffect(() => {
     console.log('mounted')
     foregroundTrackingSubscribe(subscription);
+    requestPermission()
+    requestBackgroundPermission()
     // isAdmin ? requestBackgroundPermission() : null;
     //   return () => {subscription.foreground ? subscription.foreground.remove() : null; console.log('Home Unmounted'); console.log(Location)}
     TaskManager.defineTask('BACKGROUND_LOCATION_SUBSCRIPTION', ({ data: { locations }, error }) => {
@@ -48,9 +50,9 @@ const Home = () => {
       console.log('unmounted'); Location.stopLocationUpdatesAsync('BACKGROUND_LOCATION_SUBSCRIPTION');
     }
   }, [])
-  
+
   // Foreground live Position Functions
-      
+
   function permissionAbsent () {
         console.log('Permission to access location was denied')
     isAdmin ? Alert.alert('Please allow always location permissions and log back in') :
@@ -61,7 +63,7 @@ const Home = () => {
     const { granted } = status || await requestPermission();
     if (!granted) {
       permissionAbsent();
-    } 
+    }
     // else {
     //   subscription.foreground = await Location.watchPositionAsync({
     //     accuracy: Location.Accuracy.Highest,
@@ -101,9 +103,9 @@ const Home = () => {
       // if (!granted) {
       //   permissionAbsent();
       //   return;
-      // } 
+      // }
     // }
-    
+
 
     socket.on('connect', () => dispatch(socketConnected(true)));
     socket.on('disconnect', () => dispatch(socketConnected(false)));
@@ -219,11 +221,13 @@ const Home = () => {
       <View style={styles.mapContainer}>
         <MapView
           style={styles.map}
-          region={ mapRegion }
+          // region={ }
+          showsMyLocationButton = {true}
           onRegionChangeComplete={regionChangeHandler}
+          provider={PROVIDER_GOOGLE}
           // REACT_NATIVE_MAPS INBUILT LOCATION TRACKING AND MOVE TO BUTTON
           showsUserLocation={true}
-          
+
         >
           {/* <Marker coordinate={userLocation} title='You are here'>
             <Image
@@ -253,8 +257,8 @@ const Home = () => {
           </Pressable>}
 
         </View>
-        {/* <View style={styles.currentLocationBtnContainer}>
-          <Pressable
+        {/*<View style={styles.currentLocationBtnContainer}>
+            <Pressable
             style={{
               alignItems: 'center',
               padding: 2,
@@ -266,7 +270,7 @@ const Home = () => {
               style={{ width: 30, height: 30 }}
             />
           </Pressable>
-        </View> */}
+        </View>*/}
       </View>
     </View>
   );
