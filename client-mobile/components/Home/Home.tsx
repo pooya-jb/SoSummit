@@ -144,7 +144,10 @@ const Home = () => {
       dispatch(updateNotifications(response.info.notifications));
       dispatch(updateAlerts(response.info.alerts));
       dispatch(tripStarted(true));
-      socket.on(`${response.info.location}-notifications-received`, (info) => dispatch(addNotification(info)));
+      console.log(response.info)
+      socket.on(`${response.info.location}-notifications-received`, (info) => {
+        dispatch(addNotification(info));
+        console.log(info)});
       socket.on(`${response.info.location}-alerts-received`, (info) => dispatch(addAlert(info)));
         await Location.requestBackgroundPermissionsAsync()
         const subBack = await Location.startLocationUpdatesAsync('BACKGROUND_LOCATION_SUBSCRIPTION', {

@@ -96,7 +96,7 @@ function App(): React.ReactNode {
   socket.on(`Location-${location}-Admin-joined`, (info) => {
     dispatch(activeAdminEntered(info.userName));
   });
-  socket.on(`Location-${location}-Admin-leave`, (info) => {
+  socket.on(`Location-${location}-Admin-left`, (info) => {
     dispatch(activeAdminLeft(info.userName));
   });
   socket.on(`${location}-alert-admins`, (info) => {

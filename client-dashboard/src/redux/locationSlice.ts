@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActiveAdminS, AlertS, LocationS, NotificationS, UserL } from '../types';
 import { RootState } from './store';
+import { act } from 'react-dom/test-utils';
 // const userMock: UserL[] = [
 //   {
 //     username: 'greg',
@@ -71,18 +72,20 @@ export const locationSlice = createSlice({
 
     activeAdminEntered: (
       state: LocationS,
-      action: PayloadAction<ActiveAdminS>
+      action: PayloadAction<any>
     ) => {
       return {
         ...state,
-        activeAdmins: [...state.activeAdmins, action.payload],
+        activeAdmins: [...state.activeAdmins, {
+          username: action.payload,
+        coords: [0,0]}],
       };
     },
 
     activeAdminLeft: (state: LocationS, action: PayloadAction<any>) => {
       return {
         ...state,
-        users: state.activeAdmins.filter((user) => user !== action.payload),
+        activeAdmins: state.activeAdmins.filter((user) => user.username !== action.payload),
       };
     },
 
