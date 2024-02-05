@@ -14,7 +14,7 @@ import { RootState } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
-import { setLocation } from '../redux/userSlice';
+import { setLocation, socketConnected, tripStarted } from '../redux/userSlice';
 import { addNotification, updateNotifications } from '../redux/locationSlice';
 import socket, {checkResponse} from '../utils/socket';
 
@@ -22,20 +22,21 @@ export default function Locations() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const locations = useSelector((state: RootState) => state.location.locations);
-  const coords = useSelector((state: RootState) => state.user.coords);
+  const userLocation = useSelector((state: RootState) => state.user.userLocation);
 
   const handleLocationClick = async (title: string) => {
-    dispatch(setLocation(title));
-    const [x, y] = coords;
-    socket
-      .connect()
-      .timeout(5000)
-      .emit(
-        `Location-${title}`,
-        { location: title, userCoords: [y, x] },
-        checkResponse(setLocationState, alertOfNoResponse)
-      );
     setLoading(true);
+      dispatch(setLocation(title));
+      socket
+        .on('connect', () => dispatch(socketConnected(true)))
+        .on('disconnect', () => dispatch(socketConnected(false)))
+        .connect()
+        .timeout(5000)
+        .emit(
+          `Location-${title}`,
+          { location: title, userCoords: [userLocation.longitude, userLocation.latitude] },
+          checkResponse(setUserStart, alertOfNoResponse)
+        );
   };
 
   function alertOfNoResponse() {
@@ -44,7 +45,7 @@ export default function Locations() {
       'Server did not respond. Please try again in one minute.',
       [
         {
-          text: 'Ok',
+          text: 'Okay',
           style: 'cancel',
         },
       ]
@@ -52,10 +53,11 @@ export default function Locations() {
     setLoading(false);
   }
 
-  function setLocationState(response) {
+  function setUserStart(response) {
     if (response.status) {
       dispatch(setLocation(response.info.location));
       dispatch(updateNotifications(response.info.notifications));
+      dispatch(tripStarted(true));
       router.navigate('../');
       socket.on(`${response.info.location}-notifications-received`, (info) => dispatch(addNotification(info)));
     } else {
