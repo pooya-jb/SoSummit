@@ -44,7 +44,7 @@ const Home = () => {
       const {coords} = locations[0];
       console.log('Received new locations from app', locations);
       socket
-        .timeout(5000).emit(`Location-${resort}-Admin-live`, {coords : [coords.latitude, coords.longitude], username : userName}, checkResponse((response) => {console.log(response)}, alertOfNoResponse))
+        .timeout(5000).emit(`Location-${resort}-Admin-live`, {coords : [coords.latitude, coords.longitude], userName : userName}, checkResponse((response) => {console.log(response)}, alertOfNoResponse))
     });
     return () => {
       console.log('unmounted'); Location.stopLocationUpdatesAsync('BACKGROUND_LOCATION_SUBSCRIPTION');
@@ -87,11 +87,11 @@ const Home = () => {
 
   const adminConnectHandler = async () => {
     // const {granted} = await Location.requestBackgroundPermissionsAsync()
-    if (!backgroundStatus || !backgroundStatus.granted) {
-      permissionAbsent();
-      return;
-     }
-    await requestBackgroundPermission()
+    // if (!backgroundStatus || !backgroundStatus.granted) {
+      // permissionAbsent();
+      // return;
+    //  }
+    // await requestBackgroundPermission()
     // if (!backgroundStatus || !backgroundStatus.granted) {
     //   const {granted} = await requestBackgroundPermission();
     //   console.log(granted)
@@ -105,8 +105,6 @@ const Home = () => {
       //   return;
       // }
     // }
-
-
     socket.on('connect', () => dispatch(socketConnected(true)));
     socket.on('disconnect', () => dispatch(socketConnected(false)));
     socket.connect().timeout(5000).emit(`Location-${resort}-Admin`, { location : resort, userName : userName }, checkResponse(adminLobbyJoined, alertOfNoResponse))
