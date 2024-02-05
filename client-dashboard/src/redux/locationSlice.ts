@@ -53,14 +53,18 @@ export const locationSlice = createSlice({
   initialState,
   reducers: {
     activeAdminUpdate: (
-      state: RootState,
+      state,
       action: PayloadAction<ActiveAdminS>
     ) => {
+      console.log(action.payload)
       return {
         ...state,
-        activeAdmins: state.activeAdmins.forEach((admin: ActiveAdminS) => {
-          if (admin.username === action.payload.username)
-            admin.coords = action.payload.coords;
+        activeAdmins: state.activeAdmins.map((admin: ActiveAdminS) => {
+        if (admin.username !== action.payload.userName) {
+          return admin
+        } else {
+          return {...admin, coords: action.payload.coords}
+        }
         }),
       };
     },
@@ -75,7 +79,7 @@ export const locationSlice = createSlice({
       };
     },
 
-    activeAdminLeft: (state: LocationS, action: PayloadAction<UserL>) => {
+    activeAdminLeft: (state: LocationS, action: PayloadAction<any>) => {
       return {
         ...state,
         users: state.activeAdmins.filter((user) => user !== action.payload),
@@ -110,11 +114,17 @@ export const locationSlice = createSlice({
     },
     updateActiveAdmins: (
       state: LocationS,
-      action: PayloadAction<ActiveAdminS[]>
+      action: PayloadAction<string[]>
     ) => {
+      console.log(action)
       return {
         ...state,
-        activeAdmins: action.payload,
+        activeAdmins: action.payload.map((admin) => {
+          return {
+            username: admin,
+            coords: [0, 0]
+          }
+        })
       };
     },
 
@@ -146,7 +156,7 @@ export const locationSlice = createSlice({
           ...state,
           noots:  action.payload
         };
-   
+
       },
   },
 });

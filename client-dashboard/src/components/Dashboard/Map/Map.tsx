@@ -9,7 +9,7 @@ function Map(): React.ReactNode {
   const alerts = useSelector((state: RootState) => state.location.alerts)
   const activeAdmins = useSelector((state: RootState) => state.location.activeAdmins)
   const displayCoord = useSelector((state: RootState) => state.location.displayCoords)
-  
+
   return (
     <>
       <div className="map-container">
@@ -21,21 +21,25 @@ function Map(): React.ReactNode {
           />
           {alerts && alerts.map((alert: {location: number[], username:string}, index:number) => {
             return (
-            <Marker key={index} position={[alert.location[0], alert.location[1]]}>
-              <Popup>
-                {alert.username}
-              </Popup>
-            </Marker>
+            // <Marker key={index} position={[alert.location[0], alert.location[1]]}>
+            //   <Popup>
+            //     {alert.username}
+            //   </Popup>
+            // </Marker>
+            <></>
           )
           })}
             {activeAdmins && activeAdmins.map((activeAdmin: ActiveAdminS) => {
             return (
-            <Marker position={[activeAdmin.coords[0], activeAdmin.coords[1]]}>
-              <Popup>
-                {activeAdmin.username}
-              </Popup>
-            </Marker>
-          )
+              <>
+                {activeAdmin && activeAdmin.coords &&
+                  <Marker position={[activeAdmin.coords[0], activeAdmin.coords[1]]}>
+                    <Popup>
+                      {activeAdmin.username}
+                    </Popup>
+                  </Marker>}
+              </>
+            )
           })}
         </MapContainer>
       </div>
