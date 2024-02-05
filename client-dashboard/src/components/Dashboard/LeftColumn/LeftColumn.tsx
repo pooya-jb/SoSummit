@@ -3,6 +3,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
 import ids from './LeftColumn.module.css'
 import UserList from './UserList/UserList';
+import NotificationColumn from './NotificationColumn/NotificationColumn';
 
 function LeftColumn(): React.ReactNode {
 
@@ -24,7 +25,7 @@ function LeftColumn(): React.ReactNode {
               <UserList source={'admins'} />
             </TabPanel>
             <TabPanel p='0'>
-              <p>three!</p>
+              <NotificationColumn />
             </TabPanel>
           </TabPanels>
         </Tabs>

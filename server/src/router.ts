@@ -11,5 +11,6 @@ router.post('/register-user', userControllers.createUser);
 router.post('/register-admin', adminControllers.createAdmin);
 router.post('/login-user', userControllers.loginUser);
 router.post('/login-admin', adminControllers.loginAdmin);
+router.delete('/delete-noot', adminControllers.deleteNoot);
 
 export default router;

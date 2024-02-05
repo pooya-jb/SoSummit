@@ -111,7 +111,7 @@ async function addActiveAdmin(
     if (location) {
       const activeAdmins = location.activeAdmins.concat([userName]);
       await Location.findOneAndUpdate({ name: locationName }, { activeAdmins });
-      return { status: true, info: { userName } };
+      return { status: true, info: { userName, alerts: location.alerts, notifications: location.notifications } };
     } else return { status: false, info: undefined };
   } catch (err) {
     console.log(err);
@@ -139,6 +139,42 @@ async function removeActiveAdmin(
   }
 }
 
+async function deleteAlert(
+  userName: string,
+  locationName:string
+): Promise<ISocketControllerResponse> {
+  try {
+    const location: InstanceType<ILocationModel> | null =
+      await Location.findOne({ name: locationName });
+    if (location) {
+      const newAlerts = location.alerts.filter(
+        (alert) => alert.username !== userName
+      );
+      await Location.findOneAndUpdate({ name: locationName }, { alerts: newAlerts });
+      return { status: true, info: { userName } };
+    } else return { status: false, info: undefined };
+  } catch (err) {
+    console.log(err);
+    return { status: false, info: undefined };
+  }
+}
+
+async function deleteNoots(
+  locationName:string
+): Promise<ISocketControllerResponse> {
+  try {
+    const location: InstanceType<ILocationModel> | null =
+      await Location.findOne({ name: locationName });
+    if (location) {
+      await Location.findOneAndUpdate({ name: locationName }, { notifications: [] });
+      return { status: true, info: { location } };
+    } else return { status: false, info: undefined };
+  } catch (err) {
+    console.log(err);
+    return { status: false, info: undefined };
+  }
+}
+
 export default {
   checkCoordinates,
   getAlertsAndNotifications,
@@ -146,4 +182,6 @@ export default {
   addNotification,
   addActiveAdmin,
   removeActiveAdmin,
+  deleteAlert,
+  deleteNoots
 };

@@ -28,10 +28,10 @@ const createAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
     const locationInstance: InstanceType<ILocationModel> | null =
       await Location.findOne({ name: adminLocation });
     if (locationInstance) {
-      const newAdmins = locationInstance.admins.push(username);
+      locationInstance.admins.push(username);
       await Location.findOneAndUpdate(
         { name: adminLocation },
-        { admins: newAdmins }
+        { admins: locationInstance.admins }
       );
       res.status(201);
     } else throw Error();
@@ -56,15 +56,35 @@ const loginAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
     const { username, location } = user;
     // Admin list missing. WILL NEED MAYBE
     const locationInstance: InstanceType<ILocationModel> | null =
-      await Location.findOne({ name: location });
+    await Location.findOne({ name: location });
+    const admins = await Admin.find({location})
+    const adminsUsernames: string[] = []
+    admins.forEach(admin => adminsUsernames.push(admin.username))
     if (locationInstance) {
-      const { alerts, notifications, activeAdmins, admins } = locationInstance;
+      const { alerts, notifications, activeAdmins, coordinates } = locationInstance;
       res.status(200).send({
         accessToken,
         userInfo: { username, location, email },
-        locationInfo: { alerts, notifications, activeAdmins, admins },
+        locationInfo: { alerts, notifications, activeAdmins, admins: adminsUsernames, coordinates },
       });
     } else throw Error();
+  } catch (error) {
+    res
+      .status(401)
+      .send({ error: '401', message: 'Username or password is incorrect' });
+  }
+};
+
+const deleteNoot = async (req: TypedRequest<{time:string, location:string}>, res: Response) => {
+  console.log('fired');
+  const { time, location } = req.body;
+  console.log(time, location)
+  try {
+    const locationFetched = await Location.findOne({ name: location });
+    if(!locationFetched) throw Error() 
+    const newNoots = locationFetched.notifications.filter(noot => noot.time !== time)
+      await Location.findOneAndUpdate({ name: location }, { notifications: newNoots });
+      res.status(200).send();
   } catch (error) {
     res
       .status(401)
@@ -87,4 +107,4 @@ const loginAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
 //   // you would invalidate the token here.
 // };
 
-export default { createAdmin, loginAdmin };
+export default { createAdmin, loginAdmin, deleteNoot };

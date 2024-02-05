@@ -6,6 +6,7 @@ import {
 } from '../types';
 import Location from './../models/Location';
 import { Response } from 'express';
+import Admin from '../models/Admin';
 
 async function getUserInfo(req: TypedRequest<boolean>, res: Response) {
   if (req.body === false) {
@@ -32,15 +33,18 @@ async function getUserInfo(req: TypedRequest<boolean>, res: Response) {
       const locationInstance: InstanceType<ILocationModel> | null =
         await Location.findOne({ name: location });
       if (locationInstance) {
-        const { alerts, notifications, activeAdmins, admins } =
+        const admins = await Admin.find({location})
+        const adminsUsernames: string[] = []
+        admins.forEach(admin => adminsUsernames.push(admin.username))
+        const { alerts, notifications, activeAdmins, coordinates } =
           locationInstance;
         console.log({
           userInfo: { username, location, email },
-          locationInfo: { alerts, notifications, activeAdmins, admins },
+          locationInfo: { alerts, notifications, activeAdmins, adminsUsernames, coordinates },
         });
         res.status(200).send({
           userInfo: { username, location, email },
-          locationInfo: { alerts, notifications, activeAdmins, admins },
+          locationInfo: { alerts, notifications, activeAdmins, admins: adminsUsernames,coordinates },
         });
       }
     } catch (error) {
