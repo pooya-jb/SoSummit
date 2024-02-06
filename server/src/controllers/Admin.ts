@@ -61,11 +61,11 @@ const loginAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
     const adminsUsernames: string[] = []
     admins.forEach(admin => adminsUsernames.push(admin.username))
     if (locationInstance) {
-      const { alerts, notifications, activeAdmins, coordinates } = locationInstance;
+      const { alerts, notifications, activeAdmins, coordinates, phoneNumber } = locationInstance;
       res.status(200).send({
         accessToken,
         userInfo: { username, location, email },
-        locationInfo: { alerts, notifications, activeAdmins, admins: adminsUsernames, coordinates },
+        locationInfo: { alerts, notifications, activeAdmins, admins: adminsUsernames, coordinates, phoneNumber },
       });
     } else throw Error();
   } catch (error) {
