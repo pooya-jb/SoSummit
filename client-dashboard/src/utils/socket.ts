@@ -1,7 +1,5 @@
 import { io } from 'socket.io-client';
-import { store } from '../redux/store';
-
-const currentStore = store.getState()
+import { SocketServerResponse } from '../types';
 
 const URL = process.env.NODE_ENV === 'production' ? 'http://localhost:3000' : 'http://localhost:3000';
 const socket = io(URL, {
@@ -21,6 +19,18 @@ export function unsubscribeToSocket(onConnect:()=>void, onDisconnect:()=>void) {
     socket.off('connect', onConnect);
     socket.off('disconnect', onDisconnect);
   }
+}
+
+export function checkResponse(successHandler: (response: SocketServerResponse) => void = () => { }, errorHandler: () => void = () => { }) {
+  return (err, response: SocketServerResponse) => {
+    if (err) {
+      if (errorHandler) errorHandler()
+      console.log(err);
+    } else {
+      if (successHandler) successHandler(response);
+    }
+    return response.status;
+  };
 }
 
 export default socket;

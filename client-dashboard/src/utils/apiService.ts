@@ -1,6 +1,4 @@
-import { useSelector } from "react-redux";
 import { TypedResponse } from "../types";
-import { RootState } from "../redux/store";
 
 const BASE_URL = 'http://localhost:3000'
 
@@ -15,7 +13,7 @@ const apiService = {
       .catch((err) => console.log(err));
   },
 
-  checkJWT: async (accessToken) => {
+  checkJWT: async (accessToken : string) => {
     return fetch(`${BASE_URL}/authenticate`, {
       method: 'GET',
       headers: {

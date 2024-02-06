@@ -1,137 +1,34 @@
 import * as React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useSelector} from 'react-redux';
 
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import Dashboard from './components/Dashboard/Dashboard';
 import { RootState } from './redux/store';
 import PresentationPage from './components/PresentationPage/PresentationPage';
-import JWTUtil from './utils/jwtUtil';
-import apiService from './utils/apiService';
-import {
-  loggedIn,
-  socketConnected,
-  locationConnected,
-  adminLocationConnected,
-  setUsername,
-  setEmail,
-} from './redux/userSlice';
-
-import socket, { subscribeToSocket, unsubscribeToSocket } from './utils/socket';
-import {
-  updateAlerts,
-  activeAdminEntered,
-  activeAdminLeft,
-  updateActiveAdmins,
-  updateAdmins,
-  activeAdminUpdate,
-  updateCoords,
-  addAlert,
-  updateNoots
-} from './redux/locationSlice';
+import useAuthentication from './hooks/useAuthentication';
+import useSocket from './hooks/useSocket';
+import useAdminSocketSubs from './hooks/useAdminSocketSubs';
+import useAdminSocket from './hooks/useAdminSocket';
 
 function App(): React.ReactNode {
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
-  const isConnected = useSelector((state: RootState) => state.user.isConnected);
-  const dispatch = useDispatch();
-  const location = useSelector((state: RootState) => state.user.location);
 
-  useEffect(() => {
-    const checkAuthentication = async (accessToken: string | null) => {
-      const response = await apiService.checkJWT(accessToken);
-      if (response.status !== 200) {
-        console.log('not authenticated');
-      } else {
-        const res = await response.json();
-        const alerts = res.locationInfo.alerts;
-        // dispatch(setUsername(res.userInfo.username))
-        // dispatch(setLocation(res.userInfo.location))
-        // dispatch(setEmail(res.userInfo.email))
-        dispatch(loggedIn(res));
-        dispatch(updateAlerts(alerts));
-        dispatch(updateActiveAdmins(res.locationInfo.activeAdmins));
-        dispatch(updateAdmins(res.locationInfo.admins));
-        dispatch(updateCoords(res.locationInfo.coordinates))
-        dispatch(updateNoots(res.locationInfo.notifications))
-      }
-    };
-    checkAuthentication(JWTUtil.getter());
-    dispatch(socketConnected(socket.connected));
-  }, []);
+  // Checks for stored authentication and fetches
+  useAuthentication();
 
-  // subscribes on mount and unsubscribes when unmounted
-  useEffect(() => {
-    function onConnect() {
-      dispatch(socketConnected(true));
-    }
+  // Subscribes to socket connection events and updates state accordingly
+  useSocket();
 
-    function onDisconnect() {
-      dispatch(socketConnected(false));
-      dispatch(locationConnected(false));
-      dispatch(adminLocationConnected(false));
-    }
-
-    subscribeToSocket(onConnect, onDisconnect);
-
-    return () => {
-      unsubscribeToSocket(onConnect, onDisconnect);
-    };
-  }, []);
-
-  function setLocation(response) {
-    response.status ? dispatch(locationConnected(true)) : null;
-  }
-  function setAdminLocation(response) {
-    dispatch(adminLocationConnected(true));
-  }
-  socket.on(`Location-${location}-Admin-receive-live`, (info) => {
-    console.log(info)
-    dispatch(activeAdminUpdate(info));
-  });
-  socket.on(`Location-${location}-Admin-joined`, (info) => {
-    dispatch(activeAdminEntered(info.userName));
-  });
-  socket.on(`Location-${location}-Admin-left`, (info) => {
-    dispatch(activeAdminLeft(info.userName));
-  });
-  socket.on(`${location}-alert-admins`, (info) => {
-    dispatch(addAlert(info));
-  });
-
-  function checkResponse(handler) {
-    return (err, response) => {
-      if (err) {
-        console.log(err);
-      } else {
-        if (handler) handler(response);
-      }
-      return response.status;
-    };
-  }
-
-  useEffect(() => {
-    if (isConnected) {
-      socket
-        .timeout(5000)
-        .emit(
-          `Location-${location}-Admin`,
-          location,
-          checkResponse(setAdminLocation)
-        );
-      socket
-        .timeout(5000)
-        .emit(
-          `Location-${location}`,
-          { location, userCoords: [7.7, 46] },
-          checkResponse(setLocation)
-        );
-    }
-  }, [isConnected]);
+  // Handles connections to admin Lobby
+  useAdminSocket()
+  
+  // Handles admin lobby subscriptions
+  useAdminSocketSubs();
 
   return (
     <>

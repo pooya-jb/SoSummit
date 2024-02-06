@@ -10,13 +10,7 @@ import { loggedIn } from '../../redux/userSlice';
 import { TypedResponse } from '../../types';
 import classes from './Modal.module.css';
 import ids from './Modal.module.css';
-import {
-  updateAdmins,
-  updateAlerts,
-  updateActiveAdmins,
-  updateCoords,
-  updateNoots,
-} from '../../redux/locationSlice';
+import * as locationActions from '../../redux/locationSlice';
 
 function LoginModal() {
   const displayLogin = useSelector(
@@ -44,15 +38,10 @@ function LoginModal() {
     if (response.error) {
       alert('Wrong email or password');
     } else if (response.accessToken) {
-      console.log(response);
       JWTUtil.setter(response);
       closeHandler();
-      dispatch(updateAlerts(response.locationInfo.alerts));
-      dispatch(updateAdmins(response.locationInfo.admins));
-      dispatch(updateActiveAdmins(response.locationInfo.activeAdmins));
-      dispatch(updateCoords(response.locationInfo.coordinates))
-      dispatch(updateNoots(response.locationInfo.notifications))
-      dispatch(loggedIn(response));
+      dispatch(locationActions.dashboardConnected(response.locationInfo))  
+      dispatch(loggedIn(response.userInfo));
     }
   }
 
@@ -74,7 +63,7 @@ function LoginModal() {
               >
                 Login
               </button>
-              <button className={classes.buttonForm} onClick={closeHandler}>
+              <button type='button' className={classes.buttonForm} onClick={closeHandler}>
                 Cancel
               </button>
             </div>

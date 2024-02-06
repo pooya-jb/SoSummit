@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { UserInfo } from '../types';
 
 const initialState = {
   username: '',
@@ -14,13 +15,13 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    loggedIn: (state, action) => {
+    loggedIn: (state, action : PayloadAction<UserInfo>) => {
       return {
         ...state,
         isAuthenticated: true,
-        location: action.payload.userInfo.location,
-        username: action.payload.userInfo.username,
-        email: action.payload.userInfo.email,
+        location: action.payload.location,
+        username: action.payload.username,
+        email: action.payload.email,
         isConnected: true
       }
     },
@@ -30,12 +31,7 @@ export const userSlice = createSlice({
         isAuthenticated: false,
       }
     },
-    reloaded: (state, action) => {
-      return {
-        ...state,
-        isAuthenticated: action.payload.isAuthenticated,
-      }
-    },
+
     socketConnected: (state, action : PayloadAction<boolean>) => {
       return {
         ...state,
@@ -77,4 +73,4 @@ export const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const { loggedIn, loggedOut, reloaded, socketConnected, locationConnected, adminLocationConnected, setEmail, setLocation, setUsername } = userSlice.actions;
+export const { loggedIn, loggedOut, socketConnected, locationConnected, adminLocationConnected, setEmail, setLocation, setUsername } = userSlice.actions;
