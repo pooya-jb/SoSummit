@@ -14,17 +14,23 @@
   color: white;
   font-weight: bolder;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-  font-family: 'Protest Strike', sans-serif;
+  font-family: 'Russo One', sans-serif;
 }
 
 .logo-red {
-  color: red;
+  color: rgb(255, 0, 0);
 }
 
 .slogan {
   color: black;
   font-size: 1.2rem;
   text-align: center;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .features {
@@ -37,13 +43,13 @@
   margin-bottom: 40px;
 }
 
-.feature {
+.feature-content {
   max-width: 600px;
-  margin: 0 auto 40px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #F6F4EB;
 }
 
 .feature h3 {
@@ -54,4 +60,8 @@
 .feature p {
   font-size: 16px;
   color: #666;
+}
+
+.sosImg {
+  height: 70vh;
 }

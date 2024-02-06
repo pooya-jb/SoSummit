@@ -1,20 +1,19 @@
 // Update your PresentationPage component
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./Presentation.styles.css";
+import SOS_screen from '../../assets/SOS_screen_mockup.png';
 
 export default function PresentationPage() {
   useEffect(() => {
     AOS.init();
+
+    return () => AOS.refreshHard()
   }, []);
 
   return (
     <div>
-      <header className="site-header js-site-header" role="banner">
-        {/* Your header content goes here */}
-      </header>
-
       <main>
         <section
           className="site-hero overlay"
@@ -50,16 +49,15 @@ export default function PresentationPage() {
 
         {/* Features Section */}
         <section className="features">
-          <div className="feature" data-aos="fade-up" data-aos-offset="200">
-            <img src='../../assets/IMG_8223.jpeg' alt="Instant SOS calls" />
+          <div className="feature" data-aos="fade-up" data-aos-offset="250">
+            <img src={SOS_screen} alt="screenshot of app" className="sosImg"/>
             <div className="feature-content">
               <h3>Instant SOS calls</h3>
-              <p>Allows skiers to request assistance at the touch of a button.</p>
+              <p>Allows skiers to request assistance at the touch of a button. Should a skier require help, all they have to do is open the app, select the type of help they need, and finally hold down the SOS button for 3 seconds. Their live location is then sent to the ski resort.</p>
             </div>
           </div>
 
           <div className="feature" data-aos="fade-up" data-aos-offset="200">
-            <img src="image1.jpg" alt="Real-Time Location Tracking" />
             <div className="feature-content">
               <h3>Real-Time Location Tracking</h3>
               <p>
@@ -70,7 +68,6 @@ export default function PresentationPage() {
           </div>
 
           <div className="feature" data-aos="fade-up" data-aos-offset="200">
-            <img src="image3.jpg" alt="Two-Way Communication" />
             <div className="feature-content">
               <h3>Two-Way Communication</h3>
               <p>
