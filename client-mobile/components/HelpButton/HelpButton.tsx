@@ -54,6 +54,7 @@ const HelpButton: React.FC<ButtonProps> = ({
     };
   }, [isPressed]);
 
+
   async function triggerAlert(location) {
     try {
       console.log('line 67', location)
