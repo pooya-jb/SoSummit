@@ -16,7 +16,7 @@ const TabsLayout = () => {
       <Tabs.Screen
         name='index'
         options={{
-          headerTitle: `${isAuth ? 'Home' : 'Auth'}`,
+          headerTitle: `${isAuth ? 'Home' : 'Sign In'}`,
           headerTitleAlign: 'center',
           title: '',
           tabBarIcon: () => {

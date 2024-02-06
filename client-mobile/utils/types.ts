@@ -12,12 +12,12 @@ export interface Coordinates {
   timestamp: number;
 }
 
-export interface ButtonProps {
+export interface HelpButtonProps {
   countdown: number,
   setCountdown: React.Dispatch<React.SetStateAction<number>>
   isPressed: boolean,
   setIsPressed: React.Dispatch<React.SetStateAction<boolean>>,
-  setShowMessage: React.Dispatch<React.SetStateAction<boolean>>,
+  setUserActiveAlert: React.Dispatch<React.SetStateAction<boolean>>,
   helpType
 }
 

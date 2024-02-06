@@ -20,6 +20,7 @@ const createUser = async (req: TypedRequest<IUser>, res: Response) => {
     const newUser: InstanceType<IUserModel> = new User({
       ...req.body,
       password: hash,
+      activeAlert: false
     });
     const user: InstanceType<IUserModel> = await newUser.save();
     const { username, email, age, experience, bio } = user;

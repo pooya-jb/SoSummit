@@ -4,6 +4,7 @@ import { IAdminModel, TypedRequest, IAdmin, ILocationModel } from '../types';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import Location from '../models/Location';
+import User from '../models/User';
 const SECRET_KEY = process.env.SECRET_KEY || 'lalala this isnt secure';
 
 const createAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
@@ -96,6 +97,10 @@ const deleteAlert = async (req: TypedRequest<{username:string, location:string}>
     const locationFetched = await Location.findOne({ name: location });
     if(!locationFetched) throw Error()
     const newAlerts = locationFetched.alerts.filter(alert => alert.username !== username)
+    const user = await User.findOne({username})
+    if(user) {
+      await User.findOneAndUpdate({username},{activeAlert:false})
+    }else throw Error()
       await Location.findOneAndUpdate({ name: location }, { alerts: newAlerts });
       res.status(200).send();
   } catch (error) {

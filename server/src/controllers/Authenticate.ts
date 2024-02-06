@@ -8,24 +8,20 @@ import Location from './../models/Location';
 import { Response } from 'express';
 import Admin from '../models/Admin';
 
-async function getUserInfo(req: TypedRequest<boolean>, res: Response) {
-  if (req.body === false) {
+async function getUserInfo(req: TypedRequest<'user' | 'admin'>, res: Response) {
+  if (req.body === 'user') {
     try {
-      const { username, age, experience, bio, email } =
+      const { username, age, experience, bio, email, activeAlert } =
         req.user as InstanceType<IUserModel>;
       const locations: InstanceType<ILocationModel>[] = await Location.find();
-      console.log({
-        userInfo: { username, email, age, experience, bio },
-        locations: locations.map((location) => location.name),
-      });
       res.status(200).send({
-        userInfo: { username, email, age, experience, bio },
+        userInfo: { username, email, age, experience, bio, activeAlert },
         locations: locations.map((location) => location.name),
       });
     } catch (error) {
       res.status(500).send({ error: '500', message: 'Internal Server Error' });
     }
-  } else if (req.body === true) {
+  } else if (req.body === 'admin') {
     try {
       const { username, location, email } =
         req.user as InstanceType<IAdminModel>;

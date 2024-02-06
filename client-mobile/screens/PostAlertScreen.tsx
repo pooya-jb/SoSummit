@@ -20,7 +20,7 @@ export default function PostAlertScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>If you have more information, please call:</Text>
+      <Text>Push below to call:</Text>
       <Pressable >
         <Text onPress={()=>{Linking.openURL(`tel:${phoneNumber}`);}} style={styles.phoneNumber}>📞SKI PATROL📞</Text>
       </Pressable>

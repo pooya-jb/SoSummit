@@ -24,7 +24,8 @@ const initialState = {
     longitude: 86.925,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
-  }
+  },
+  userActiveAlert: false
 };
 
 export const userSlice = createSlice({
@@ -105,13 +106,14 @@ export const userSlice = createSlice({
     },
     userLoggedIn : (state, action) => {
       return {
-        ...state, 
+        ...state,
         username : action.payload.username,
         email: action.payload.email,
         age: action.payload.age,
         bio: action.payload.bio,
         experience: action.payload.experience,
         isAuth: true,
+        isAdmin: false
       }
     },
     adminLoggedIn: (state, action) => {
@@ -122,6 +124,12 @@ export const userSlice = createSlice({
         email: action.payload.email,
         isAuth: true,
         isAdmin : true
+      }
+    },
+    setActiveAlert: (state, action) => {
+      return {
+        ...state,
+        userActiveAlert: action.payload
       }
     }
   },
@@ -142,7 +150,8 @@ export const {
   mapRegionUpdated,
   loggedOut,
   userLoggedIn,
-  adminLoggedIn
+  adminLoggedIn,
+  setActiveAlert
 } = userSlice.actions;
 
 export default userSlice.reducer;
