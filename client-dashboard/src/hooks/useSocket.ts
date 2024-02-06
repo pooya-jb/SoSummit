@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
-import { subscribeToSocket, unsubscribeToSocket } from '../utils/socket';
+import socket, { subscribeToSocket, unsubscribeToSocket, checkResponse } from '../utils/socket';
 import * as userActions from '../redux/userSlice';
+import { RootState } from '../redux/store';
 
 export default function useSocket() {
 
   const dispatch = useDispatch();
+  const location = useSelector((state : RootState) => state.user.location)
+  const userName = useSelector((state: RootState) => state.user.username)
 
   useEffect(() => {
     function onConnect() {
@@ -22,7 +25,16 @@ export default function useSocket() {
 
     subscribeToSocket(onConnect, onDisconnect);
 
+    function success (response) {
+      if(response.status) {
+        console.log('Successfully left admin lobby');
+      }
+    }
+
     return () => {
+      socket
+        .timeout(5000)
+        .emit(`Location-${location}-Admin-leave`, { location, userName }, checkResponse(success));
       unsubscribeToSocket(onConnect, onDisconnect);
     };
   }, [dispatch]);
