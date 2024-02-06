@@ -51,8 +51,14 @@ export default function PresentationPage() {
         {/* Features Section */}
         <section className="features">
           <div className="feature" data-aos="fade-up" data-aos-offset="250">
-            <img src={SOS_screen} alt="screenshot of app" className="sosImg" />
-            <div className="text">
+            <img
+              src={SOS_screen}
+              alt="screenshot of app"
+              className="sosImg"
+              data-aos="fade-right"
+              data-aos-offset="200"
+            />
+            <div className="text" data-aos="fade-left" data-aos-offset="200">
               <h3>Instant SOS calls</h3>
               <div className="feature-content">
                 <p>
@@ -71,7 +77,11 @@ export default function PresentationPage() {
           </div>
 
           <div className="feature" data-aos="fade-up" data-aos-offset="200">
-            <div className="text">
+            <div
+              className="text"
+              data-aos="fade-right"
+              data-aos-offset="200"
+            >
               <h3>
                 <strong>Real-Time</strong>
                 <br /> Location Tracking
@@ -94,12 +104,20 @@ export default function PresentationPage() {
               src={dashboard}
               alt="screenshot of dashboard"
               className="dashboardImg"
+              data-aos="fade-left"
+              data-aos-offset="200"
             />
           </div>
 
           <div className="feature" data-aos="fade-up" data-aos-offset="250">
-            <img src={SOS_screen} alt="screenshot of app" className="sosImg" />
-            <div className="text">
+            <img
+              src={SOS_screen}
+              alt="screenshot of app"
+              className="sosImg"
+              data-aos="fade-right"
+              data-aos-offset="200"
+            />
+            <div className="text" data-aos="fade-left" data-aos-offset="200">
               <h3>Customizable Alerts</h3>
               <div className="feature-content">
                 <p>
