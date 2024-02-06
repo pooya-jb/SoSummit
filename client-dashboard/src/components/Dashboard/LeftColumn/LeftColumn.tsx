@@ -2,12 +2,13 @@ import * as React from 'react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from 'react-redux';
 
 
 import ids from './LeftColumn.module.css'
 import UserList from './UserList/UserList';
 import NotificationColumn from './NotificationColumn/NotificationColumn';
-import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
 function LeftColumn(): React.ReactNode {
   const alerts = useSelector((state: RootState) => state.location.alerts)

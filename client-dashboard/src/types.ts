@@ -15,7 +15,7 @@ export interface DisplayS {
   alertModalOpen: boolean;
 }
 
-export interface ActiveAdminS {
+export type ActiveAdminS = {
   username: string;
   coords: number[];
 }
@@ -31,11 +31,10 @@ export interface LocationS {
 }
 
 export interface AlertS {
-  text: string;
+  username: string;
   time: string;
   type: string;
-  username: string;
-  coords: number[];
+  location: number[];
 }
 
 export interface TypedResponse extends Response {
