@@ -20,7 +20,7 @@ export const displaySlice = createSlice({
         drawerIsOpen : !state.drawerIsOpen
       }
     },
-    userSelected : (state : DisplayS, action: PayloadAction<UserL>) => {
+    userSelected : (state : DisplayS, action: PayloadAction<string>) => {
       return {
         ...state,
         drawerIsOpen : true,

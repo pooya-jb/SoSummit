@@ -26,29 +26,36 @@ function Map(): React.ReactNode {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {alerts && alerts.map((alert: AlertS) => {
-            return (
-            <>
-            <Marker key={alert.username} position={[alert.location[0], alert.location[1]]}>
-              <Popup>
-                {alert.username}
-              </Popup>
-            </Marker>
-            </>
-          )
-          })}
-            {activeAdmins && activeAdmins.map((activeAdmin: ActiveAdminS) => {
-            return ( 
-              <>
-                {activeAdmin && activeAdmin.coords &&
-                  <Marker key={activeAdmin.username} position={[activeAdmin.coords[0], activeAdmin.coords[1]]}>
-                    <Popup>
-                      {activeAdmin.username}
-                    </Popup>
-                  </Marker>}
-              </>
-            )
-          })}
+          {alerts &&
+            alerts.map(
+              (alert: { location: number[]; username: string },
+                index: number) => {
+                return (
+                  <>
+                    <Marker
+                      key={index}
+                      position={[alert.location[0], alert.location[1]]}
+                    >
+                      <Popup>{alert.username}</Popup>
+                    </Marker>
+                  </>
+                );
+              }
+            )}
+          {activeAdmins &&
+            activeAdmins.map((activeAdmin: ActiveAdminS) => {
+              return (
+                <>
+                  {activeAdmin && activeAdmin.coords && (
+                    <Marker
+                      position={[activeAdmin.coords[0], activeAdmin.coords[1]]}
+                    >
+                      <Popup>{activeAdmin.username}</Popup>
+                    </Marker>
+                  )}
+                </>
+              );
+            })}
         </MapContainer>
       </div>
     </>

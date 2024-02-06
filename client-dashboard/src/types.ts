@@ -79,3 +79,10 @@ export interface SocketServerResponse {
   status: boolean;
   info: object | undefined;
 }
+
+export interface UserInfoI {
+  username: string,
+  email:string,
+  age: string,
+  experience:string
+}
