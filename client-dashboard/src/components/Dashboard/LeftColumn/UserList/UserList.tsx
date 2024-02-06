@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 
 import UserInfo from '../UserInfo/UserInfo';
+import AlertInfo from '../AlertInfo/AlertInfo';
+import { AlertS } from '../../../../types';
 
 function UserList({ source }: { source: 'users' | 'admins' }): React.ReactNode {
   const activeAdmins = useSelector((state: RootState) => state.location.activeAdmins)
@@ -25,7 +27,7 @@ function UserList({ source }: { source: 'users' | 'admins' }): React.ReactNode {
     return (
       <>
       {alerts &&
-        alerts.map((alert, index: number) => <UserInfo key={index} user={alert.username} active={false} />)}
+        alerts.map((alert: AlertS, index: number) => <AlertInfo key={index} alert={alert}/>)}
     </>
   );
 }

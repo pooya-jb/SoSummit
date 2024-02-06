@@ -2,42 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActiveAdminS, AlertS, LocationS, NotificationS, UserL } from '../types';
 import { RootState } from './store';
 import { act } from 'react-dom/test-utils';
-// const userMock: UserL[] = [
-//   {
-//     username: 'greg',
-//     email: 'greg@mail',
-//     age: '12',
-//     experience: 'expert',
-//     bio: 'i am greg',
-//     location: 'botswana ski resort',
-//   },
-//   {
-//     username: 'jack',
-//     email: 'greg@mail',
-//     age: '12',
-//     experience: 'expert',
-//     bio: 'i am greg',
-//     location: 'botswana ski resort',
-//   },
-// ];
-// const adminMock: UserL[] = [
-//   {
-//     username: 'Bob',
-//     email: 'greg@mail',
-//     age: '12',
-//     experience: 'expert',
-//     bio: 'i am greg',
-//     location: 'botswana ski resort',
-//   },
-//   {
-//     username: 'jack',
-//     email: 'greg@mail',
-//     age: '12',
-//     experience: 'expert',
-//     bio: 'i am greg',
-//     location: 'botswana ski resort',
-//   },
-// ];
 
 const initialState: LocationS = {
   name: '',

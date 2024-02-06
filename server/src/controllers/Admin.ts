@@ -76,12 +76,10 @@ const loginAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
 };
 
 const deleteNoot = async (req: TypedRequest<{time:string, location:string}>, res: Response) => {
-  console.log('fired');
   const { time, location } = req.body;
-  console.log(time, location)
   try {
     const locationFetched = await Location.findOne({ name: location });
-    if(!locationFetched) throw Error() 
+    if(!locationFetched) throw Error()
     const newNoots = locationFetched.notifications.filter(noot => noot.time !== time)
       await Location.findOneAndUpdate({ name: location }, { notifications: newNoots });
       res.status(200).send();
@@ -91,20 +89,20 @@ const deleteNoot = async (req: TypedRequest<{time:string, location:string}>, res
       .send({ error: '401', message: 'Username or password is incorrect' });
   }
 };
-// const profile = async (req, res) => {
-//
-//   try {
-//     const { _id, firstName, lastName } = req.user;
-//     const user = { _id, firstName, lastName };
-//     res.status(200).send(user);
-//   } catch {
-//     res.status(404).send({ error, message: 'Resource not found' });
-//   }
-//
-// };
-// const logout = (req, res) => {
-//   // delete the token client side upon logout.
-//   // you would invalidate the token here.
-// };
 
-export default { createAdmin, loginAdmin, deleteNoot };
+const deleteAlert = async (req: TypedRequest<{username:string, location:string}>, res: Response) => {
+  const { username, location } = req.body;
+  try {
+    const locationFetched = await Location.findOne({ name: location });
+    if(!locationFetched) throw Error()
+    const newAlerts = locationFetched.alerts.filter(alert => alert.username !== username)
+      await Location.findOneAndUpdate({ name: location }, { alerts: newAlerts });
+      res.status(200).send();
+  } catch (error) {
+    res
+      .status(401)
+      .send({ error: '401', message: 'Username or password is incorrect' });
+  }
+};
+
+export default { createAdmin, loginAdmin, deleteNoot, deleteAlert };
