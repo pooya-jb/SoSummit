@@ -87,15 +87,15 @@ async function serverBoot() {
               { location, userName }: { location: string; userName: string },
               callback
             ) => {
-              // const { status, info }: ISocketControllerResponse = await SocketControllers.getAlertsAndNotifications(location);
-
-              socket.join(adminLocationName);
+              
               const { status, info }: ISocketControllerResponse =
-                await SocketControllers.addActiveAdmin(location, userName);
-              status &&
+              await SocketControllers.addActiveAdmin(location, userName);
+              if (status) {
+                socket.join(adminLocationName);
                 io
                   .to(adminLocationName)
                   .emit(`${adminLocationName}-joined`, info);
+              }
               callback(acknowledge(status, info));
             }
           )

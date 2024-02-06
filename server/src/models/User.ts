@@ -26,8 +26,10 @@ const UserSchema = new db.Schema<IUser> ({
   },
   location: {
     type: String
+  },
+  activeAlert: {
+    type: Boolean
   }
-  
 })
 
 const User = db.model<IUser>('User', UserSchema);

@@ -19,7 +19,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 
 import { setLocation, socketConnected, tripStarted } from '../redux/userSlice';
-import { addNotification, updateNotifications } from '../redux/locationSlice';
+import { addNotification, setPhoneNumber, updateNotifications } from '../redux/locationSlice';
 import socket, {checkResponse} from '../utils/socket';
 
 
@@ -172,6 +172,7 @@ async function registerForPushNotificationsAsync() {
     if (response.status) {
       dispatch(setLocation(response.info.location));
       dispatch(updateNotifications(response.info.notifications));
+      dispatch(setPhoneNumber(response.info.phoneNumber));
       dispatch(tripStarted(true));
       router.navigate('../');
       socket.on(`${response.info.location}-notifications-received`, (info) => {

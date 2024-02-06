@@ -4,6 +4,7 @@ import { IAdminModel, TypedRequest, IAdmin, ILocationModel } from '../types';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import Location from '../models/Location';
+import User from '../models/User';
 const SECRET_KEY = process.env.SECRET_KEY || 'lalala this isnt secure';
 
 const createAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
@@ -61,11 +62,11 @@ const loginAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
     const adminsUsernames: string[] = []
     admins.forEach(admin => adminsUsernames.push(admin.username))
     if (locationInstance) {
-      const { alerts, notifications, activeAdmins, coordinates } = locationInstance;
+      const { alerts, notifications, activeAdmins, coordinates, phoneNumber } = locationInstance;
       res.status(200).send({
         accessToken,
         userInfo: { username, location, email },
-        locationInfo: { alerts, notifications, activeAdmins, admins: adminsUsernames, coordinates },
+        locationInfo: { alerts, notifications, activeAdmins, admins: adminsUsernames, coordinates, phoneNumber },
       });
     } else throw Error();
   } catch (error) {
@@ -96,6 +97,10 @@ const deleteAlert = async (req: TypedRequest<{username:string, location:string}>
     const locationFetched = await Location.findOne({ name: location });
     if(!locationFetched) throw Error()
     const newAlerts = locationFetched.alerts.filter(alert => alert.username !== username)
+    const user = await User.findOne({username})
+    if(user) {
+      await User.findOneAndUpdate({username},{activeAlert:false})
+    }else throw Error()
       await Location.findOneAndUpdate({ name: location }, { alerts: newAlerts });
       res.status(200).send();
   } catch (error) {
