@@ -14,10 +14,11 @@ export default function useAdminSocket() {
     if (adminLocationConnected) {
       console.log('Connected to admin-location')
       socket.on(`Location-${location}-Admin-receive-live`, (info) => {
-        console.log(info)
+        console.log("Connected", info)
         dispatch(locationActions.activeAdminUpdate(info));
       });
       socket.on(`Location-${location}-Admin-joined`, (info) => {
+        console.log("Joined", info)
         dispatch(locationActions.activeAdminEntered(info.userName));
       });
       socket.on(`Location-${location}-Admin-left`, (info) => {

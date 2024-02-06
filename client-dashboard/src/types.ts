@@ -65,8 +65,8 @@ export interface LocationInfo {
   alerts: AlertS[],
   admins: string[],
   coordinates: number[],
-  notifications: NotificationS[]
-  activeAdmins : ActiveAdminS[]
+  notifications: NotificationS[],
+  activeAdmins : ActiveAdminS[],
 }
 
 export interface UserInfo {

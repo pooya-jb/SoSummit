@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import socket, { checkResponse } from '../utils/socket';
 import * as userActions from '../redux/userSlice';
+import * as locationActions from '../redux/locationSlice'
 import { SocketServerResponse } from '../types';
 
 export default function useSocket() {
@@ -25,7 +26,24 @@ export default function useSocket() {
     }
     function setAdminLocation(response: SocketServerResponse) {
       if (response.status) {
+        console.log(response.status)
         dispatch(userActions.adminLocationConnected(true));
+        // dispatch(locationActions.updateActiveAdmins(response.info))
+        console.log('Connected to admin-location')
+        socket.on(`Location-${location}-Admin-receive-live`, (info) => {
+          console.log("Connected", info)
+          dispatch(locationActions.activeAdminUpdate(info));
+        });
+        socket.on(`Location-${location}-Admin-joined`, (info) => {
+          console.log("Joined", info)
+          dispatch(locationActions.activeAdminEntered(info.userName));
+        });
+        socket.on(`Location-${location}-Admin-left`, (info) => {
+          dispatch(locationActions.activeAdminLeft(info.userName));
+        });
+        socket.on(`${location}-alert-admins`, (info) => {
+          dispatch(locationActions.addAlert(info));
+        });
       }
     }
   }, [dispatch, isConnected, location, userName]);

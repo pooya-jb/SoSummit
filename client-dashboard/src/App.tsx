@@ -20,15 +20,15 @@ function App(): React.ReactNode {
 
   // Checks for stored authentication and fetches
   useAuthentication();
-
-  // Subscribes to socket connection events and updates state accordingly
-  useSocket();
+  
+  // Handles admin lobby subscriptions
+  // useAdminSocketSubs();
 
   // Handles connections to admin Lobby
   useAdminSocket()
-  
-  // Handles admin lobby subscriptions
-  useAdminSocketSubs();
+
+  // Subscribes to socket connection events and updates state accordingly
+  useSocket();
 
   return (
     <>
