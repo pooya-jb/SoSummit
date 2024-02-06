@@ -14,8 +14,9 @@ import { checkResponse } from '../../utils/socket';
 import { updateNotifications, addNotification, updateAlerts, addAlert } from '../../redux/locationSlice';
 import { mapPosition } from '../../utils/types';
 
-const Home = () => {
 
+const Home = () => {
+ 
   // STATE AND USE EFFECT
   const [status, requestPermission] = Location.useForegroundPermissions();
   const [backgroundStatus, requestBackgroundPermission] = Location.useBackgroundPermissions();
@@ -118,6 +119,7 @@ const Home = () => {
     } else {
       socket.disconnect();
       socket.off('connect');
+      socket.removeAllListeners()
       socket.off('disconnect');
       dispatch(tripStarted(false));
       dispatch(updateAlerts([]));
@@ -154,11 +156,11 @@ const Home = () => {
           accuracy: Location.Accuracy.Highest,
           timeInterval: 5000,
           showsBackgroundLocationIndicator: true,
-            foregroundService: {
-                notificationTitle: 'SoSummit',
-                notificationBody: 'Sending location',
-                notificationColor: '#008000',
-            },
+            // foregroundService: {
+            //     notificationTitle: 'SoSummit',
+            //     notificationBody: 'Sending location',
+            //     notificationColor: '#008000',
+            // },
           distanceInterval: 0,
         })
     } else {

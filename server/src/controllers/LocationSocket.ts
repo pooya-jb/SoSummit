@@ -111,7 +111,7 @@ async function addActiveAdmin(
     if (location) {
       const activeAdmins = location.activeAdmins.concat([userName]);
       await Location.findOneAndUpdate({ name: locationName }, { activeAdmins });
-      return { status: true, info: { userName, alerts: location.alerts, notifications: location.notifications } };
+      return { status: true, info: { userName, alerts: location.alerts, notifications: location.notifications, location: locationName } };
     } else return { status: false, info: undefined };
   } catch (err) {
     console.log(err);

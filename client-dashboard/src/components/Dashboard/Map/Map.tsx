@@ -21,16 +21,17 @@ function Map(): React.ReactNode {
           />
           {alerts && alerts.map((alert: {location: number[], username:string}, index:number) => {
             return (
-            // <Marker key={index} position={[alert.location[0], alert.location[1]]}>
-            //   <Popup>
-            //     {alert.username}
-            //   </Popup>
-            // </Marker>
-            <></>
+              <>
+            <Marker key={index} position={[alert.location[0], alert.location[1]]}>
+              <Popup>
+                {alert.username}
+              </Popup>
+            </Marker>
+            </>
           )
           })}
             {activeAdmins && activeAdmins.map((activeAdmin: ActiveAdminS) => {
-            return (
+            return ( 
               <>
                 {activeAdmin && activeAdmin.coords &&
                   <Marker position={[activeAdmin.coords[0], activeAdmin.coords[1]]}>
