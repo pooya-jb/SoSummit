@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActiveAdminS, AlertS, LocationS, NotificationS, UserL } from '../types';
 import { RootState } from './store';
+import { act } from 'react-dom/test-utils';
 
 const initialState: LocationS = {
   name: '',
@@ -17,32 +18,38 @@ export const locationSlice = createSlice({
   initialState,
   reducers: {
     activeAdminUpdate: (
-      state: RootState,
+      state,
       action: PayloadAction<ActiveAdminS>
     ) => {
+      console.log(action.payload)
       return {
         ...state,
-        activeAdmins: state.activeAdmins.forEach((admin: ActiveAdminS) => {
-          if (admin.username === action.payload.username)
-            admin.coords = action.payload.coords;
+        activeAdmins: state.activeAdmins.map((admin: ActiveAdminS) => {
+        if (admin.username !== action.payload.userName) {
+          return admin
+        } else {
+          return {...admin, coords: action.payload.coords}
+        }
         }),
       };
     },
 
     activeAdminEntered: (
       state: LocationS,
-      action: PayloadAction<ActiveAdminS>
+      action: PayloadAction<any>
     ) => {
       return {
         ...state,
-        activeAdmins: [...state.activeAdmins, action.payload],
+        activeAdmins: [...state.activeAdmins, {
+          username: action.payload,
+        coords: [0,0]}],
       };
     },
 
-    activeAdminLeft: (state: LocationS, action: PayloadAction<UserL>) => {
+    activeAdminLeft: (state: LocationS, action: PayloadAction<any>) => {
       return {
         ...state,
-        users: state.activeAdmins.filter((user) => user !== action.payload),
+        activeAdmins: state.activeAdmins.filter((user) => user.username !== action.payload),
       };
     },
 
@@ -74,11 +81,17 @@ export const locationSlice = createSlice({
     },
     updateActiveAdmins: (
       state: LocationS,
-      action: PayloadAction<ActiveAdminS[]>
+      action: PayloadAction<string[]>
     ) => {
+      console.log(action)
       return {
         ...state,
-        activeAdmins: action.payload,
+        activeAdmins: action.payload.map((admin) => {
+          return {
+            username: admin,
+            coords: [0, 0]
+          }
+        })
       };
     },
 

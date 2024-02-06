@@ -7,7 +7,7 @@ import { RootState } from '../redux/store';
 export default function User() {
   const dispatch = useDispatch();
   const isPresented = router.canGoBack();
-  const notifications = useSelector((state: RootState) => state.location.notifications);
+  const notifications = useSelector((state: RootState) => state.location.notifications).slice().reverse()
 
   type ItemProps = { type: string, text: string, time: string };
   const Item = ({ type, text, time }: ItemProps) => (

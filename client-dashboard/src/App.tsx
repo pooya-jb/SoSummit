@@ -89,19 +89,20 @@ function App(): React.ReactNode {
   function setAdminLocation(response) {
     dispatch(adminLocationConnected(true));
   }
-  socket.on(`Location-${location}-Admin-live`, (info) => {
+  socket.on(`Location-${location}-Admin-receive-live`, (info) => {
+    console.log(info)
     dispatch(activeAdminUpdate(info));
   });
   socket.on(`Location-${location}-Admin-joined`, (info) => {
     dispatch(activeAdminEntered(info.userName));
   });
-  socket.on(`Location-${location}-Admin-leave`, (info) => {
+  socket.on(`Location-${location}-Admin-left`, (info) => {
     dispatch(activeAdminLeft(info.userName));
   });
   socket.on(`${location}-alert-admins`, (info) => {
     dispatch(addAlert(info));
   });
-  
+
   function checkResponse(handler) {
     return (err, response) => {
       if (err) {
