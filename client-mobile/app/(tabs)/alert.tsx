@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet } from 'react-native';
 import HelpScreen from '../../screens/HelpScreen';
-import ChatScreen from '../../screens/ChatScreen';
+import PostAlertScreen from '../../screens/PostAlertScreen';
 
 const Alert = () => {
   const [isPressed, setIsPressed] = useState(false);
@@ -13,7 +13,7 @@ const Alert = () => {
       {!showMessage ?
       <HelpScreen isPressed={isPressed} setIsPressed={setIsPressed} countdown={countdown} setCountdown={setCountdown} setShowMessage={setShowMessage} />
       :
-      <ChatScreen />}
+      <PostAlertScreen />}
     </SafeAreaView>
   );
 };

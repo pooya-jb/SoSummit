@@ -57,7 +57,7 @@ export interface ILocation {
   notifications: INotification[];
   admins: string[];
   activeAdmins: string[];
-  phone: string
+  phoneNumber: string
 }
 
 export interface TypedJwt extends JwtPayload {

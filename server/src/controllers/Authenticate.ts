@@ -36,15 +36,11 @@ async function getUserInfo(req: TypedRequest<boolean>, res: Response) {
         const admins = await Admin.find({location})
         const adminsUsernames: string[] = []
         admins.forEach(admin => adminsUsernames.push(admin.username))
-        const { alerts, notifications, activeAdmins, coordinates } =
+        const { alerts, notifications, activeAdmins, coordinates, phoneNumber } =
           locationInstance;
-        console.log({
-          userInfo: { username, location, email },
-          locationInfo: { alerts, notifications, activeAdmins, adminsUsernames, coordinates },
-        });
         res.status(200).send({
           userInfo: { username, location, email },
-          locationInfo: { alerts, notifications, activeAdmins, admins: adminsUsernames,coordinates },
+          locationInfo: { alerts, notifications, activeAdmins, admins: adminsUsernames, coordinates, phoneNumber },
         });
       }
     } catch (error) {
