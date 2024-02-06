@@ -1,4 +1,4 @@
-import { TypedResponse } from "../types";
+import { TypedResponse, UserL } from "../types";
 
 const BASE_URL = 'http://localhost:3000'
 
@@ -48,7 +48,21 @@ const apiService = {
       body: JSON.stringify({username, location}),
     })
     return res
+  },
+  fetchUserInfo: async (username:string) => {
+    try {
+      const accessToken = localStorage.getItem('accessToken') 
+      const res = await fetch(`${BASE_URL}/user-info/${username}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json', 'Authorization': `bearer ${accessToken}`},
+      })
+      if(res.ok) {
+        return await res.json() as UserL
+      }else throw Error()
+    
+  } catch (error) {
+    return {}
   }
 }
-
+}
 export default apiService;
