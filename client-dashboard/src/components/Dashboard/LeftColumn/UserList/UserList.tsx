@@ -14,8 +14,8 @@ function UserList({ source }: { source: 'users' | 'admins' }): React.ReactNode {
       <>
         {admins &&
           admins.map((user: string, index:number) => {
-          let flag = false
-          if (activeAdmins.includes(user)) flag = true
+            let flag = false
+            if (activeAdmins.some( active=> active.username === user)) flag = true
         return <UserInfo key={index} user={user} active={flag} />
         })}
       </>
