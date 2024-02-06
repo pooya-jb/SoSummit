@@ -14,11 +14,11 @@
   color: white;
   font-weight: bolder;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-  font-family: 'Protest Strike', sans-serif;
+  font-family: 'Russo One', sans-serif;
 }
 
 .logo-red {
-  color: red;
+  color: rgb(255, 0, 0);
 }
 
 .slogan {

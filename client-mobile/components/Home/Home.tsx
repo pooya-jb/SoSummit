@@ -25,13 +25,8 @@ import {
 } from "../../redux/locationSlice";
 import { mapPosition } from "../../utils/types";
 
-<<<<<<< HEAD
 
 const Home = () => {
- 
-=======
-const Home = () => {
->>>>>>> 7e77a0fdeffaf6b7d9e7e149b38093d6430cadde
   // STATE AND USE EFFECT
   const [status, requestPermission] = Location.useForegroundPermissions();
   const [backgroundStatus, requestBackgroundPermission] =
@@ -159,14 +154,8 @@ const Home = () => {
         );
     } else {
       socket.disconnect();
-<<<<<<< HEAD
-      socket.off('connect');
-      socket.removeAllListeners()
-      socket.off('disconnect');
-=======
       socket.off("connect");
       socket.off("disconnect");
->>>>>>> 7e77a0fdeffaf6b7d9e7e149b38093d6430cadde
       dispatch(tripStarted(false));
       dispatch(updateAlerts([]));
       dispatch(updateNotifications([]));
@@ -207,28 +196,10 @@ const Home = () => {
           accuracy: Location.Accuracy.Highest,
           timeInterval: 5000,
           showsBackgroundLocationIndicator: true,
-<<<<<<< HEAD
-            // foregroundService: {
-            //     notificationTitle: 'SoSummit',
-            //     notificationBody: 'Sending location',
-            //     notificationColor: '#008000',
-            // },
-          distanceInterval: 0,
-        })
-    } else {
-      Alert.alert(
-        'Error',
-        'Failed to enter admins lobby',
-        [
-          {
-            text: 'Okay',
-            style: 'default',
-=======
           foregroundService: {
             notificationTitle: "SoSummit",
             notificationBody: "Sending location",
             notificationColor: "#008000",
->>>>>>> 7e77a0fdeffaf6b7d9e7e149b38093d6430cadde
           },
           distanceInterval: 0,
         }
