@@ -4,33 +4,34 @@ import { RootState } from '../../../../redux/store';
 
 import UserInfo from '../UserInfo/UserInfo';
 import AlertInfo from '../AlertInfo/AlertInfo';
-import { AlertS } from '../../../../types';
+import { ActiveAdminS, AlertS } from '../../../../types';
 
 function UserList({ source }: { source: 'users' | 'admins' }): React.ReactNode {
-  const activeAdmins = useSelector((state: RootState) => state.location.activeAdmins)
-  const admins = useSelector((state: RootState) => state.location.admins);
-  const alerts = useSelector((state: RootState) => state.location.alerts)
+  
+  const activeAdmins : ActiveAdminS[] = useSelector((state: RootState) => state.location.activeAdmins)
+  const admins : string[] = useSelector((state: RootState) => state.location.admins);
+  const alerts : AlertS[] = useSelector((state: RootState) => state.location.alerts)
 
   if(source === 'admins') {
-    return (
-      <>
-        {admins &&
-          admins.map((user: string, index:number) => {
-            let flag = false
-            if (activeAdmins.some( active=> active.username === user)) flag = true
-        return <UserInfo key={index} user={user} active={flag} />
-        })}
-      </>
-    );
-  } else {
+    const adminList : React.ReactNode = admins?.map((user: string) => {
+      const active : boolean = (activeAdmins.some(active => active.username === user))
+      return <UserInfo key={user} user={user} active={active} />
+    })
 
     return (
       <>
-      {alerts &&
-        alerts.map((alert: AlertS, index: number) => <AlertInfo key={index} alert={alert}/>)}
-    </>
-  );
-}
+        {adminList}
+      </>
+    ); 
+  }
+  else if (source === 'users') {
+    const alertList: React.ReactNode = alerts?.map((alert: AlertS) => <AlertInfo key={alert.username} alert={alert} />)
+    return (
+      <>
+        {alertList}
+      </>
+    )
+  }
 }
 
 export default UserList;

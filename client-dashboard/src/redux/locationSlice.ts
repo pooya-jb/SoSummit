@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActiveAdminS, AlertS, LocationInfo, LocationS, NotificationS, UserL } from '../types';
-import { RootState } from './store';
-import { act } from 'react-dom/test-utils';
 
 const initialState: LocationS = {
   name: '',
@@ -36,7 +34,7 @@ export const locationSlice = createSlice({
 
     activeAdminEntered: (
       state: LocationS,
-      action: PayloadAction<any>
+      action: PayloadAction<string>
     ) => {
       return {
         ...state,
@@ -46,7 +44,7 @@ export const locationSlice = createSlice({
       };
     },
 
-    activeAdminLeft: (state: LocationS, action: PayloadAction<any>) => {
+    activeAdminLeft: (state: LocationS, action: PayloadAction<string>) => {
       return {
         ...state,
         activeAdmins: state.activeAdmins.filter((user) => user.username !== action.payload),
@@ -111,7 +109,7 @@ export const locationSlice = createSlice({
         };
       } else return state
     },
-    addNoot: (state: LocationS, action: PayloadAction<AlertS>) => {
+    addNoot: (state: LocationS, action: PayloadAction<NotificationS>) => {
 
         return {
           ...state,

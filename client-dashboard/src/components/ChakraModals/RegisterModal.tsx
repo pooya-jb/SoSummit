@@ -63,7 +63,7 @@ function RegisterModal() {
             <input type="password" name="password" placeholder='password' required onChange={handlePasswordChange} />
             <div className={classes.buttonsContainer}>
               <button type="submit" className={classes.buttonForm} id={ids.loginButton}>Login</button>
-              <button className={classes.buttonForm} onClick={closeHandler}>Cancel</button>
+              <button type="button" className={classes.buttonForm} onClick={closeHandler}>Cancel</button>
             </div>
           </form>
         </ModalContent>

@@ -12,7 +12,7 @@ import classes from "./Modal.module.css"
 import ids from "./Modal.module.css"
 import socket, {checkResponse} from "../../utils/socket";
 import { addNoot } from "../../redux/locationSlice";
-import { AlertS, SocketServerResponse } from "../../types";
+import { NotificationS, SocketServerResponse } from "../../types";
 
 function AlertModal() {
   const [message, setMessage] = useState('')
@@ -31,7 +31,7 @@ function AlertModal() {
   }
   const addNewNoot = (response : SocketServerResponse) => {
     if (response.status) {
-      dispatch(addNoot(response.info as AlertS))
+      dispatch(addNoot(response.info as NotificationS))
     }
   }
   function closeHandler() {
@@ -56,7 +56,7 @@ function AlertModal() {
             <input type="text" name="message" required onChange={handleMessageChange} placeholder="insert message" />
             <div className={classes.buttonsContainer}>
               <button type="submit" className={classes.buttonForm} id={ids.loginButton}>Send</button>
-              <button className={classes.buttonForm} onClick={closeHandler}>Cancel</button>
+              <button type="button" className={classes.buttonForm} onClick={closeHandler}>Cancel</button>
             </div>
           </form>
         </ModalContent>
