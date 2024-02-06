@@ -4,15 +4,15 @@ import { useState } from 'react';
 
 import HelpButton from '../components/HelpButton/HelpButton';
 import HelpType from '../components/HelpType/HelpType';
-import { ButtonProps } from '../utils/types';
+import { HelpButtonProps } from '../utils/types';
 import { RootState } from '../redux/store';
 
-const HelpScreen: React.FC<ButtonProps> = ({
+const HelpScreen: React.FC<HelpButtonProps> = ({
   isPressed,
   setIsPressed,
   countdown,
   setCountdown,
-  setShowMessage,
+  setUserActiveAlert,
 }) => {
   const location = useSelector((state: RootState) => state.user.location);
   const [helpType, setHelpType] = useState<string>('');
@@ -29,7 +29,7 @@ const HelpScreen: React.FC<ButtonProps> = ({
         setIsPressed={setIsPressed}
         countdown={countdown}
         setCountdown={setCountdown}
-        setShowMessage={setShowMessage}
+        setUserActiveAlert={setUserActiveAlert}
         helpType={helpType}
       />
     </>

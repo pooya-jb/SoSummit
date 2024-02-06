@@ -44,7 +44,6 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("mounted");
     foregroundTrackingSubscribe(subscription);
     requestPermission();
     requestBackgroundPermission();

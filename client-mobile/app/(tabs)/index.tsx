@@ -3,7 +3,7 @@ import { RootState } from '../../redux/store';
 import AuthScreen from '../../screens/AuthScreen';
 import { tokenValidation } from '../../utils/ApiService';
 import { useDispatch } from 'react-redux';
-import { adminLoggedIn, setAuth, userLoggedIn } from '../../redux/userSlice';
+import { adminLoggedIn, setActiveAlert, setAuth, userLoggedIn } from '../../redux/userSlice';
 import { setPhoneNumber, updateAlerts, updateLocations, updateNotifications } from '../../redux/locationSlice';
 import { HomeScreen } from '../../screens/HomeScreen';
 import * as TaskManager from "expo-task-manager"
@@ -26,6 +26,7 @@ const HomePage = () => {
         const { username, email, age, bio, experience } = res.userInfo;
         dispatch(userLoggedIn({ username, email, age, bio, experience }))
         dispatch(updateLocations(res.locations));
+        dispatch(setActiveAlert(res.userInfo.activeAlert))
       }
     }
   })

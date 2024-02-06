@@ -10,6 +10,7 @@ export interface IUser {
   experience: string;
   bio?: string;
   location?: string;
+  activeAlert?: boolean;
 }
 
 export interface IAdmin {
