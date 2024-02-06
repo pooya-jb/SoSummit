@@ -4,7 +4,8 @@ import { INotification, IAlert } from '../utils/types';
 const initialState = {
   locations: [''],
   notifications: [{_id: "asdfasdfasdf", text: "asdf", time: "asdf", type: "asdf"}],
-  alerts : [{_id : "sfjefkemfksmf", time : "help!", type : "red", username: "oh god", location : [17,62]}]
+  alerts : [{_id : "sfjefkemfksmf", time : "help!", type : "red", username: "oh god", location : [17,62]}],
+  phoneNumber: '0'
 };
 
 export const locationSlice = createSlice({
@@ -41,9 +42,15 @@ export const locationSlice = createSlice({
         alerts: [...state.alerts, action.payload]
       }
     },
+    setPhoneNumber: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        phoneNumber: action.payload
+      }
+    }
   },
 });
 
-export const { updateLocations, updateNotifications, addNotification, updateAlerts, addAlert } = locationSlice.actions;
+export const { updateLocations, updateNotifications, addNotification, updateAlerts, addAlert, setPhoneNumber } = locationSlice.actions;
 
 export default locationSlice.reducer;

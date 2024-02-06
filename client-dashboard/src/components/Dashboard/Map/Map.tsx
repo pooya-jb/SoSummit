@@ -6,15 +6,22 @@ import { RootState } from '../../../redux/store';
 import { ActiveAdminS, AlertS } from '../../../types';
 
 function Map(): React.ReactNode {
-  const alerts = useSelector((state: RootState) => state.location.alerts)
-  const activeAdmins = useSelector((state: RootState) => state.location.activeAdmins)
-  const displayCoord = useSelector((state: RootState) => state.location.displayCoords)
+  const alerts = useSelector((state: RootState) => state.location.alerts);
+  const activeAdmins = useSelector(
+    (state: RootState) => state.location.activeAdmins
+  );
+  const displayCoord = useSelector(
+    (state: RootState) => state.location.displayCoords
+  );
 
   return (
     <>
       <div className="map-container">
-
-        <MapContainer center={[displayCoord[1], displayCoord[0] ]} zoom={10} scrollWheelZoom={true}>
+        <MapContainer
+          center={[displayCoord[1], displayCoord[0]]}
+          zoom={10}
+          scrollWheelZoom={true}
+        >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -31,7 +38,7 @@ function Map(): React.ReactNode {
           )
           })}
             {activeAdmins && activeAdmins.map((activeAdmin: ActiveAdminS) => {
-            return (
+            return ( 
               <>
                 {activeAdmin && activeAdmin.coords &&
                   <Marker key={activeAdmin.username} position={[activeAdmin.coords[0], activeAdmin.coords[1]]}>
@@ -45,7 +52,7 @@ function Map(): React.ReactNode {
         </MapContainer>
       </div>
     </>
-  )
+  );
 }
 
-export default Map
+export default Map;

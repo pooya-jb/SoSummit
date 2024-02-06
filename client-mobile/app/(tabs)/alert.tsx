@@ -1,19 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaView, Text, StyleSheet } from 'react-native';
 import HelpScreen from '../../screens/HelpScreen';
-import ChatScreen from '../../screens/ChatScreen';
+import PostAlertScreen from '../../screens/PostAlertScreen';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const Alert = () => {
   const [isPressed, setIsPressed] = useState(false);
   const [countdown, setCountdown] = useState(0);
-  const [showMessage, setShowMessage] = useState(false);
+  const [userActiveAlert, setUserActiveAlert] = useState(false);
+  const activeAlert = useSelector((state: RootState) => state.user.userActiveAlert);
 
   return (
     <SafeAreaView style={styles.container}>
-      {!showMessage ?
-      <HelpScreen isPressed={isPressed} setIsPressed={setIsPressed} countdown={countdown} setCountdown={setCountdown} setShowMessage={setShowMessage} />
+      {!activeAlert ?
+      <HelpScreen isPressed={isPressed} setIsPressed={setIsPressed} countdown={countdown} setCountdown={setCountdown} setUserActiveAlert={setUserActiveAlert} />
       :
-      <ChatScreen />}
+      <PostAlertScreen />}
     </SafeAreaView>
   );
 };

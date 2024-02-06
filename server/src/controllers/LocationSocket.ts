@@ -1,4 +1,5 @@
 import Location from '../models/Location';
+import User from '../models/User';
 import { ILocationModel, ISocketControllerResponse } from '../types';
 
 async function checkCoordinates(
@@ -18,6 +19,7 @@ async function checkCoordinates(
             info: {
               notifications: location.notifications,
               location: locationName,
+              phoneNumber: location.phoneNumber
             },
           }
         : { status: false, info: undefined };
@@ -66,7 +68,10 @@ async function addAlert(
         location: userCoords,
       };
       const alerts = location.alerts.concat([alert]);
-      await Location.findOneAndUpdate({ name: locationName }, { alerts });
+      await Location.findOneAndUpdate({ name: locationName }, { alerts });      
+      const user = await User.findOne({username})
+      if(user) await User.findOneAndUpdate({username},{activeAlert: true})
+      else return { status: false, info: undefined };
       return { status: true, info: alert };
     } else return { status: false, info: undefined };
   } catch (err) {
@@ -111,7 +116,7 @@ async function addActiveAdmin(
     if (location) {
       const activeAdmins = location.activeAdmins.concat([userName]);
       await Location.findOneAndUpdate({ name: locationName }, { activeAdmins });
-      return { status: true, info: { userName, alerts: location.alerts, notifications: location.notifications } };
+      return { status: true, info: { userName, alerts: location.alerts, notifications: location.notifications, location: locationName } };
     } else return { status: false, info: undefined };
   } catch (err) {
     console.log(err);

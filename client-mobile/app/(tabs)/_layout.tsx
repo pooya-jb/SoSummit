@@ -16,7 +16,7 @@ const TabsLayout = () => {
       <Tabs.Screen
         name='index'
         options={{
-          headerTitle: `${isAuth ? 'Home' : 'Auth'}`,
+          headerTitle: `${isAuth ? 'Home' : 'Sign In'}`,
           headerTitleAlign: 'center',
           title: '',
           tabBarIcon: () => {
@@ -68,7 +68,7 @@ const TabsLayout = () => {
                     style={{ height: 30, width: 30, marginLeft: 15 }}
                   >
                     <Image
-                      source={require('../../assets/notification.png')}
+                      source={require('../../assets/notif!.png')}
                       style={{
                         height: Platform.OS === 'ios' ? 25 : 22,
                         width: Platform.OS === 'ios' ? 25 : 22, // Adjust the width as needed

@@ -10,6 +10,7 @@ export interface IUser {
   experience: string;
   bio?: string;
   location?: string;
+  activeAlert?: boolean;
 }
 
 export interface IAdmin {
@@ -57,7 +58,7 @@ export interface ILocation {
   notifications: INotification[];
   admins: string[];
   activeAdmins: string[];
-  phone: string
+  phoneNumber: string
 }
 
 export interface TypedJwt extends JwtPayload {
