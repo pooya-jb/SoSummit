@@ -41,6 +41,15 @@ export interface AlertS {
 export interface TypedResponse extends Response {
   error: string;
   accessToken: string;
+  locationInfo : LocationInfo;
+  userInfo : UserInfo;
+}
+
+export interface TypedLoginResponse extends Response {
+  error: string;
+  accessToken: string;
+  locationInfo: LocationInfo;
+  userInfo: UserInfo;
 }
 
 export interface LoginResponse {
@@ -51,4 +60,23 @@ export interface NotificationS {
   type: string;
   text: string;
   time: string;
+}
+
+export interface LocationInfo { 
+  alerts: AlertS[],
+  admins: string[],
+  coordinates: number[],
+  notifications: NotificationS[]
+  activeAdmins : ActiveAdminS[]
+}
+
+export interface UserInfo {
+  location : string;
+  username : string;
+  email : string;
+}
+
+export interface SocketServerResponse {
+  status: boolean;
+  info: object | undefined;
 }

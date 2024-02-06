@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ActiveAdminS, AlertS, LocationS, NotificationS, UserL } from '../types';
+import { ActiveAdminS, AlertS, LocationInfo, LocationS, NotificationS, UserL } from '../types';
 import { RootState } from './store';
 import { act } from 'react-dom/test-utils';
 
@@ -124,7 +124,18 @@ export const locationSlice = createSlice({
           noots:  action.payload
         };
 
-      },
+    },
+    dashboardConnected : ( state : LocationS, action : PayloadAction<LocationInfo>) => {
+        return {
+          ...state,
+          noots: action.payload.notifications,
+          alerts : action.payload.alerts,
+          admins : action.payload.admins,
+          activeAdmins : action.payload.activeAdmins,
+          coordinates : action.payload.coordinates,
+          displayCoords: [(action.payload.coordinates[1] + action.payload.coordinates[0]) / 2, (action.payload.coordinates[3] + action.payload.coordinates[2]) / 2]
+        }
+      }
   },
 });
 
@@ -142,6 +153,6 @@ export const {
   updateCoords,
   addAlert,
   addNoot,
-  updateNoots
-
+  updateNoots,
+  dashboardConnected
 } = locationSlice.actions;

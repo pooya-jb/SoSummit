@@ -10,8 +10,9 @@ import { alertSelected } from "../../redux/displaySlice";
 import { RootState } from "../../redux/store";
 import classes from "./Modal.module.css"
 import ids from "./Modal.module.css"
-import socket from "../../utils/socket";
+import socket, {checkResponse} from "../../utils/socket";
 import { addNoot } from "../../redux/locationSlice";
+import { AlertS, SocketServerResponse } from "../../types";
 
 function AlertModal() {
   const [message, setMessage] = useState('')
@@ -28,24 +29,16 @@ function AlertModal() {
   const handleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setType(e.target.value)
   }
-  const addNewNoot = (response) => {
-    dispatch(addNoot(response.info))
+  const addNewNoot = (response : SocketServerResponse) => {
+    if (response.status) {
+      dispatch(addNoot(response.info as AlertS))
+    }
   }
   function closeHandler() {
     dispatch(alertSelected());
   }
-  function checkResponse(handler:()=>void) {
 
-    return (err, response) => {
-      if (err) {
-        console.log('server did not acknowledge');
-      } else {
-        if (handler) handler(response);
-      }
-      return response.status
-    }
-  }
-  async function handleLoginSubmit(event: SyntheticEvent) {
+  async function handleAlertSubmit(event: SyntheticEvent) {
     event.preventDefault();
     socket.timeout(5000).emit(`${location}-notifications`, {message, type, location}, checkResponse(addNewNoot))
     closeHandler()
@@ -56,7 +49,7 @@ function AlertModal() {
       <Modal isOpen={displayAlert} onClose={closeHandler}>
         <ModalOverlay />
         <ModalContent>
-          <form onSubmit={handleLoginSubmit} className={classes.modalform}>
+          <form onSubmit={handleAlertSubmit} className={classes.modalform}>
             <label>Type: </label>
             <input type="text" name="type" required placeholder="insert type of notification" onChange={handleTypeChange}/>
             <label>Message: </label>
