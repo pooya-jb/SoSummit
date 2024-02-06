@@ -8,7 +8,9 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
   inner: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 0
+
   },
   textInput: {
     borderColor: 'black',

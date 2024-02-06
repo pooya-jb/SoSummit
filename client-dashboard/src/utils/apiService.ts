@@ -30,7 +30,7 @@ const apiService = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(registerForm),
     })
-      .then((res) => res.json())
+      .then((res) => res)
       .catch((err) => console.log(err));
   },
   deleteNoot : async (time : string, location: string) : Promise<TypedResponse> => {
