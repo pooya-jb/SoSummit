@@ -18,6 +18,7 @@ async function checkCoordinates(
             info: {
               notifications: location.notifications,
               location: locationName,
+              phoneNumber: location.phoneNumber
             },
           }
         : { status: false, info: undefined };

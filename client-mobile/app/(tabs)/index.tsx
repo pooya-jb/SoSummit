@@ -4,7 +4,7 @@ import AuthScreen from '../../screens/AuthScreen';
 import { tokenValidation } from '../../utils/ApiService';
 import { useDispatch } from 'react-redux';
 import { adminLoggedIn, setAuth, userLoggedIn } from '../../redux/userSlice';
-import { updateAlerts, updateLocations, updateNotifications } from '../../redux/locationSlice';
+import { setPhoneNumber, updateAlerts, updateLocations, updateNotifications } from '../../redux/locationSlice';
 import { HomeScreen } from '../../screens/HomeScreen';
 import * as TaskManager from "expo-task-manager"
 import socket from '../../utils/socket';
@@ -21,13 +21,14 @@ const HomePage = () => {
         dispatch(adminLoggedIn({ username, location, email }))
         dispatch(updateNotifications(res.locationInfo.notifications))
         dispatch(updateAlerts(res.locationInfo.alerts))
+        dispatch(setPhoneNumber(res.locationInfo.phoneNumber))
       } else {
         const { username, email, age, bio, experience } = res.userInfo;
         dispatch(userLoggedIn({ username, email, age, bio, experience }))
         dispatch(updateLocations(res.locations));
       }
     }
-  }) 
+  })
   const isAuth = useSelector((state: RootState) => state.user.isAuth);
 
   return (

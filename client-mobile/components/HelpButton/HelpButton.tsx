@@ -65,6 +65,9 @@ const HelpButton: React.FC<ButtonProps> = ({
         })
         const {latitude, longitude} = coords
         console.log('line 74', location)
+        console.log(userCoords)
+        console.log(helpType)
+        console.log(username)
         socket
         .timeout(5000)
         .emit(`Location-${location}-alert`, {location, userCoords : [latitude, longitude], helpType, username}, checkResponse());

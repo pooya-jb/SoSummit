@@ -46,7 +46,7 @@ const LocationSchema = new db.Schema<ILocation>({
       },
     },
   ],
-  phone:  {
+  phoneNumber:  {
     type: String,
     required: true,
   },
