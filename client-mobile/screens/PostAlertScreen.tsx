@@ -8,7 +8,7 @@ export default function PostAlertScreen() {
   useEffect(() => {
     Alert.alert(
       "Help is on the way",
-      "Your request has been received. Please send us any additional info here.",
+      "Your request has been received. Please call us if you have more information to share.",
       [
         {
           text: "Okay",
@@ -20,7 +20,7 @@ export default function PostAlertScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>If you have more information to tell us, please call:</Text>
+      <Text>If you have more information, please call:</Text>
       <Pressable >
         <Text onPress={()=>{Linking.openURL(`tel:${phoneNumber}`);}} style={styles.phoneNumber}>📞SKI PATROL📞</Text>
       </Pressable>
@@ -41,5 +41,7 @@ const styles = StyleSheet.create({
     padding: 5,
     width: "100%",
     backgroundColor: "red",
+    borderColor: "black",
+    borderWidth: 4
   }
 });
