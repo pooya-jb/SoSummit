@@ -3,13 +3,14 @@ import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./Presentation.styles.css";
-import SOS_screen from '../../assets/SOS_screen_mockup.png';
+import SOS_screen from "../../assets/SOS_screen_mockup.png";
+import dashboard from "../../assets/dashboard.png";
 
 export default function PresentationPage() {
   useEffect(() => {
     AOS.init();
 
-    return () => AOS.refreshHard()
+    return () => AOS.refreshHard();
   }, []);
 
   return (
@@ -50,30 +51,67 @@ export default function PresentationPage() {
         {/* Features Section */}
         <section className="features">
           <div className="feature" data-aos="fade-up" data-aos-offset="250">
-            <img src={SOS_screen} alt="screenshot of app" className="sosImg"/>
-            <div className="feature-content">
+            <img src={SOS_screen} alt="screenshot of app" className="sosImg" />
+            <div className="text">
               <h3>Instant SOS calls</h3>
-              <p>Allows skiers to request assistance at the touch of a button. Should a skier require help, all they have to do is open the app, select the type of help they need, and finally hold down the SOS button for 3 seconds. Their live location is then sent to the ski resort.</p>
+              <div className="feature-content">
+                <p>
+                  Introducing Instant SOS Calls – the ultimate safety solution
+                  for ski resorts and their patrons! With a simple tap, skiers
+                  can summon assistance in seconds, ensuring a seamless and
+                  secure experience on the slopes. All they have to do is hold
+                  down the SOS button for 3 seconds, and their precise location
+                  is instantly relayed to resort staff for a swift response.
+                  Elevate safety standards, boost guest confidence, and redefine
+                  the resort experience with Instant SOS Calls – because safety
+                  is paramount, and help should always be just a touch away.
+                </p>
+              </div>
             </div>
           </div>
 
           <div className="feature" data-aos="fade-up" data-aos-offset="200">
-            <div className="feature-content">
-              <h3>Real-Time Location Tracking</h3>
-              <p>
-                Stay informed with live updates on the location of ski patrollers
-                and individuals in need.
-              </p>
+            <div className="text">
+              <h3>
+                <strong>Real-Time</strong>
+                <br /> Location Tracking
+              </h3>
+              <div className="feature-content">
+                <p>
+                  Revolutionize ski resort management with the ability to
+                  monitor ski patrollers and locate injured or lost users in
+                  real-time. This innovative feature enhances safety,
+                  streamlines operations, and ensures peace of mind with just a
+                  glance at the dashboard. With Real-Time Location Tracking,
+                  administrators have a comprehensive overview of resort
+                  activities, ensuring swift responses to incidents while
+                  prioritizing guest safety.
+                </p>
+              </div>
             </div>
+
+            <img
+              src={dashboard}
+              alt="screenshot of dashboard"
+              className="dashboardImg"
+            />
           </div>
 
-          <div className="feature" data-aos="fade-up" data-aos-offset="200">
-            <div className="feature-content">
-              <h3>Two-Way Communication</h3>
-              <p>
-                Enable seamless communication between ski resorts and those in
-                need through our integrated chat feature.
-              </p>
+          <div className="feature" data-aos="fade-up" data-aos-offset="250">
+            <img src={SOS_screen} alt="screenshot of app" className="sosImg" />
+            <div className="text">
+              <h3>Customizable Alerts</h3>
+              <div className="feature-content">
+                <p>
+                  Transform safety management at your ski resort with SoSummit's
+                  tailored notifications, designed to enhance the skier
+                  experience. Keep your guests informed of any critical updates,
+                  from severe weather updates to lift issues. With Customizable
+                  Alerts, elevate guest satisfaction and safety standards,
+                  setting your resort apart as the ultimate destination for
+                  unforgettable skiing adventures.
+                </p>
+              </div>
             </div>
           </div>
         </section>
