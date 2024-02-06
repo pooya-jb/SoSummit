@@ -54,13 +54,6 @@ const HelpButton: React.FC<ButtonProps> = ({
     };
   }, [isPressed]);
 
-  // useEffect(() => {
-  //   return () => {
-  //     if (soundInstance) {
-  //       soundInstance.unloadAsync();
-  //     }
-  //   };
-  // }, [soundInstance]);
 
   async function triggerAlert(location) {
     try {
