@@ -25,7 +25,6 @@ import {
 } from "../../redux/locationSlice";
 import { mapPosition } from "../../utils/types";
 
-
 const Home = () => {
   // STATE AND USE EFFECT
   const [status, requestPermission] = Location.useForegroundPermissions();

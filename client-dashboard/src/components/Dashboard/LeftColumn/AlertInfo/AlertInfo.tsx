@@ -6,6 +6,7 @@ import classes from "./AlertInfo.module.css";
 import { updateAlerts } from "../../../../redux/locationSlice";
 import { RootState } from "../../../../redux/store";
 import apiService from "../../../../utils/apiService";
+import { userSelected } from "../../../../redux/displaySlice";
 
 function AlertInfo({ alert }: { alert: AlertS }): React.ReactNode {
   const dispatch = useDispatch();
@@ -20,9 +21,13 @@ function AlertInfo({ alert }: { alert: AlertS }): React.ReactNode {
       dispatch(updateAlerts(currentAlerts.filter((oldAlert: AlertS) => alert.username !== oldAlert.username)));
     }
   };
+  const handleAlertClick = () => {
+    console.log('fired')
+    dispatch(userSelected(alert.username))
+  }
   return (
     <>
-      <div className={classes.alertItem}>
+      <div className={classes.alertItem} onClick={handleAlertClick}>
         <p>{alert.type}</p>
         <p>{alert.username}</p>
         <p>{alert.time}</p>

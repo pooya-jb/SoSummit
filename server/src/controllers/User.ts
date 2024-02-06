@@ -52,4 +52,18 @@ const loginUser = async (req: TypedRequest<IUser>, res: Response) => {
 
 }
 
-export default { createUser, loginUser }
+const getUserInfo = async (req: TypedRequest<any>, res: Response) => {
+  try {
+    const { username : name } = req.params;
+    const user: InstanceType<IUserModel> | null = await User.findOne({ username: name });
+    if (!user) throw Error()
+    const {username, age, email, experience} = user
+    res.status(200).send({username, age, email, experience});
+  } catch (error) {
+    res
+      .status(401)
+      .send({ error: '401', message: 'Username or password is incorrect' });
+  }
+
+}
+export default { createUser, loginUser, getUserInfo }
