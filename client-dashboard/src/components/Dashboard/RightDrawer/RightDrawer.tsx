@@ -43,7 +43,7 @@ function RightDrawer(): React.ReactNode {
         <button className={classes.openright} onClick={handleToggleDrawer} >⬅️</button>
           {isOpen && <div className={classes.rightdrawer}>
           <button className={classes.openright} onClick={handleToggleDrawer}>X</button>
-          <h1>Please select a user</h1>
+          <h1 className={classes.selectUser}>Please select a user</h1>
         </div>}
       </div>
     )
@@ -58,7 +58,6 @@ function RightDrawer(): React.ReactNode {
           <button className={classes.openright} onClick={handleToggleDrawer} >⬅️</button>
           {isOpen && <div className={classes.rightdrawer}>
           <button className={classes.openright} onClick={handleToggleDrawer}>X</button>
-          <h1>Please select a user</h1>
         </div>}
       {isOpen && <div className={classes.rightdrawer}>
           <button className={classes.openright} onClick={handleToggleDrawer}>X</button>
