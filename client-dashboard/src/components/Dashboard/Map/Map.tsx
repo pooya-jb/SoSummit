@@ -15,7 +15,6 @@ function Map(): React.ReactNode {
   );
 
   return (
-    <>
       <div className="map-container">
         <MapContainer
           center={[displayCoord[1], displayCoord[0]]}
@@ -31,34 +30,29 @@ function Map(): React.ReactNode {
               (alert: { location: number[]; username: string },
                 index: number) => {
                 return (
-                  <>
+                  
                     <Marker
                       key={index}
                       position={[alert.location[0], alert.location[1]]}
                     >
                       <Popup>{alert.username}</Popup>
                     </Marker>
-                  </>
+                  
                 );
               }
             )}
           {activeAdmins &&
             activeAdmins.map((activeAdmin: ActiveAdminS) => {
-              return (
-                <>
-                  {activeAdmin && activeAdmin.coords && (
+              return activeAdmin && activeAdmin.coords && (
                     <Marker
                       position={[activeAdmin.coords[0], activeAdmin.coords[1]]}
                     >
                       <Popup>{activeAdmin.username}</Popup>
                     </Marker>
-                  )}
-                </>
-              );
+                  );
             })}
         </MapContainer>
       </div>
-    </>
   );
 }
 

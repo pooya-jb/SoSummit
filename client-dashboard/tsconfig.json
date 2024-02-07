@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/redux"],
+  "include": ["src", "src/redux", "tests/UserList.spec.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
