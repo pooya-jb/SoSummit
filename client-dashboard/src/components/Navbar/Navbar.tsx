@@ -48,7 +48,7 @@ function Navbar(): React.ReactNode {
 
   return (
     <>
-      <div id={styles.navbar} style={{ backgroundColor: isConnected ? '#607ca4' : scrollPosition > 70 ? '#607ca4' : 'rgba(0, 0, 0, 0)', position: isConnected ? '' : 'fixed'}}>
+      <div id={styles.navbar} style={{ backgroundColor: isConnected ? '#607ca4' : scrollPosition > 70 ? '#607ca4' : 'rgba(0, 0, 0, 0)', borderBottom: scrollPosition > 70 ? '1px solid #F6F4EB' : 'none', position: isConnected ? '' : 'fixed'}}>
         <button id={styles.sosummit}>
           <h2><span className={styles.red}>SoS</span>ummit</h2>
         </button>

@@ -6,6 +6,7 @@
 
 #root {
   height:100vh;
+  font-family: poppins;
 }
 
 .leaflet-container

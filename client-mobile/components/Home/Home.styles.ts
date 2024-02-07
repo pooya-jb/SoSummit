@@ -3,21 +3,20 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    backgroundColor: '#10B2C1',
-    borderColor: 'gray',
+    backgroundColor: '#607ca4',
     borderRadius: 50,
-    borderWidth: 1,
     elevation: 10,
     height: 100,
     justifyContent: 'center',
     margin: 10,
     padding: 5,
-    shadowColor: 'gray',
+    shadowColor: 'black',
     shadowOffset: {
-      height: 0,
-      width: 0,
+      height: 10,
+      width: 15,
     },
-    shadowRadius: 15,
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
     width: 100,
   },
   buttonContainer: {
@@ -29,6 +28,7 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     textAlign: 'center',
+    fontFamily: 'Poppins-Regular'
   },
   currentLocationBtnContainer: {
     backgroundColor: 'rgba(214, 211, 191, 0.6)',
