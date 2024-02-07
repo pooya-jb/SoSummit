@@ -1,27 +1,34 @@
 import { expect, it, describe, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { screen, render, cleanup, queryByText, queryAllByRole } from '@testing-library/react'
 
 import {renderWithProviders} from './test-utils'
 import UserList from '../src/components/Dashboard/LeftColumn/UserList/UserList'
-import { Provider } from 'react-redux'
-import { store } from '../src/redux/store'
 import {mockedStoreLogged} from './mocks'
 import React from 'react'
+import UserInfo from '../src/components/Dashboard/LeftColumn/UserInfo/UserInfo'
+
 
 describe('UserList for Admins', () => {
-  beforeEach(() => {
-    // render(
-    //   <Provider store={store}>
-    //     <UserList source = 'admins'/>
-    //   </Provider>
-    //   )
-  })
-  it('should be equal to 2', () => {
-    expect(1 + 1).toEqual(2)
-  })
   it('renders the UserList component for admins', () => {
     renderWithProviders(<UserList source='admins'/>, {preloadedState: mockedStoreLogged})
-    expect(screen.getByText('testAdmin')).toBeInDocument()
-    screen.debug(); // prints out the jsx in the App component unto the command line
+    const admin : HTMLElement = screen.getByText('admin');
+    const me: HTMLElement = screen.getByText('me');
+    // const list : HTMLElement[] = screen.getAllByRole()
+    // console.log('here:',list)
+    // const greenSpan: HTMLElement = screen.getByRole('span')
+    expect(admin).toBeInTheDocument()
+    expect(me).toBeInTheDocument()
+  })
+
+  it('renders the Active Admins with a green Icon', () => {
+    renderWithProviders(<UserInfo user='admin' active={true} />, { preloadedState: mockedStoreLogged })
+    const activeIcon: HTMLElement = screen.getByText('🟢')
+    expect(activeIcon).toBeInTheDocument()
+  })
+
+  it('renders the non-active Admins without a green Icon', () => {
+    renderWithProviders(<UserInfo user='me' active={false} />, { preloadedState: mockedStoreLogged })
+    const me: HTMLElement = screen.getByText('me')
+    expect(queryByText(me, '🟢')).toBeNull()
   })
 })
