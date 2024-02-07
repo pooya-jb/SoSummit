@@ -1,23 +1,15 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
 
-import classes from './UserInfo.module.css'
-import { UserL } from '../../../../types';
-import { userSelected } from '../../../../redux/displaySlice';
+import classes from './UserInfo.module.css';
 
-
-function UserInfo({user} : {user:UserL}): React.ReactNode {
-  const dispatch = useDispatch()
-  const handleSelectUser = ():void => {
-    dispatch(userSelected(user))
-  }
+function UserInfo({ user, active }: { user: string, active: boolean }): React.ReactNode {
   return (
     <>
-      <div className={classes.userItem} onClick={handleSelectUser}>
-      <p>{user.username}</p>
+      <div className={classes.userItem} >
+        <p>{user} {active && <span>🟢</span> }</p>
       </div>
     </>
-  )
+  );
 }
 
 export default UserInfo;

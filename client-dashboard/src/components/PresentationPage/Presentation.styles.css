@@ -1,0 +1,79 @@
+.header-slogan {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: flex-end;
+  padding-right: 10rem;
+  text-decoration: black;
+  height: 100vh;
+  justify-content: center;
+}
+
+.main-logo {
+  font-size: 6rem;
+  color: white;
+  font-weight: bolder;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  font-family: 'Russo One', sans-serif;
+}
+
+.logo-red {
+  color: rgb(255, 0, 0);
+}
+
+.slogan {
+  color: black;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 15%;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.features {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.features h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+.feature-content {
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #F6F4EB;
+}
+
+.feature h3 {
+  font-size: 4rem;
+  margin-bottom: 15px;
+  font-family: 'Russo One', sans-serif;
+}
+
+.feature p {
+  font-size: 16px;
+  color: #666;
+}
+
+.sosImg {
+  height: 70vh;
+}
+
+.dashboardImg {
+  height: 50vh;
+}

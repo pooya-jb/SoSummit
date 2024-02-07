@@ -3,7 +3,6 @@ import {
   View,
   KeyboardAvoidingView,
   TextInput,
-  StyleSheet,
   Text,
   Platform,
   TouchableWithoutFeedback,
@@ -12,109 +11,82 @@ import {
 } from 'react-native';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import RNPickerSelect from 'react-native-picker-select';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const KeyboardAvoidingComponent = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+import { fetchAdminLogin } from '../../utils/ApiService';
+import {adminLoggedIn} from '../../redux/userSlice';
+import { styles } from './LoginAdminForm.styles';
+import { updateNotifications, updateAlerts } from '../../redux/locationSlice';
+
+const KeyboardAvoidingComponent = ({
+  setAuthState,
+}: {
+  setAuthState: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const [email, setEmailForm] = useState('');
   const [password, setPassword] = useState('');
-  const [age, setAge] = useState('');
-  const [experience, setExperience] = useState('');
-  const [bio, setBio] = useState('');
   const dispatch = useDispatch();
-  const experienceOptions = [
-    { label: 'Beginner', value: 'beginner' },
-    {
-      label: 'Intermediate',
-      value: 'intermediate',
-    },
-    {
-      label: 'Expert',
-      value: 'expert',
-    },
-  ];
+
+  const handleAdminLogin = async () => {
+    if (email === '' || password === '') throw alert('Fields are missing');
+    const res = await fetchAdminLogin(email, password);
+    if (typeof res.accessToken === 'string' && res.accessToken.length > 0) {
+      try {
+        await AsyncStorage.setItem('AccessToken', res.accessToken);
+        const { username, location, email } = res.userInfo;
+        dispatch(adminLoggedIn({ username, location, email }))
+        dispatch(updateNotifications(res.locationInfo.notifications))
+        dispatch(updateAlerts(res.locationInfo.alerts))
+
+      } catch (err) {
+        console.log(err);
+      }
+    } else throw alert('Email or password is incorrect');
+  };
+  const handleTapOutside = () => {
+    Keyboard.dismiss();
+  };
+  const changeAuthState = () => {
+    setAuthState('login');
+  };
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-          <TextInput placeholder='Username' value={username} onChangeText={setUsername} style={styles.textInput} />
+    <TouchableWithoutFeedback onPress={handleTapOutside}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{}}>
+            <TextInput
+              placeholder='Email'
+              value={email}
+              onChangeText={setEmailForm}
+              style={styles.textInput}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{}}>
+            <TextInput
+              placeholder='Password'
+              secureTextEntry={true}
+              value={password}
+              onChangeText={setPassword}
+              style={styles.textInput}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+        <View style={{}}>
+          <Pressable style={styles.formButton} onPress={handleAdminLogin}>
+            <Text style={styles.formButtonText}>Log in</Text>
+          </Pressable>
         </View>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-          <TextInput placeholder='Email' value={email} onChangeText={setEmail} style={styles.textInput} />
-        </View>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-          <TextInput placeholder='Password' value={password} onChangeText={setPassword} style={styles.textInput} />
-        </View>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-          <TextInput placeholder='Age' value={age} onChangeText={setAge} keyboardType='numeric' style={styles.textInput} />
-        </View>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-          <RNPickerSelect
-            value={experience}
-            placeholder={{ label: 'Selecet Experience', value: null }}
-            onValueChange={(value) => setExperience(value)}
-            items={experienceOptions}
-            style={{}}
-          />
-        </View>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-          <TextInput placeholder='Bio' value={bio} onChangeText={setBio} multiline={true} numberOfLines={4} style={styles.textInput} />
-        </View>
-      </TouchableWithoutFeedback>
-      <View style={{}}>
-      <Pressable style={styles.formButton} onPress={()=> console.log('test')}>
-        <Text style={styles.formButtonText}>Sign up</Text>
-      </Pressable>
-      </View>
-    </KeyboardAvoidingView>
+        <Pressable style={{}} onPress={changeAuthState}>
+          <Text style={{}}>I'm not admin</Text>
+        </Pressable>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    gap: 10,
-    padding: 40,
-    marginTop: 10,
-  },
-  inner: {
-    flex: 1,
-  },
-  textInput: {
-    borderColor: 'black',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 16,
-    
-  },
-  formButtonText: {
-    textAlign: 'center',
-    fontSize: 20,
-  },
-
-  formButton: {
-    backgroundColor: 'orange',
-    padding: 10,
-    borderRadius: 5,
-    borderColor: 'black',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    marginBottom:25
-  },
-});
 
 export default KeyboardAvoidingComponent;

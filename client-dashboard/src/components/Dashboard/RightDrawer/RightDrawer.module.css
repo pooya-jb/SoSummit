@@ -1,20 +1,90 @@
 .rightdrawer {
-  width: 25vw;
+  width: 22vw;
   height: 89.7vh;
-  background-color: var(--backgroundmain);
+  background-color: #c0d2ed;
   z-index: 998;
   position: absolute;
   top: 0;
   right: 0;
 }
 
+.rightBtns {
+  
+}
+
 .openright {
   position: absolute;
   top: 10px;
-  right: 20px;
+  right: 5px;
   z-index: 998;
-  background-color: var(--backgroundmain);
+  background-color: #A5BAD9;
   padding: 8px;
   border-radius: 3px;
-  border: 1px var(--textmain) solid;
 }
+
+
+.openright:hover {
+    background-color: #8aa7cb;
+}
+.alertButton {
+  position: absolute;
+  top: 10px;
+  right: 40px;
+  z-index: 998;
+  border-radius: 3px;
+  overflow: hidden;
+  color: "black";
+  background-color: #A5BAD9;
+  padding: 0.5rem 1rem;
+  color: rgb(75, 75, 75);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.alertImg {
+  height: 20px;
+  width: 20px;
+}
+
+.alertButton:hover {
+  background-color: #8aa7cb;
+}
+
+.alertText {
+  color: "black";
+}
+
+.alertButton:hover {
+
+}
+
+.alertImg {
+  height: 100%;
+}
+
+.selectUser {
+  color: rgb(68, 68, 68);
+  margin: 0 auto;
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.userInfo {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 2rem;
+  padding:0.5rem 1rem;
+  border-radius: 3px;
+  color: black;
+  font-size: 1.2rem;
+}
+
+.userInfo p {
+  
+}
+
+.userInfo span {
+color: rgb(84, 84, 84);
+}
+

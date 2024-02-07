@@ -1,0 +1,28 @@
+.button {
+  appearance: button;
+  backface-visibility: hidden;
+  background-color: #F6F4EB;
+  border-radius: 6px;
+  box-shadow: rgba(120, 120, 164, 0.1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+  color: #607ca4;
+  font-weight: 500;
+  cursor: pointer;
+  max-height: 60%;
+  font-size: 100%;
+  line-height: 1.15;
+  overflow: hidden;
+  margin-right: 1rem;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  transform: translateZ(0);
+  transition: all .2s,box-shadow .08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.menu-list {
+  background-color: #F6F4EB;
+  color: #607ca4;
+}

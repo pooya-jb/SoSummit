@@ -3,7 +3,6 @@ import { Pressable, Text, View, Image, Platform } from 'react-native';
 import { Provider, useSelector } from 'react-redux';
 import { RootState, store } from '../../redux/store';
 
-
 const TabsLayout = () => {
   const { isAuth } = useSelector((state: RootState) => state.user);
   return (
@@ -17,7 +16,11 @@ const TabsLayout = () => {
       <Tabs.Screen
         name='index'
         options={{
-          headerTitle: `${isAuth ? 'Home' : 'Auth'}`,
+          headerTitle: `${isAuth ? `SoSummit` : 'Sign In'}`,
+          headerTitleStyle: {
+            fontFamily: 'RussoOne-Regular'
+          },
+          headerTitleAlign: 'center',
           title: '',
           tabBarIcon: () => {
             return (
@@ -38,15 +41,41 @@ const TabsLayout = () => {
             return isAuth ? (
               <View>
                 <Pressable
-                  android_ripple={{ color: 'transparent', borderless: false }} // Add this line
+                  android_ripple={{ color: 'transparent', borderless: false }}
                 >
-                  <Link href="/User" style={{height:25, width:25, marginRight:15}}>
+                  <Link
+                    href='/User'
+                    style={{ height: 22, width: 22, marginRight: 15 }}
+                  >
                     <Image
                       source={require('../../assets/user.png')}
                       style={{
                         height: Platform.OS === 'ios' ? 25 : 20,
-                        width: Platform.OS === 'ios' ? 25 : 20, // Adjust the width as needed
-                        marginRight: 30,
+                        width: Platform.OS === 'ios' ? 25 : 20,
+                        marginRight: 30
+                      }}
+                    />
+                  </Link>
+                </Pressable>
+              </View>
+            ) : undefined;
+          },
+          headerLeft: () => {
+            return isAuth ? (
+              <View>
+                <Pressable
+                  android_ripple={{ color: 'transparent', borderless: false }}
+                >
+                  <Link
+                    href='/Notifications'
+                    style={{ height: 25, width: 25, marginLeft: 15 }}
+                  >
+                    <Image
+                      source={require('../../assets/notification.png')}
+                      style={{
+                        height: Platform.OS === 'ios' ? 25 : 22,
+                        width: Platform.OS === 'ios' ? 25 : 22,
+                        marginRight: 30
                       }}
                     />
                   </Link>
@@ -60,6 +89,7 @@ const TabsLayout = () => {
         name='alert'
         options={{
           headerTitle: 'Help',
+          headerTitleAlign: 'center',
           title: '',
           tabBarIcon: () => {
             return (

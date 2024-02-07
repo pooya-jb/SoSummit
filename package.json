@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
+    "aos": "^2.3.4",
     "commitizen": "^4.3.0",
     "eslint": "^8.56.0"
   },

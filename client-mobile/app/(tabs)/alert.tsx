@@ -1,19 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaView, Text, StyleSheet } from 'react-native';
 import HelpScreen from '../../screens/HelpScreen';
-import ChatScreen from '../../screens/ChatScreen';
+import PostAlertScreen from '../../screens/PostAlertScreen';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import AdminAlert from '../../screens/AdminAlert';
 
 const Alert = () => {
   const [isPressed, setIsPressed] = useState(false);
   const [countdown, setCountdown] = useState(0);
-  const [showMessage, setShowMessage] = useState(false);
+  const [userActiveAlert, setUserActiveAlert] = useState(false);
+  const activeAlert = useSelector((state: RootState) => state.user.userActiveAlert);
+  const isAdmin = useSelector((state: RootState) => state.user.isAdmin)
 
+  if(isAdmin) return(
+    <AdminAlert />
+  )
   return (
-    <SafeAreaView style={styles.container}>
-      {!showMessage ?
-      <HelpScreen isPressed={isPressed} setIsPressed={setIsPressed} countdown={countdown} setCountdown={setCountdown} setShowMessage={setShowMessage} />
+    <SafeAreaView style={activeAlert ? styles.containerPostAlert : styles.containerHelp}>
+      {!activeAlert ?
+      <HelpScreen isPressed={isPressed} setIsPressed={setIsPressed} countdown={countdown} setCountdown={setCountdown} setUserActiveAlert={setUserActiveAlert} />
       :
-      <ChatScreen setShowMessage={setShowMessage}/>}
+      <PostAlertScreen />}
     </SafeAreaView>
   );
 };
@@ -21,10 +29,15 @@ const Alert = () => {
 export default Alert;
 
 const styles = StyleSheet.create({
-  container: {
+  containerHelp: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'flex-end',
     bottom: 65
   },
-})
+  containerPostAlert: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+  }
+});

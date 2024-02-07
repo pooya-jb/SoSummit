@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   button: {
-    marginBottom:-25,
+    marginBottom:-15,
     marginTop:10,
     width: 150,
     height: 150,
@@ -28,4 +28,22 @@ export const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '800',
   },
+  pulse: {
+    position: 'absolute',
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: 'rgba(255, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pulsePressed: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: 'rgba(255, 0, 0, 1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });

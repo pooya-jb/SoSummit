@@ -1,0 +1,33 @@
+.userItem {
+  border: 1px var(--textmain) solid;
+  padding: 10px;
+  position: relative;
+}
+
+.type {
+  color: rgb(78, 78, 78);
+  font-size: 14px;
+}
+
+.deleteBtn {
+  color: red;
+  position: absolute;
+  top: 0;
+  right: 2px;
+  padding: 0.5rem;
+  height: 2rem;
+  width: 2rem;
+}
+
+.deleteText {
+  display: none;
+  position: absolute;
+  top: 24px;
+  right: 0;
+  font-size: 12px;
+  color: red;
+}
+
+.deleteBtn:hover + .deleteText {
+  display: inline;
+}

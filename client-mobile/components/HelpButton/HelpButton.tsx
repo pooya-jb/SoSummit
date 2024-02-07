@@ -1,19 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import React, { useRef, useEffect, useState } from 'react';
+import { TouchableOpacity, Text, View, Alert } from 'react-native';
+import { RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import * as Animatable from 'react-native-animatable';
+import * as Location from 'expo-location';
 
 import { styles } from './HelpButton.styles';
-import { ButtonProps } from '../../utils/types';
+import { HelpButtonProps } from '../../utils/types';
+import socket, {checkResponse} from '../../utils/socket';
+import { useDispatch } from 'react-redux';
+import { setActiveAlert } from '../../redux/userSlice';
 
 const COUNTDOWN_UNIT = 1000;
 
-const HelpButton: React.FC<ButtonProps> = ({
+const HelpButton: React.FC<HelpButtonProps> = ({
   countdown,
   setCountdown,
   isPressed,
   setIsPressed,
-  setShowMessage,
+  setUserActiveAlert,
+  helpType
 }) => {
-  const intervalRef = React.useRef<string | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const location = useSelector((state: RootState) => state.user.location);
+  const userLocation = useSelector((state: RootState) => state.user.userLocation);
+  const username = useSelector((state: RootState) => state.user.username);
+  const dispatch = useDispatch();
+  const userCoords = [userLocation.latitude, userLocation.longitude]
+
+  const triggerAlertResponse = (res) => {
+    if (res.status) return   Alert.alert(
+      'Request received',
+      'Ski patrol received your request and help is on the way',
+      [
+        {
+          text: "Okay",
+          style: "cancel",
+        },
+      ]
+    );
+  }
+
 
   useEffect(() => {
     if (isPressed) {
@@ -23,19 +50,18 @@ const HelpButton: React.FC<ButtonProps> = ({
             return prevCountdown - 1;
           } else {
             setIsPressed(false);
-            setShowMessage(true);
+            triggerAlert(location);
+            dispatch(setActiveAlert(true));
             clearInterval(intervalRef.current!);
             return 0;
           }
         });
       }, COUNTDOWN_UNIT);
     } else {
-      // Clear interval if unpressed
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     }
-    // Cleanup interval on component unmount
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -43,7 +69,24 @@ const HelpButton: React.FC<ButtonProps> = ({
     };
   }, [isPressed]);
 
-  function handlePress() {
+
+  async function triggerAlert(location) {
+    try {
+      const {coords} = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Highest,
+          timeInterval: 5000,
+          distanceInterval: 0
+        })
+        const {latitude, longitude} = coords
+        socket
+        .timeout(5000)
+        .emit(`Location-${location}-alert`, {location, userCoords : [latitude, longitude], helpType, username}, checkResponse(triggerAlertResponse));
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  async function handlePress() {
     setIsPressed(true);
     setCountdown(3);
   }
@@ -53,6 +96,8 @@ const HelpButton: React.FC<ButtonProps> = ({
     setCountdown(0);
   }
 
+  const PulseAnimatable = Animatable.createAnimatableComponent(View);
+
   return (
     <View>
       <TouchableOpacity
@@ -60,7 +105,13 @@ const HelpButton: React.FC<ButtonProps> = ({
         onPressIn={handlePress}
         onPressOut={handleUnPress}
       >
-        <Text style={styles.text}>{countdown === 0 ? 'SOS' : countdown}</Text>
+        <PulseAnimatable
+          animation={isPressed ? 'pulse' : undefined}
+          iterationCount="infinite"
+          style={isPressed ? styles.pulsePressed : styles.pulse}
+        >
+          <Text style={styles.text}>{countdown === 0 ? 'SOS' : countdown}</Text>
+        </PulseAnimatable>
       </TouchableOpacity>
     </View>
   );

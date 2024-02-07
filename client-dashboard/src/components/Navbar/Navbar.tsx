@@ -1,50 +1,44 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import ids from './Navbar.module.css';
+import styles from './Navbar.module.css';
 import ChakraMenu from './ChakraMenu/ChakraMenu';
-import socket from '../../socket';
 import { RootState } from '../../redux/store';
 
 function ConnectionState() {
-  const isConnected = useSelector((state: RootState) => state.user.isConnected)
-  return <p>Connected to Socket: {'' + isConnected}</p>;
+  const isConnected = useSelector((state: RootState) => state.user.isConnected);
+  const adminLocationIsConnected = useSelector((state: RootState) => state.user.adminLocationIsConnected);
+  const connected = isConnected && adminLocationIsConnected ? '🟢' : '🔴';
+  return (
+    <p>Online: {connected}</p>
+  );
 }
 
-// function ConnectionManager() {
-  
-//   return (
-//     <>
-//       <button onClick={connect}>Connect</button>
-//       <button onClick={disconnect}>Disconnect</button>
-//     </>
-//   );
-// }
-
 function Navbar(): React.ReactNode {
-  function connect() {
-    socket.connect();
-  }
-  
-  function disconnect() {
-    socket.disconnect();
-  }
-  
-  const isAuthenticated = useSelector((state : RootState) => state.user.isAuthenticated)
+  const [scrollPosition, setScrollPosition] = useState(0);
   const isConnected = useSelector((state: RootState) => state.user.isConnected)
-  useEffect(()=>{
-    isAuthenticated === true ? connect() : disconnect(); 
-  }, [isAuthenticated])
+  const isAuthenticated = useSelector((state : RootState) => state.user.isAuthenticated)
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  function handleScroll() {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  }
 
   return (
     <>
-      <div id={ids.navbar}>
-        <button id={ids.sosummit}>
-          <h2>SoSummit</h2>
+      <div id={styles.navbar} style={{ backgroundColor: isConnected ? '#607ca4' : scrollPosition > 70 ? '#607ca4' : 'rgba(0, 0, 0, 0)', borderBottom: scrollPosition > 70 ? '1px solid #F6F4EB' : 'none', position: isConnected ? 'inherit' : 'fixed'}}>
+        <button id={styles.sosummit}>
+          <h2><span className={styles.red}>SoS</span>ummit</h2>
         </button>
-        <ConnectionState />
-        {/* {isAuthenticated && <ConnectionManager />} */}
+        {isAuthenticated ? <ConnectionState /> : ""}
         <ChakraMenu />
       </div>
     </>

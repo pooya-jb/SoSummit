@@ -1,93 +1,85 @@
 import { useDispatch } from 'react-redux';
-import { setAuth } from '../../redux/userSlice';
+import {
+  setAuth,
+  userLoggedIn,
+} from '../../redux/userSlice';
 import {
   View,
   TextInput,
   Text,
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-  TextInputProps,
   Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import { useState } from 'react';
-import { fetchLogin, tokenValidation } from '../../utils/AppService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginForm = ({ setAuthState }:{setAuthState: React.Dispatch<React.SetStateAction<string>>}) => {
+import { fetchLogin } from '../../utils/ApiService';
+import { updateLocations } from '../../redux/locationSlice';
+import { styles } from './LoginForm.styles';
+
+const LoginForm = ({
+  setAuthState,
+}: {
+  setAuthState: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
+  const [emailForm, setEmailForm] = useState('');
   const [password, setPassword] = useState('');
   const handleLoginPress = async () => {
-    if (email === '' || password === '') throw alert('Fields are missing');
-    const res = await fetchLogin(email, password);
+    if (emailForm === '' || password === '') throw alert('Fields are missing');
+    const res = await fetchLogin(emailForm, password);
     if (typeof res.accessToken === 'string' && res.accessToken.length > 0) {
       try {
-        await AsyncStorage.setItem('AccessToken', res.accessToken)
+        await AsyncStorage.setItem('AccessToken', res.accessToken);
+        const { username, email, phoneNumber, bio, experience } = res.userInfo;
+        dispatch(userLoggedIn({ username, email, phoneNumber, bio, experience }))
+        dispatch(updateLocations(res.locations));
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
-      dispatch(setAuth(true));
     } else throw alert('Email or password is incorrect');
   };
 
   const changeAuthState = () => {
     setAuthState('signup');
   };
+  const changeAuthStateAdmin = () => {
+    setAuthState('admin');
+  };
 
+  const handleTapOutside = () => {
+    Keyboard.dismiss();
+  };
   return (
-    <View style={styles.formContainer}>
-      <TextInput
-        value={email}
-        placeholder='Email'
-        style={styles.formInput}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        value={password}
-        placeholder='Password'
-        style={styles.formInput}
-        onChangeText={setPassword}
-      />
+    <TouchableWithoutFeedback onPress={handleTapOutside}>
+      <View style={styles.formContainer}>
+        <TextInput
+          value={emailForm}
+          placeholder='Email'
+          style={styles.formInput}
+          onChangeText={setEmailForm}
+        />
+        <TextInput
+          value={password}
+          placeholder='Password'
+          style={styles.formInput}
+          onChangeText={setPassword}
+          secureTextEntry={true}
+        />
 
-      <Pressable style={styles.formButton} onPress={handleLoginPress}>
-        <Text style={styles.formButtonText}>Login</Text>
-      </Pressable>
-      <Pressable style={{}} onPress={changeAuthState}>
-        <Text style={{}}>Don't have an account?</Text>
-      </Pressable>
-    </View>
+        <Pressable style={styles.formButton} onPress={handleLoginPress}>
+          <Text style={styles.formButtonText}>Login</Text>
+        </Pressable>
+        <Pressable style={{}} onPress={changeAuthState}>
+          <Text style={{}}>Don't have an account?</Text>
+        </Pressable>
+        <Pressable style={{}} onPress={changeAuthStateAdmin}>
+          <Text style={{}}>I'm an admin</Text>
+        </Pressable>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 export default LoginForm;
-
-const styles = StyleSheet.create({
-  formContainer: {
-    gap: 30,
-    padding: 40,
-    marginTop: 40,
-  },
-
-  formInput: {
-    borderColor: 'black',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 16,
-  },
-
-  formButtonText: {
-    textAlign: 'center',
-    fontSize: 20,
-  },
-
-  formButton: {
-    backgroundColor: 'orange',
-    padding: 10,
-    borderRadius: 5,
-    borderColor: 'black',
-    borderStyle: 'solid',
-    borderWidth: 1,
-  },
-});

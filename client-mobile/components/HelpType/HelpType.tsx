@@ -1,44 +1,39 @@
 import { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 
-import { styles } from './HelpType.styles';
+import { styles } from "./HelpType.styles";
 
-export default function HelpType () {
-  const [helpType, setHelpType] = useState('');
+export default function HelpType({ helpType, setHelpType }) {
+  const tallPhone = Dimensions.get("window").height >= 844;
 
   useEffect(() => {
-    setHelpType('')
-  }, [])
+    setHelpType("");
+  }, []);
 
-  function handlePress (helpTypeValue: string) {
+  function handlePress(helpTypeValue: string) {
     setHelpType(helpTypeValue);
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { marginBottom: tallPhone ? 90 : 20 }]}>
       <TouchableOpacity
-        style={[
-          styles.button,
-          helpType === "Medical" && styles.selectedButton,
-        ]}
+        style={[styles.button, helpType === "Medical" && styles.selectedButton]}
         onPress={() => handlePress("Medical")}
       >
         <Text style={styles.text}>Medical Emergency</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[
-          styles.button,
-          helpType === "Lost" && styles.selectedButton,
-        ]}
-        onPress={() => handlePress("Lost")}>
+      <TouchableOpacity
+        style={[styles.button, helpType === "Lost" && styles.selectedButton]}
+        onPress={() => handlePress("Lost")}
+      >
         <Text style={styles.text}>I'm Lost</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[
-          styles.button,
-          helpType === "Other" && styles.selectedButton,
-        ]}
-        onPress={() => handlePress("Other")}>
+      <TouchableOpacity
+        style={[styles.button, helpType === "Other" && styles.selectedButton]}
+        onPress={() => handlePress("Other")}
+      >
         <Text style={styles.text}>Other</Text>
       </TouchableOpacity>
     </View>
-  )
+  );
 }

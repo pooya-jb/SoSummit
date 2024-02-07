@@ -1,47 +1,67 @@
-import { View, Pressable, Text, StyleSheet} from 'react-native';
-import { Link, router } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch } from 'react-redux';
-import { setAuth } from '../redux/userSlice';
+import { View, Pressable, Text, StyleSheet, Alert } from "react-native";
+import { Link, router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
 
+import { loggedOut } from "../redux/userSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export default function User() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const isPresented = router.canGoBack();
+  const onTrip = useSelector((state: RootState) => state.user.tripStarted);
+
   const handleLogout = () => {
-    AsyncStorage.removeItem('AccessToken')
-    dispatch(setAuth(false))
-    console.log('test')
-    router.navigate('../')
-  }
+    if (onTrip === true) {
+      Alert.alert("Error", "Please end your trip before logging out", [
+        {
+          text: "Okay",
+          style: "cancel",
+        },
+      ]);
+    } else {
+      AsyncStorage.removeItem("AccessToken");
+      dispatch(loggedOut());
+      router.navigate("../");
+    }
+  };
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       {!isPresented && <Link href="../"></Link>}
       <StatusBar style="light" />
-      <Pressable style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>
-          Log out
-        </Text>
-      </Pressable>
+      <Pressable
+      style={({ pressed }) => [
+        styles.button,
+        { backgroundColor: pressed ? "#51688a" : "#607ca4" },
+      ]}
+      onPress={handleLogout}
+    >
+      <Text style={styles.buttonText}>Log out</Text>
+    </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   buttonText: {
-    textAlign: 'center',
-    fontSize: 15,
+    textAlign: "center",
+    fontSize: 18,
+    color: 'white'
   },
-
   button: {
-    backgroundColor: 'transparent',
-    padding: 10,
-    paddingLeft: 30,
-    paddingRight:30,
-    borderRadius: 5,
-    borderColor: 'black',
-    borderStyle: 'solid',
-    borderWidth: 1,
+    margin: 20,
+    padding: 12,
+    paddingLeft: 40,
+    paddingRight: 40,
+    borderRadius: 10,
+    shadowColor: "black",
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
-})
+});

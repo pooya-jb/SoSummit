@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DisplayS, UserL } from '../types';
+import { DisplayS } from '../types';
 
 
 const initialState : DisplayS= {
   drawerIsOpen : false,
   selectedUser : null,
   loginModalOpen : false,
-  registerModalOpen: false
+  registerModalOpen: false,
+  alertModalOpen: false
 };
 
 export const displaySlice = createSlice({
@@ -19,7 +20,7 @@ export const displaySlice = createSlice({
         drawerIsOpen : !state.drawerIsOpen
       }
     },
-    userSelected : (state : DisplayS, action: PayloadAction<UserL>) => {
+    userSelected : (state : DisplayS, action: PayloadAction<string>) => {
       return {
         ...state,
         drawerIsOpen : true,
@@ -37,10 +38,16 @@ export const displaySlice = createSlice({
         ... state,
         registerModalOpen : !state.registerModalOpen
       }
+    },
+    alertSelected : (state: DisplayS) => {
+      return {
+        ... state,
+        alertModalOpen : !state.alertModalOpen
+      }
     }
   }
 })
 
 export default displaySlice.reducer;
 
-export const {drawerToggled, userSelected, loginSelected, registerSelected} = displaySlice.actions;
+export const {drawerToggled, userSelected, loginSelected, registerSelected, alertSelected} = displaySlice.actions;
