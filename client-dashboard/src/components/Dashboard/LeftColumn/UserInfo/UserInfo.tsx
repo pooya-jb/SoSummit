@@ -6,9 +6,8 @@ function UserInfo({ user, active }: { user: string, active: boolean }): React.Re
   return (
     <>
       <div className={classes.userItem} >
-        <p>{user}</p>
+        <p>{user} {active && <span>🟢</span> }</p>
       </div>
-      {active && <p>🟢</p> }
     </>
   );
 }

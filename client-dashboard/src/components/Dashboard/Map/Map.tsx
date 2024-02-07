@@ -7,6 +7,7 @@ import { ActiveAdminS } from '../../../types';
 import alertIcon from "../../../assets/alert-marker.png";
 import alertActiveIcon from "../../../assets/alert-active.png";
 import { Icon } from 'leaflet';
+import audioNot from "../../../assets/mixkit-classic-alarm-995.wav"
 
 
 function Map(): React.ReactNode {
@@ -30,8 +31,16 @@ const normalAlertIcon = new Icon({
   iconSize: [32, 32],
   iconAnchor: [16, 32]
 });
-
-
+  
+  React.useEffect(() => {
+    function playNotificationSound() {
+  // Create an Audio object
+  const audio = new Audio(audioNot); // Provide the URL of the sound file
+  audio.play(); // Play the audio
+    }
+    alerts.length > 0 && playNotificationSound()
+   },
+    [alerts])
 
   return (
       <div className="map-container">
@@ -55,16 +64,17 @@ const normalAlertIcon = new Icon({
                       position={[alert.location[0], alert.location[1]]}
                       icon={selectedUser === alert.username ? selectedUserAlertIcon : normalAlertIcon}
                     >
-                      <Popup>{alert.username}</Popup>
+                      <Popup>User: {alert.username}</Popup>
                     </Marker>
 
                 );
               }
             )}
           {activeAdmins &&
-            activeAdmins.map((activeAdmin: ActiveAdminS) => {
+            activeAdmins.map((activeAdmin: ActiveAdminS, index: number) => {
               return activeAdmin && activeAdmin.coords && (
-                    <Marker
+                <Marker
+                  key={index}
                       position={[activeAdmin.coords[0], activeAdmin.coords[1]]}
                     >
                       <Popup>{activeAdmin.username}</Popup>
