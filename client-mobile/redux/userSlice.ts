@@ -20,8 +20,8 @@ const initialState = {
     longitudeDelta: 0.0421,
   },
   mapRegion : {
-    latitude: 27.9881,
-    longitude: 86.925,
+    latitude: 52.50740142614877,
+    longitude: 13.378497425905698,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   },

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View, Alert } from 'react-native';
 import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
 // import { Audio } from 'expo-av';
@@ -28,7 +28,20 @@ const HelpButton: React.FC<HelpButtonProps> = ({
   const username = useSelector((state: RootState) => state.user.username);
   const dispatch = useDispatch();
   const userCoords = [userLocation.latitude, userLocation.longitude]
-  // const [soundInstance, setSoundInstance] = useState<Audio.Sound | undefined>(undefined);
+
+  const triggerAlertResponse = (res) => {
+    if (res.status) return   Alert.alert(
+      'Request received',
+      'Ski patrol received your request and help is on their way',
+      [
+        {
+          text: "Okay",
+          style: "cancel",
+        },
+      ]
+    );
+  }
+  
 
   useEffect(() => {
     if (isPressed) {
@@ -39,7 +52,6 @@ const HelpButton: React.FC<HelpButtonProps> = ({
           } else {
             setIsPressed(false);
             triggerAlert(location);
-            // setUserActiveAlert(true);
             dispatch(setActiveAlert(true));
             clearInterval(intervalRef.current!);
             return 0;
@@ -69,7 +81,7 @@ const HelpButton: React.FC<HelpButtonProps> = ({
         const {latitude, longitude} = coords
         socket
         .timeout(5000)
-        .emit(`Location-${location}-alert`, {location, userCoords : [latitude, longitude], helpType, username}, checkResponse());
+        .emit(`Location-${location}-alert`, {location, userCoords : [latitude, longitude], helpType, username}, checkResponse(triggerAlertResponse));
     } catch (err) {
       console.error(err)
     }
@@ -78,18 +90,11 @@ const HelpButton: React.FC<HelpButtonProps> = ({
   async function handlePress() {
     setIsPressed(true);
     setCountdown(3);
-    // const { sound } = await Audio.Sound.createAsync(require('../../assets/siren.mp3'));
-    // setSoundInstance(sound);
-    // await sound.playAsync();
   }
 
   function handleUnPress() {
     setIsPressed(false);
     setCountdown(0);
-    // if (soundInstance) {
-    //   soundInstance.stopAsync();
-    //   soundInstance.unloadAsync();
-    // }
   }
 
   const PulseAnimatable = Animatable.createAnimatableComponent(View);
