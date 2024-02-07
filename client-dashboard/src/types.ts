@@ -9,7 +9,7 @@ export interface UserL {
 
 export interface DisplayS {
   drawerIsOpen: boolean;
-  selectedUser: UserL | null;
+  selectedUser: string | null;
   loginModalOpen: boolean;
   registerModalOpen: boolean;
   alertModalOpen: boolean;
@@ -27,7 +27,7 @@ export interface LocationS {
   activeAdmins: ActiveAdminS[];
   admins: string[];
   displayCoords: number[];
-  noots: NotificationS[]
+  noots: NotificationS[];
 }
 
 export interface AlertS {
@@ -62,11 +62,13 @@ export interface NotificationS {
 }
 
 export interface LocationInfo {
-  alerts: AlertS[],
-  admins: string[],
-  coordinates: number[],
-  notifications: NotificationS[],
-  activeAdmins : ActiveAdminS[],
+  name: string;
+  coordinates: number[];
+  alerts: AlertS[];
+  activeAdmins: ActiveAdminS[];
+  admins: string[];
+  displayCoords: number[];
+  notifications: NotificationS[];
 }
 
 export interface UserInfo {

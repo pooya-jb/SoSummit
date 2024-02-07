@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../redux/store';
+import { AppDispatch, RootState } from '../../../../redux/store';
 import NootInfo from '../NootInfo/NootInfo';
 import classes from './NotificationColumn.module.css';
 import apiService from '../../../../utils/apiService';
@@ -10,10 +10,11 @@ import { NotificationS } from '../../../../types';
 const NotificationColumn = () => {
   const noots: NotificationS[] = useSelector((state: RootState) => state.location.noots).slice().reverse()
   const location : string = useSelector((state: RootState) => state.user.location)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>();
 
   const deleteNoot = async (e: React.MouseEvent<HTMLButtonElement>, time : string) => {
-    const res = await apiService.deleteNoot(time, location)
+    const res = await apiService.deleteNoot(time, location);
+    e.preventDefault();
     if (res.status === 200) {
       const newNoots : NotificationS[] = noots.filter(noot => noot.time !== time)
       dispatch(updateNoots(newNoots))

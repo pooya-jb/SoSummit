@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import { ActiveAdminS, AlertS } from '../../../types';
+import { ActiveAdminS } from '../../../types';
 import alertIcon from "../../../assets/alert-marker.png";
 import alertActiveIcon from "../../../assets/alert-active.png";
 import { Icon } from 'leaflet';
@@ -20,17 +20,17 @@ function Map(): React.ReactNode {
   );
 
 const selectedUserAlertIcon = new Icon({
-  iconUrl: alertActiveIcon, // URL of the custom marker icon image
-  iconSize: [32, 32], // Size of the icon image
-  iconAnchor: [16, 32], // Anchor point of the icon relative to its position
+  iconUrl: alertActiveIcon,
+  iconSize: [32, 32],
+  iconAnchor: [16, 32]
 });
-  
+
 const normalAlertIcon = new Icon({
-  iconUrl: alertIcon, // URL of the custom marker icon image
-  iconSize: [32, 32], // Size of the icon image
-  iconAnchor: [16, 32], // Anchor point of the icon relative to its position
+  iconUrl: alertIcon,
+  iconSize: [32, 32],
+  iconAnchor: [16, 32]
 });
-  
+
 
 
   return (
@@ -49,7 +49,7 @@ const normalAlertIcon = new Icon({
               (alert: { location: number[]; username: string },
                 index: number) => {
                 return (
-                  
+
                     <Marker
                       key={index}
                       position={[alert.location[0], alert.location[1]]}
@@ -57,7 +57,7 @@ const normalAlertIcon = new Icon({
                     >
                       <Popup>{alert.username}</Popup>
                     </Marker>
-                  
+
                 );
               }
             )}

@@ -22,7 +22,7 @@ export function unsubscribeToSocket(onConnect:()=>void, onDisconnect:()=>void) {
 }
 
 export function checkResponse(successHandler: (response: SocketServerResponse) => void = () => { }, errorHandler: () => void = () => { }) {
-  return (err, response: SocketServerResponse) => {
+  return (err: SocketServerResponse, response: SocketServerResponse) => {
     if (err) {
       if (errorHandler) errorHandler()
       console.log(err);

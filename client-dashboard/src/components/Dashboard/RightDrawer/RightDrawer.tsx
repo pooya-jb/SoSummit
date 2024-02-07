@@ -20,15 +20,17 @@ function RightDrawer(): React.ReactNode {
     dispatch(alertSelected())
   }
 
-  const user = useSelector((state: RootState) => state.display.selectedUser)
+  const user: string | null = useSelector((state: RootState) => state.display.selectedUser)
   useEffect(() => {
     const fetchUser = async () => {
-      console.log(user)
-      const res = await apiService.fetchUserInfo(user)
+      let res;
+      if (user) {
+        res = await apiService.fetchUserInfo(user)
+      }
       if (res){
         console.log(res)
-        setUserInfo(res)}
-      else return setUserInfo({})
+        setUserInfo(res as UserInfoI)}
+      else return setUserInfo({} as UserInfoI)
     }
     fetchUser()
   }, [user])

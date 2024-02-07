@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../redux/store';
+import { AppDispatch, RootState } from '../redux/store';
 import socket, { checkResponse } from '../utils/socket';
 import * as userActions from '../redux/userSlice';
 import * as locationActions from '../redux/locationSlice'
@@ -9,7 +9,7 @@ import { SocketServerResponse } from '../types';
 
 export default function useSocket() {
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const isConnected = useSelector((state: RootState) => state.user.isConnected);
   const location = useSelector((state: RootState) => state.user.location);
   const userName = useSelector((state: RootState) => state.user.username)
