@@ -18,7 +18,7 @@ export interface HelpButtonProps {
   isPressed: boolean,
   setIsPressed: React.Dispatch<React.SetStateAction<boolean>>,
   setUserActiveAlert: React.Dispatch<React.SetStateAction<boolean>>,
-  helpType
+  helpType?: string
 }
 
 export interface INotification {

@@ -16,7 +16,10 @@ const TabsLayout = () => {
       <Tabs.Screen
         name='index'
         options={{
-          headerTitle: `${isAuth ? 'Home' : 'Sign In'}`,
+          headerTitle: `${isAuth ? `SoSummit` : 'Sign In'}`,
+          headerTitleStyle: {
+            fontFamily: 'RussoOne-Regular'
+          },
           headerTitleAlign: 'center',
           title: '',
           tabBarIcon: () => {
@@ -38,18 +41,18 @@ const TabsLayout = () => {
             return isAuth ? (
               <View>
                 <Pressable
-                  android_ripple={{ color: 'transparent', borderless: false }} // Add this line
+                  android_ripple={{ color: 'transparent', borderless: false }}
                 >
                   <Link
                     href='/User'
-                    style={{ height: 25, width: 25, marginRight: 15 }}
+                    style={{ height: 22, width: 22, marginRight: 15 }}
                   >
                     <Image
                       source={require('../../assets/user.png')}
                       style={{
                         height: Platform.OS === 'ios' ? 25 : 20,
-                        width: Platform.OS === 'ios' ? 25 : 20, // Adjust the width as needed
-                        marginRight: 30,
+                        width: Platform.OS === 'ios' ? 25 : 20,
+                        marginRight: 30
                       }}
                     />
                   </Link>
@@ -61,18 +64,18 @@ const TabsLayout = () => {
             return isAuth ? (
               <View>
                 <Pressable
-                  android_ripple={{ color: 'transparent', borderless: false }} // Add this line
+                  android_ripple={{ color: 'transparent', borderless: false }}
                 >
                   <Link
                     href='/Notifications'
-                    style={{ height: 30, width: 30, marginLeft: 15 }}
+                    style={{ height: 25, width: 25, marginLeft: 15 }}
                   >
                     <Image
-                      source={require('../../assets/notif!.png')}
+                      source={require('../../assets/notification.png')}
                       style={{
                         height: Platform.OS === 'ios' ? 25 : 22,
-                        width: Platform.OS === 'ios' ? 25 : 22, // Adjust the width as needed
-                        marginRight: 30,
+                        width: Platform.OS === 'ios' ? 25 : 22,
+                        marginRight: 30
                       }}
                     />
                   </Link>

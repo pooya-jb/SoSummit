@@ -6,7 +6,7 @@ const initialState = {
   username: '',
   email: '',
   bio: '',
-  age: '',
+  phoneNumber: '',
   experience: '',
   isAuth: false,
   isConnected: false,
@@ -20,8 +20,8 @@ const initialState = {
     longitudeDelta: 0.0421,
   },
   mapRegion : {
-    latitude: 27.9881,
-    longitude: 86.925,
+    latitude: 52.50740142614877,
+    longitude: 13.378497425905698,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   },
@@ -59,10 +59,10 @@ export const userSlice = createSlice({
         email: action.payload,
       };
     },
-    setAge: (state, action: PayloadAction<string>) => {
+    setPhoneNumber: (state, action: PayloadAction<string>) => {
       return {
         ...state,
-        age: action.payload,
+        phoneNumber: action.payload,
       };
     },
     setBio: (state, action: PayloadAction<string>) => {
@@ -109,7 +109,7 @@ export const userSlice = createSlice({
         ...state,
         username : action.payload.username,
         email: action.payload.email,
-        age: action.payload.age,
+        phoneNumber: action.payload.phoneNumber,
         bio: action.payload.bio,
         experience: action.payload.experience,
         isAuth: true,
@@ -140,7 +140,7 @@ export const {
   socketConnected,
   setLocation,
   setUsername,
-  setAge,
+  setPhoneNumber,
   setBio,
   setEmail,
   setExperience,

@@ -40,14 +40,14 @@ export default HelpScreen;
 
 const styles = StyleSheet.create({
   questionOne: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '800',
     position: 'absolute',
-    top: 130,
+    top: 125,
   },
   questionTwo: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
     position: 'absolute',
     top: 160,
   },

@@ -5,22 +5,10 @@ import { RootState } from "../redux/store";
 
 export default function PostAlertScreen() {
   const phoneNumber = useSelector((state: RootState) => state.location.phoneNumber);
-  useEffect(() => {
-    Alert.alert(
-      "Help is on the way",
-      "Your request has been received. Please call us if you have more information to share.",
-      [
-        {
-          text: "Okay",
-          style: "default",
-        },
-      ]
-    );
-  }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Push below to call:</Text>
+      <Text style={styles.text}>Push below to call:</Text>
       <Pressable >
         <Text onPress={()=>{Linking.openURL(`tel:${phoneNumber}`);}} style={styles.phoneNumber}>📞SKI PATROL📞</Text>
       </Pressable>
@@ -33,6 +21,10 @@ const styles = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
     alignItems: "center",
+  },
+  text: {
+    fontSize: 24,
+    fontFamily: 'Poppins-SemiBold'
   },
   phoneNumber: {
     color: 'white',

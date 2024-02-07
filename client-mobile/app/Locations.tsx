@@ -22,8 +22,6 @@ import { setLocation, socketConnected, tripStarted } from '../redux/userSlice';
 import { addNotification, setPhoneNumber, updateNotifications } from '../redux/locationSlice';
 import socket, {checkResponse} from '../utils/socket';
 
-
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -31,9 +29,6 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-
- 
-
 
 export default function Locations() {
   const [expoPushToken, setExpoPushToken] = useState('');
@@ -47,7 +42,7 @@ export default function Locations() {
   const locations = useSelector((state: RootState) => state.location.locations);
   const userLocation = useSelector((state: RootState) => state.user.userLocation);
 
-   async function schedulePushNotification(info : {text: string, type: string, time: string}) {
+  async function schedulePushNotification(info : {text: string, type: string, time: string}) {
   await Notifications.scheduleNotificationAsync({
     content: {
       title: `${info.type} ⛷️!`,
@@ -71,7 +66,7 @@ async function registerForPushNotificationsAsync() {
   }
 
   if (Platform.OS === 'ios') {
-     const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
   if (existingStatus !== 'granted') {
     const { status } = await Notifications.requestPermissionsAsync();
     if (status !== 'granted') {
@@ -115,8 +110,8 @@ async function registerForPushNotificationsAsync() {
 
   return token;
 }
-  
-   useEffect(() => {
+
+  useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
@@ -198,11 +193,11 @@ async function registerForPushNotificationsAsync() {
 
   type ItemProps = { title: string };
   const Item = ({ title }: ItemProps) => (
-    <View style={styles.locationItem}>
+    <View>
       <Pressable
         style={({ pressed }) => [
           styles.button,
-          { backgroundColor: pressed ? '#669FA8' : '#C5FEFF' },
+          { backgroundColor: pressed ? '#51688a' : '#607ca4' },
         ]}
         onPress={() => handleLocationClick(title)}
       >
@@ -238,19 +233,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  locationItem: {},
   locationName: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
+    color: "white",
+    fontFamily: "Poppins-Medium"
   },
   button: {
-    margin: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    padding: 10,
+    margin: 20,
+    padding: 12,
     paddingLeft: 30,
     paddingRight: 30,
-    backgroundColor: '#C5FEFF',
-    borderRadius: 5,
-  },
+    borderRadius: 10,
+    shadowColor: 'black',
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  }
 });

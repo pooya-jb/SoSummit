@@ -5,6 +5,7 @@ import { RootState } from '../../../redux/store';
 import { alertSelected, drawerToggled } from '../../../redux/displaySlice';
 import apiService from '../../../utils/apiService';
 import { UserInfoI } from '../../../types';
+import warning from "../../../assets/exclamation_warning.webp"
 
 
 function RightDrawer(): React.ReactNode {
@@ -34,23 +35,39 @@ function RightDrawer(): React.ReactNode {
 
   if( userInfo === undefined || !Object.keys(userInfo).length ){
     return (
-      <>
-      <button className={classes.alertButton} onClick={handleAlert}>⚠️</button>
-      <button className={classes.openright} onClick={handleToggleDrawer} >Open</button>
-      {isOpen && <div className={classes.rightdrawer}>
-      <button className={classes.openright} onClick={handleToggleDrawer}>X</button>
-      <h1>Please select a user</h1>
-      </div>}
-      </>
+      <div className={classes.rightBtns}>
+        <button className={classes.alertButton} onClick={handleAlert}>
+          <span className={classes.alertText}>Send notification!</span>
+          <img className={classes.alertImg} src={warning}></img>
+        </button>      
+        <button className={classes.openright} onClick={handleToggleDrawer} >⬅️</button>
+          {isOpen && <div className={classes.rightdrawer}>
+          <button className={classes.openright} onClick={handleToggleDrawer}>X</button>
+          <h1>Please select a user</h1>
+        </div>}
+      </div>
     )
   }
 
     return (
       <>
-
+        <button className={classes.alertButton} onClick={handleAlert}>
+          <span className={classes.alertText}>Send notification!</span>
+          <img className={classes.alertImg} src={warning}></img>
+        </button>
+         <button className={classes.openright} onClick={handleToggleDrawer} >⬅️</button>
+          {isOpen && <div className={classes.rightdrawer}>
+          <button className={classes.openright} onClick={handleToggleDrawer}>X</button>
+          <h1>Please select a user</h1>
+        </div>}
       {isOpen && <div className={classes.rightdrawer}>
-        <button className={classes.openright} onClick={handleToggleDrawer}>X</button>
-        <p>{userInfo.username}</p>
+          <button className={classes.openright} onClick={handleToggleDrawer}>X</button>
+          <div className={classes.userInfo}>
+            <p className={classes.username}><span>Username:</span> {userInfo.username}</p>
+            <p className={classes.age}><span>Age:</span> {userInfo.age}</p>
+            <p className={classes.email}><span>Email:</span> {userInfo.username}</p>
+            <p className={classes.experience}><span>Experience:</span> {userInfo.username}</p>
+          </div>
       </div>}
     </>
   )
