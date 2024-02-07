@@ -233,19 +233,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  locationItem: {},
   locationName: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
+    color: "white",
+    fontFamily: "Poppins-Medium"
   },
   button: {
-    margin: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    padding: 10,
+    margin: 20,
+    padding: 12,
     paddingLeft: 30,
     paddingRight: 30,
-    backgroundColor: 'red',
-    borderRadius: 5,
-  },
+    borderRadius: 10,
+    shadowColor: 'black',
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  }
 });
