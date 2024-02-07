@@ -47,8 +47,7 @@ const Home = () => {
     foregroundTrackingSubscribe(subscription);
     requestPermission();
     requestBackgroundPermission();
-    // isAdmin ? requestBackgroundPermission() : null;
-    //   return () => {subscription.foreground ? subscription.foreground.remove() : null; console.log('Home Unmounted'); console.log(Location)}
+
     TaskManager.defineTask(
       "BACKGROUND_LOCATION_SUBSCRIPTION",
       ({ data: { locations }, error }) => {
@@ -61,14 +60,11 @@ const Home = () => {
         socket.timeout(5000).emit(
           `Location-${resort}-Admin-live`,
           { coords: [coords.latitude, coords.longitude], userName: userName },
-          checkResponse((response) => {
-            console.log(response);
-          }, alertOfNoResponse)
+          checkResponse()
         );
       }
     );
     return () => {
-      console.log("unmounted");
       Location.stopLocationUpdatesAsync("BACKGROUND_LOCATION_SUBSCRIPTION");
     };
   }, []);
@@ -78,7 +74,7 @@ const Home = () => {
   function permissionAbsent() {
     console.log("Permission to access location was denied");
     isAdmin
-      ? Alert.alert("Please allow always location permissions and log back in")
+      ? Alert.alert("Please always allow location permissions in your settings and log back in.")
       : Alert.alert(
           "Please give this app the location permissions and log back in"
         );
@@ -89,20 +85,6 @@ const Home = () => {
     if (!granted) {
       permissionAbsent();
     }
-    // else {
-    //   subscription.foreground = await Location.watchPositionAsync({
-    //     accuracy: Location.Accuracy.Highest,
-    //     timeInterval: 5000,
-    //     distanceInterval: 0,
-    //   }, (location) => {
-    //     dispatch(userLocationUpdated({
-    //       latitude: location.coords.latitude,
-    //       longitude: location.coords.longitude,
-    //       latitudeDelta: mapRegion.latitudeDelta,
-    //       longitudeDelta: mapRegion.longitudeDelta
-    //     }))
-    //   })
-    // }
   }
 
   // START AND STOP BUTTON HANDLERS
@@ -111,25 +93,6 @@ const Home = () => {
   };
 
   const adminConnectHandler = async () => {
-    // const {granted} = await Location.requestBackgroundPermissionsAsync()
-    // if (!backgroundStatus || !backgroundStatus.granted) {
-    // permissionAbsent();
-    // return;
-    //  }
-    // await requestBackgroundPermission()
-    // if (!backgroundStatus || !backgroundStatus.granted) {
-    //   const {granted} = await requestBackgroundPermission();
-    //   console.log(granted)
-    //   if (!granted) {
-    //     permissionAbsent();
-    //     return;
-    //   }
-
-    // if (!granted) {
-    //   permissionAbsent();
-    //   return;
-    // }
-    // }
     socket.on("connect", () => dispatch(socketConnected(true)));
     socket.on("disconnect", () => dispatch(socketConnected(false)));
     socket
@@ -180,10 +143,8 @@ const Home = () => {
       dispatch(updateNotifications(response.info.notifications));
       dispatch(updateAlerts(response.info.alerts));
       dispatch(tripStarted(true));
-      console.log(response.info);
       socket.on(`${response.info.location}-notifications-received`, (info) => {
         dispatch(addNotification(info));
-        console.log(info);
       });
       socket.on(`${response.info.location}-alerts-received`, (info) =>
         dispatch(addAlert(info))
@@ -252,9 +213,7 @@ const Home = () => {
     }
   };
 
-  console.log(alerts);
   let alertLocations = alerts.map((alert) => alert.location);
-  console.log(alertLocations);
 
   return (
     <View style={styles.home}>
@@ -270,7 +229,6 @@ const Home = () => {
         >
           {/* SHOW ALERT LOCATION ON ADMIN MAP */}
           {alertLocations.map((location, index) => {
-            console.log("mapped location", location);
             return (
               <Marker
                 key={index}
@@ -292,7 +250,7 @@ const Home = () => {
               onPress={isAdmin ? adminConnectHandler : connectHandler}
               style={({ pressed }) => [
                 styles.button,
-                { backgroundColor: pressed ? "#0A7F8C" : "#10B2C1" },
+                { backgroundColor: pressed ? "#51688a" : "#607ca4" },
               ]}
             >
               <Text style={styles.buttonText}>Start</Text>
@@ -302,27 +260,13 @@ const Home = () => {
               onPress={stopBtnHandler}
               style={({ pressed }) => [
                 styles.button,
-                { backgroundColor: pressed ? "#0A7F8C" : "#10B2C1" },
+                { backgroundColor: pressed ? "#51688a" : "#607ca4" },
               ]}
             >
               <Text style={styles.buttonText}>Stop</Text>
             </Pressable>
           )}
         </View>
-        {/*<View style={styles.currentLocationBtnContainer}>
-            <Pressable
-            style={{
-              alignItems: 'center',
-              padding: 2,
-            }}
-            onPress={currentLocationHandler}
-          >
-            <Image
-              source={require('../../assets/location.png')}
-              style={{ width: 30, height: 30 }}
-            />
-          </Pressable>
-        </View>*/}
       </View>
     </View>
   );
