@@ -25,7 +25,7 @@ function UserList({ source }: { source: 'users' | 'admins' }): React.ReactNode {
       </div>
     ); 
   }
-  else if (source === 'users') {
+  if (source === 'users') {
     const alertList: React.ReactNode = alerts?.map((alert: AlertS) => <AlertInfo key={alert.username} alert={alert} />)
     return (
       <div className={classes.list}>
