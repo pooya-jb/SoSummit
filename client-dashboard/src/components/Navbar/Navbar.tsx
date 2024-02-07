@@ -4,14 +4,12 @@ import { useSelector } from 'react-redux';
 
 import styles from './Navbar.module.css';
 import ChakraMenu from './ChakraMenu/ChakraMenu';
-import socket from '../../utils/socket';
 import { RootState } from '../../redux/store';
 
 function ConnectionState() {
   const isConnected = useSelector((state: RootState) => state.user.isConnected);
   const adminLocationIsConnected = useSelector((state: RootState) => state.user.adminLocationIsConnected);
   const connected = isConnected && adminLocationIsConnected ? '🟢' : '🔴';
-  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
   return (
     <p>Online: {connected}</p>
   );
@@ -20,31 +18,19 @@ function ConnectionState() {
 function Navbar(): React.ReactNode {
   const [scrollPosition, setScrollPosition] = useState(0);
   const isConnected = useSelector((state: RootState) => state.user.isConnected)
-
-  function handleScroll() {
-    const position = window.pageYOffset;
-    setScrollPosition(position);
-  }
-
+  const isAuthenticated = useSelector((state : RootState) => state.user.isAuthenticated)
+  
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  function connect() {
-    socket.connect();
+  
+  function handleScroll() {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
   }
-
-  function disconnect() {
-    socket.disconnect();
-  }
-
-  const isAuthenticated = useSelector((state : RootState) => state.user.isAuthenticated)
-  useEffect(()=>{
-    isAuthenticated === true ? connect() : disconnect();
-  }, [isAuthenticated])
 
   return (
     <>

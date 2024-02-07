@@ -114,8 +114,10 @@ async function addActiveAdmin(
     const location: InstanceType<ILocationModel> | null =
       await Location.findOne({ name: locationName });
     if (location) {
-      const activeAdmins = location.activeAdmins.concat([userName]);
-      await Location.findOneAndUpdate({ name: locationName }, { activeAdmins });
+      if(!location.activeAdmins.some(admin => admin === userName)) {
+        const activeAdmins = location.activeAdmins.concat([userName]);
+        await Location.findOneAndUpdate({ name: locationName }, { activeAdmins });
+      }
       return { status: true, info: { userName, alerts: location.alerts, notifications: location.notifications, location: locationName } };
     } else return { status: false, info: undefined };
   } catch (err) {
