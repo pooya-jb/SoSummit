@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DisplayS, UserL } from '../types';
+import { DisplayS } from '../types';
 
 
 const initialState : DisplayS= {

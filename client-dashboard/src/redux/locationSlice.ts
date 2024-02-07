@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ActiveAdminS, AlertS, LocationInfo, LocationS, NotificationS, UserL } from '../types';
+import { ActiveAdminS, AlertS, LocationInfo, LocationS, NotificationS } from '../types';
 
 const initialState: LocationS = {
   name: '',
@@ -23,7 +23,7 @@ export const locationSlice = createSlice({
       return {
         ...state,
         activeAdmins: state.activeAdmins.map((admin: ActiveAdminS) => {
-        if (admin.username !== action.payload.userName) {
+        if (admin.username !== action.payload.username) {
           return admin
         } else {
           return {...admin, coords: action.payload.coords}
@@ -129,12 +129,7 @@ export const locationSlice = createSlice({
           noots: action.payload.notifications,
           alerts : action.payload.alerts,
           admins : action.payload.admins,
-          activeAdmins: action.payload.activeAdmins.map((admin) => {
-            return {
-              username: admin,
-              coords: [0, 0]
-            }
-          }),
+          activeAdmins: action.payload.activeAdmins,
           coordinates : action.payload.coordinates,
           displayCoords: [(action.payload.coordinates[1] + action.payload.coordinates[0]) / 2, (action.payload.coordinates[3] + action.payload.coordinates[2]) / 2]
         }

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import classes from "./Modal.module.css"
 import apiService from '../../utils/apiService';
 import { registerSelected } from '../../redux/displaySlice';
-import { RootState } from '../../redux/store';
+import { AppDispatch, RootState } from '../../redux/store';
 import { SyntheticEvent, useState } from 'react';
 import { TypedResponse } from '../../types';
 import ids from './Modal.module.css'
@@ -17,8 +17,8 @@ function RegisterModal() {
   const [username, setUsername] = useState('')
   const displayRegister = useSelector((state: RootState) => state.display.registerModalOpen);
   const location = useSelector((state: RootState) => state.user.location)
-  
-  const dispatch = useDispatch();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   function closeHandler() {
     dispatch(registerSelected());

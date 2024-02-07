@@ -4,13 +4,13 @@ import { AlertS } from "../../../../types";
 
 import classes from "./AlertInfo.module.css";
 import { updateAlerts } from "../../../../redux/locationSlice";
-import { RootState } from "../../../../redux/store";
+import { AppDispatch, RootState } from "../../../../redux/store";
 import apiService from "../../../../utils/apiService";
 import { userSelected } from "../../../../redux/displaySlice";
 import imgdelete from "../../../../assets/delete.png"
 
 function AlertInfo({ alert }: { alert: AlertS }): React.ReactNode {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const currentAlerts = useSelector(
     (state: RootState) => state.location.alerts
   );

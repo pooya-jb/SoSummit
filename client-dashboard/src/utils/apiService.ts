@@ -31,27 +31,29 @@ const apiService = {
       body: JSON.stringify(registerForm),
     })
       .then((res) => res)
-      .catch((err) => console.log(err));
+      .catch((err) => err);
   },
   deleteNoot : async (time : string, location: string) : Promise<TypedResponse> => {
-    const res = await fetch(`${BASE_URL}/delete-noot`, {
+    return await fetch(`${BASE_URL}/delete-noot`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({time, location}),
     })
-    return res
+    .then((res) => res)
+    .catch((err) => err);
   },
   deleteAlert : async (username : string, location: string) : Promise<TypedResponse> => {
-    const res = await fetch(`${BASE_URL}/delete-alert`, {
+    return await fetch(`${BASE_URL}/delete-alert`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({username, location}),
     })
-    return res
+    .then((res) => res)
+    .catch((err) => err);
   },
   fetchUserInfo: async (username:string) => {
     try {
-      const accessToken = localStorage.getItem('accessToken') 
+      const accessToken = localStorage.getItem('accessToken')
       const res = await fetch(`${BASE_URL}/user-info/${username}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json', 'Authorization': `bearer ${accessToken}`},
@@ -59,7 +61,7 @@ const apiService = {
       if(res.ok) {
         return await res.json() as UserL
       }else throw Error()
-    
+
   } catch (error) {
     return {}
   }

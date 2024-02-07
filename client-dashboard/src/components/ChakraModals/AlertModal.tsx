@@ -13,6 +13,7 @@ import ids from "./Modal.module.css"
 import socket, {checkResponse} from "../../utils/socket";
 import { addNoot } from "../../redux/locationSlice";
 import { NotificationS, SocketServerResponse } from "../../types";
+import { AppDispatch } from "../../redux/store";
 
 function AlertModal() {
   const [message, setMessage] = useState('')
@@ -20,7 +21,7 @@ function AlertModal() {
   const displayAlert = useSelector(
     (state: RootState) => state.display.alertModalOpen
   );
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const location = useSelector((state: RootState) => state.user.location)
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value)
