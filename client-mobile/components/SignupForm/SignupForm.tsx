@@ -18,7 +18,7 @@ import { fetchSignup } from '../../utils/ApiService';
 import {
   setAuth,
   setUsername,
-  setAge,
+  setPhoneNumber,
   setEmail,
   setBio,
   setExperience,
@@ -34,7 +34,7 @@ const KeyboardAvoidingComponent = ({
   const [usernameForm, setUsernameForm] = useState('');
   const [emailForm, setEmailForm] = useState('');
   const [password, setPassword] = useState('');
-  const [ageForm, setAgeForm] = useState('');
+  const [phoneNumberForm, setPhoneNumberForm] = useState('');
   const [experienceForm, setExperienceForm] = useState('');
   const [bioForm, setBioForm] = useState('');
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ const KeyboardAvoidingComponent = ({
         usernameForm,
         emailForm,
         password,
-        ageForm,
+        phoneNumberForm,
         experienceForm,
         bioForm
       );
@@ -66,7 +66,7 @@ const KeyboardAvoidingComponent = ({
         dispatch(setAuth(true));
         dispatch(setUsername(usernameForm));
         dispatch(setEmail(emailForm));
-        dispatch(setAge(ageForm));
+        dispatch(setPhoneNumber(phoneNumberForm));
         dispatch(setBio(bioForm));
         dispatch(setExperience(experienceForm));
         dispatch(updateLocations(res.locations));
@@ -86,7 +86,7 @@ const KeyboardAvoidingComponent = ({
     <TouchableWithoutFeedback onPress={handleTapOutside}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
-  
+
         style={styles.container}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -123,9 +123,9 @@ const KeyboardAvoidingComponent = ({
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
             <TextInput
-              placeholder='Age'
-              value={ageForm}
-              onChangeText={setAgeForm}
+              placeholder='PhoneNumber'
+              value={phoneNumberForm}
+              onChangeText={setPhoneNumberForm}
               keyboardType='numeric'
               style={styles.textInput}
             />
