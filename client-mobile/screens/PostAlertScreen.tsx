@@ -8,7 +8,7 @@ export default function PostAlertScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>Push below to call:</Text>
+      <Text style={styles.text}>Push below to call:</Text>
       <Pressable >
         <Text onPress={()=>{Linking.openURL(`tel:${phoneNumber}`);}} style={styles.phoneNumber}>📞SKI PATROL📞</Text>
       </Pressable>
@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
     alignItems: "center",
+  },
+  text: {
+    fontSize: 24,
+    fontFamily: 'Poppins-SemiBold'
   },
   phoneNumber: {
     color: 'white',

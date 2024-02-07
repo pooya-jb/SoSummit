@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     marginTop: 20,
-    gap: 1
+    gap: 1,
   },
   notificationContainer: {
     borderColor: 'gray',
@@ -49,25 +49,26 @@ const styles = StyleSheet.create({
     overflow: "hidden"
   },
   notificationType: {
-    backgroundColor: "#C8D8ED",
+    backgroundColor: "#607ca4",
     padding: 5,
     borderBottomWidth: 1,
     borderColor: "gray",
-    color: "gray",
+    color: "white",
     fontSize: 14,
     marginBottom: 2,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   notificationsList: {
     padding: 10,
     paddingRight: 40,
     paddingLeft: 40,
     gap: 1,
-    width: 350
+    width: 380,
   },
   notificationText: {
     fontSize: 16,
-  padding: 5},
+    padding: 5
+  },
   notificationTime: {
     padding: 4,
     fontSize: 10,

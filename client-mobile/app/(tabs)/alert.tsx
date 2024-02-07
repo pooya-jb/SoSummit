@@ -17,7 +17,7 @@ const Alert = () => {
     <AdminAlert />
   )
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={activeAlert ? styles.containerPostAlert : styles.containerHelp}>
       {!activeAlert ?
       <HelpScreen isPressed={isPressed} setIsPressed={setIsPressed} countdown={countdown} setCountdown={setCountdown} setUserActiveAlert={setUserActiveAlert} />
       :
@@ -29,10 +29,15 @@ const Alert = () => {
 export default Alert;
 
 const styles = StyleSheet.create({
-  container: {
+  containerHelp: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'flex-end',
     bottom: 65
   },
-})
+  containerPostAlert: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+  }
+});

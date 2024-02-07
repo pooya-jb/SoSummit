@@ -1,7 +1,8 @@
 import { Stack } from 'expo-router';
 import { Provider } from 'react-redux';
-import { store } from '../redux/store';
+import { RootState, store } from '../redux/store';
 import { useFonts } from 'expo-font';
+import { useSelector } from 'react-redux';
 
 const RootLayout = () => {
   const [fontsLoaded] = useFonts({
@@ -15,6 +16,7 @@ const RootLayout = () => {
     "Poppins-SemiBold" : require("../assets/fonts/Poppins-SemiBold.ttf"),
     "RussoOne-Regular" : require("../assets/fonts/RussoOne-Regular.ttf")
   });
+
   return (
     <Provider store={store}>
       <Stack>
@@ -28,6 +30,7 @@ const RootLayout = () => {
           name='User'
           options={{
             presentation: 'modal',
+            headerTitle: 'Settings',
           }}
         />
         <Stack.Screen

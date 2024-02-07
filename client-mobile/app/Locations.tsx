@@ -193,7 +193,7 @@ async function registerForPushNotificationsAsync() {
 
   type ItemProps = { title: string };
   const Item = ({ title }: ItemProps) => (
-    <View style={styles.locationItem}>
+    <View>
       <Pressable
         style={({ pressed }) => [
           styles.button,

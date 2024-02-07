@@ -41,14 +41,15 @@ export default HelpScreen;
 const styles = StyleSheet.create({
   questionOne: {
     fontSize: 20,
-    fontWeight: '800',
     position: 'absolute',
-    top: 130,
+    top: 125,
+    fontFamily: "Poppins-Black",
   },
   questionTwo: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '500',
     position: 'absolute',
     top: 160,
+    fontFamily: "Poppins-SemiBold"
   },
 });
