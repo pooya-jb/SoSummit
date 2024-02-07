@@ -5,6 +5,7 @@ import { RootState } from '../../../../redux/store';
 import UserInfo from '../UserInfo/UserInfo';
 import AlertInfo from '../AlertInfo/AlertInfo';
 import { ActiveAdminS, AlertS } from '../../../../types';
+import classes from './UserList.module.css'
 
 function UserList({ source }: { source: 'users' | 'admins' }): React.ReactNode {
   
@@ -19,17 +20,17 @@ function UserList({ source }: { source: 'users' | 'admins' }): React.ReactNode {
     })
 
     return (
-      <>
+      <div className={classes.list}>
         {adminList}
-      </>
+      </div>
     ); 
   }
   else if (source === 'users') {
     const alertList: React.ReactNode = alerts?.map((alert: AlertS) => <AlertInfo key={alert.username} alert={alert} />)
     return (
-      <>
+      <div className={classes.list}>
         {alertList}
-      </>
+      </div>
     )
   }
 }

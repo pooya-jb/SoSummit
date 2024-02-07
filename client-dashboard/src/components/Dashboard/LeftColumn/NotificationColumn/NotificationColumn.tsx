@@ -8,7 +8,7 @@ import { NotificationS } from '../../../../types';
 
 
 const NotificationColumn = () => {
-  const noots: NotificationS[] = useSelector((state: RootState) => state.location.noots)
+  const noots: NotificationS[] = useSelector((state: RootState) => state.location.noots).slice().reverse()
   const location : string = useSelector((state: RootState) => state.user.location)
   const dispatch = useDispatch()
 
