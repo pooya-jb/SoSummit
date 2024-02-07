@@ -34,7 +34,7 @@ const createAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
         { name: adminLocation },
         { admins: locationInstance.admins }
       );
-      res.status(201);
+      res.status(201).send();
     } else throw Error();
   } catch (error) {
     res.status(400).send({ error, message: 'Could not create user' });

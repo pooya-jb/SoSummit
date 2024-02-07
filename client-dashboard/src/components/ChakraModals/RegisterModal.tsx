@@ -12,13 +12,13 @@ import { SyntheticEvent, useState } from 'react';
 import { TypedResponse } from '../../types';
 import ids from './Modal.module.css'
 function RegisterModal() {
-  const displayRegister = useSelector((state: RootState) => state.display.registerModalOpen);
-  const dispatch = useDispatch();
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
+  const displayRegister = useSelector((state: RootState) => state.display.registerModalOpen);
   const location = useSelector((state: RootState) => state.user.location)
+  
+  const dispatch = useDispatch();
 
   function closeHandler() {
     dispatch(registerSelected());
@@ -26,9 +26,10 @@ function RegisterModal() {
   async function handleRegisterAdmin(event: SyntheticEvent) {
     event.preventDefault();
     const response: TypedResponse = await apiService.register({ email, password, location, username });
-    if (response.error) {
+    console.log(response)
+    if (response.status !== 201) {
       alert("User with this email already exists");
-    } else if (response.accessToken) {
+    } else {
       console.log('user created')
     }
     closeHandler()
@@ -50,7 +51,7 @@ function RegisterModal() {
     <>
       <Modal
         isOpen={displayRegister}
-        onClose={closeHandler}
+        onClose={() => {}}
       >
         <ModalOverlay />
         <ModalContent>
@@ -62,7 +63,7 @@ function RegisterModal() {
             <label>Password: </label>
             <input type="password" name="password" placeholder='password' required onChange={handlePasswordChange} />
             <div className={classes.buttonsContainer}>
-              <button type="submit" className={classes.buttonForm} id={ids.loginButton}>Login</button>
+              <button type="submit" className={classes.buttonForm} id={ids.loginButton}>Register an Admin</button>
               <button type="button" className={classes.buttonForm} onClick={closeHandler}>Cancel</button>
             </div>
           </form>
