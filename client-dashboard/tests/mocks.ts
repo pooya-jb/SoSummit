@@ -2,7 +2,7 @@ import { RootState } from "../src/redux/store";
 
 export const mockedStoreLogged : RootState = {
   user: {
-    username: 'testAdmin',
+    username: 'admin',
     email: 'testEmail',
     location: 'testLocation',
     isAuthenticated: true,
