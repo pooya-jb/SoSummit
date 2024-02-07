@@ -4,15 +4,34 @@ import 'leaflet/dist/leaflet.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { ActiveAdminS, AlertS } from '../../../types';
+import alertIcon from "../../../assets/alert-marker.png";
+import alertActiveIcon from "../../../assets/alert-active.png";
+import { Icon } from 'leaflet';
+
 
 function Map(): React.ReactNode {
   const alerts = useSelector((state: RootState) => state.location.alerts);
+  const selectedUser = useSelector((state: RootState) => state.display.selectedUser)
   const activeAdmins = useSelector(
     (state: RootState) => state.location.activeAdmins
   );
   const displayCoord = useSelector(
     (state: RootState) => state.location.displayCoords
   );
+
+const selectedUserAlertIcon = new Icon({
+  iconUrl: alertActiveIcon, // URL of the custom marker icon image
+  iconSize: [32, 32], // Size of the icon image
+  iconAnchor: [16, 32], // Anchor point of the icon relative to its position
+});
+  
+const normalAlertIcon = new Icon({
+  iconUrl: alertIcon, // URL of the custom marker icon image
+  iconSize: [32, 32], // Size of the icon image
+  iconAnchor: [16, 32], // Anchor point of the icon relative to its position
+});
+  
+
 
   return (
     <>
@@ -35,6 +54,7 @@ function Map(): React.ReactNode {
                     <Marker
                       key={index}
                       position={[alert.location[0], alert.location[1]]}
+                      icon={selectedUser === alert.username ? selectedUserAlertIcon : normalAlertIcon}
                     >
                       <Popup>{alert.username}</Popup>
                     </Marker>
