@@ -10,7 +10,6 @@ import { RootState } from './redux/store';
 import PresentationPage from './components/PresentationPage/PresentationPage';
 import useAuthentication from './hooks/useAuthentication';
 import useSocket from './hooks/useSocket';
-import useAdminSocketSubs from './hooks/useAdminSocketSubs';
 import useAdminSocket from './hooks/useAdminSocket';
 
 function App(): React.ReactNode {
@@ -20,7 +19,7 @@ function App(): React.ReactNode {
 
   // Checks for stored authentication and fetches
   useAuthentication();
-  
+
   // Handles admin lobby subscriptions
   // useAdminSocketSubs();
 

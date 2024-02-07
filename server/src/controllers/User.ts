@@ -23,10 +23,10 @@ const createUser = async (req: TypedRequest<IUser>, res: Response) => {
       activeAlert: false
     });
     const user: InstanceType<IUserModel> = await newUser.save();
-    const { username, email, age, experience, bio } = user;
+    const { username, email, phoneNumber, experience, bio } = user;
     const accessToken = jwt.sign({ _id: user._id }, SECRET_KEY);
     const locations: InstanceType<ILocationModel>[] = await Location.find();
-    res.status(201).send({ accessToken, userInfo: { username, email, age, experience, bio }, locations: locations.map(location => location.name) });
+    res.status(201).send({ accessToken, userInfo: { username, email, phoneNumber, experience, bio }, locations: locations.map(location => location.name) });
   } catch (error) {
     res.status(400).send({ error, message: 'Could not create user' });
   }
@@ -40,10 +40,10 @@ const loginUser = async (req: TypedRequest<IUser>, res: Response) => {
     const validatedPass: boolean = await bcrypt.compare(password, user.password);
     if (!validatedPass) throw new Error();
     const accessToken: string = jwt.sign({ _id: user._id }, SECRET_KEY);
-    const { username, age, experience, bio } = user;
+    const { username, phoneNumber, experience, bio } = user;
     const locations: InstanceType<ILocationModel>[] = await Location.find();
 
-    res.status(200).send({ accessToken, userInfo: { username, email, age, experience, bio }, locations: locations.map(location => location.name) });
+    res.status(200).send({ accessToken, userInfo: { username, email, phoneNumber, experience, bio }, locations: locations.map(location => location.name) });
   } catch (error) {
     res
       .status(401)
@@ -57,8 +57,8 @@ const getUserInfo = async (req: TypedRequest<any>, res: Response) => {
     const { username : name } = req.params;
     const user: InstanceType<IUserModel> | null = await User.findOne({ username: name });
     if (!user) throw Error()
-    const {username, age, email, experience} = user
-    res.status(200).send({username, age, email, experience});
+    const {username, phoneNumber, email, experience} = user
+    res.status(200).send({username, phoneNumber, email, experience});
   } catch (error) {
     res
       .status(401)
