@@ -6,7 +6,7 @@ const initialState = {
   username: '',
   email: '',
   bio: '',
-  age: '',
+  phoneNumber: '',
   experience: '',
   isAuth: false,
   isConnected: false,
@@ -59,10 +59,10 @@ export const userSlice = createSlice({
         email: action.payload,
       };
     },
-    setAge: (state, action: PayloadAction<string>) => {
+    setPhoneNumber: (state, action: PayloadAction<string>) => {
       return {
         ...state,
-        age: action.payload,
+        phoneNumber: action.payload,
       };
     },
     setBio: (state, action: PayloadAction<string>) => {
@@ -109,7 +109,7 @@ export const userSlice = createSlice({
         ...state,
         username : action.payload.username,
         email: action.payload.email,
-        age: action.payload.age,
+        phoneNumber: action.payload.phoneNumber,
         bio: action.payload.bio,
         experience: action.payload.experience,
         isAuth: true,
@@ -140,7 +140,7 @@ export const {
   socketConnected,
   setLocation,
   setUsername,
-  setAge,
+  setPhoneNumber,
   setBio,
   setEmail,
   setExperience,

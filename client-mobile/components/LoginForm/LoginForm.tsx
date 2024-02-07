@@ -32,8 +32,8 @@ const LoginForm = ({
     if (typeof res.accessToken === 'string' && res.accessToken.length > 0) {
       try {
         await AsyncStorage.setItem('AccessToken', res.accessToken);
-        const { username, email, age, bio, experience } = res.userInfo;
-        dispatch(userLoggedIn({ username, email, age, bio, experience }))
+        const { username, email, phoneNumber, bio, experience } = res.userInfo;
+        dispatch(userLoggedIn({ username, email, phoneNumber, bio, experience }))
         dispatch(updateLocations(res.locations));
       } catch (err) {
         console.log(err);
