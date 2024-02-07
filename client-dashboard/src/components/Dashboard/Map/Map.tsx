@@ -7,6 +7,7 @@ import { ActiveAdminS, AlertS } from '../../../types';
 import alertIcon from "../../../assets/alert-marker.png";
 import alertActiveIcon from "../../../assets/alert-active.png";
 import { Icon } from 'leaflet';
+import audioNot from "../../../assets/mixkit-classic-alarm-995.wav"
 
 
 function Map(): React.ReactNode {
@@ -31,7 +32,15 @@ const normalAlertIcon = new Icon({
   iconAnchor: [16, 32], // Anchor point of the icon relative to its position
 });
   
-
+  React.useEffect(() => {
+    function playNotificationSound() {
+  // Create an Audio object
+  const audio = new Audio(audioNot); // Provide the URL of the sound file
+  audio.play(); // Play the audio
+    }
+    alerts.length > 0 && playNotificationSound()
+   },
+    [alerts])
 
   return (
     <>

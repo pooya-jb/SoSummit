@@ -43,9 +43,8 @@ function ChakraMenu(): React.ReactNode {
         </MenuButton>
         { isAuthenticated?
           <MenuList className="menu-list" zIndex='999'>
-          <MenuItem color="var(--textmain)" bg="var(--backgroundmain)">Settings</MenuItem>
-          <MenuItem color="var(--textmain)" bg="var(--backgroundmain)" onClick={handleRegisterClick}>Register a new admin</MenuItem>
-            <MenuItem color="var(--textmain)" bg="var(--backgroundmain)" onClick={handleLogoutClick}>Log out</MenuItem>
+          <MenuItem color="var(--textmain)"  textColor="black" onClick={handleRegisterClick}>Register a new admin</MenuItem>
+            <MenuItem color="var(--textmain)" textColor="black" onClick={handleLogoutClick}>Log out</MenuItem>
         </MenuList>
         :
         <MenuList className="menu-list" zIndex='999'>
