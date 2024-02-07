@@ -71,7 +71,7 @@ const KeyboardAvoidingComponent = ({
         dispatch(setExperience(experienceForm));
         dispatch(updateLocations(res.locations));
       } else {
-        throw new Error('Email or password is incorrect');
+        throw new Error('Something went wrong!');
       }
     } catch (error: any) {
       console.log(error.message);

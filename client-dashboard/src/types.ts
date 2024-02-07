@@ -1,7 +1,7 @@
 export interface UserL {
   username: string;
   email: string;
-  age: string;
+  phoneNumber: string;
   experience: string;
   bio?: string;
   location: string;
@@ -61,7 +61,7 @@ export interface NotificationS {
   time: string;
 }
 
-export interface LocationInfo { 
+export interface LocationInfo {
   alerts: AlertS[],
   admins: string[],
   coordinates: number[],

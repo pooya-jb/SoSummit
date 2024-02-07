@@ -22,17 +22,17 @@ export const fetchSignup = async (
   username: string,
   email: string,
   password: string,
-  age: string,
+  phoneNumber: string,
   experience: string,
   bio: string
 ) => {
   try {
-    if (!email || !password || !username || !experience || !age) throw Error();
+    if (!email || !password || !username || !experience || !phoneNumber) throw Error();
     const res = await fetch(`${localhostUrl}/register-user`, {
       method: 'POST',
       mode: 'cors',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, email, password, age, experience, bio }),
+      body: JSON.stringify({ username, email, password, phoneNumber, experience, bio }),
     });
     const data = await res.json();
     return data;

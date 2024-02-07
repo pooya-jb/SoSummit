@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 
 import socket, { subscribeToSocket, unsubscribeToSocket, checkResponse } from '../utils/socket';
 import * as userActions from '../redux/userSlice';
@@ -11,8 +10,10 @@ export default function useSocket() {
   const dispatch = useDispatch();
   const location = useSelector((state : RootState) => state.user.location)
   const userName = useSelector((state: RootState) => state.user.username)
-
+  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated)
+  const savedLocation = useMemo(() => location, [location]);
   useEffect(() => {
+
     function onConnect() {
       dispatch(userActions.socketConnected(true));
     }
@@ -24,6 +25,7 @@ export default function useSocket() {
     }
 
     subscribeToSocket(onConnect, onDisconnect);
+    isAuthenticated ? socket.connect() : null;
 
     function success (response) {
       if(response.status) {
@@ -33,9 +35,9 @@ export default function useSocket() {
 
     return () => {
       socket
-        .timeout(5000)
-        .emit(`Location-${location}-Admin-leave`, { location, userName }, checkResponse(success));
+        .emit(`Location-${savedLocation}-Admin-leave`, { location : savedLocation, userName }, checkResponse(success));
       unsubscribeToSocket(onConnect, onDisconnect);
+      socket.disconnect()
     };
-  }, [dispatch]);
+  }, [dispatch, isAuthenticated]);
 }

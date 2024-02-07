@@ -43,7 +43,6 @@ const normalAlertIcon = new Icon({
     [alerts])
 
   return (
-    <>
       <div className="map-container">
         <MapContainer
           center={[displayCoord[1], displayCoord[0]]}
@@ -59,35 +58,31 @@ const normalAlertIcon = new Icon({
               (alert: { location: number[]; username: string },
                 index: number) => {
                 return (
-                  <>
+                  
                     <Marker
                       key={index}
                       position={[alert.location[0], alert.location[1]]}
                       icon={selectedUser === alert.username ? selectedUserAlertIcon : normalAlertIcon}
                     >
-                      <Popup>{alert.username}</Popup>
+                      <Popup>User: {alert.username}</Popup>
                     </Marker>
-                  </>
+                  
                 );
               }
             )}
           {activeAdmins &&
-            activeAdmins.map((activeAdmin: ActiveAdminS) => {
-              return (
-                <>
-                  {activeAdmin && activeAdmin.coords && (
-                    <Marker
+            activeAdmins.map((activeAdmin: ActiveAdminS, index: number) => {
+              return activeAdmin && activeAdmin.coords && (
+                <Marker
+                  key={index}
                       position={[activeAdmin.coords[0], activeAdmin.coords[1]]}
                     >
                       <Popup>{activeAdmin.username}</Popup>
                     </Marker>
-                  )}
-                </>
-              );
+                  );
             })}
         </MapContainer>
       </div>
-    </>
   );
 }
 

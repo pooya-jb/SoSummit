@@ -63,6 +63,12 @@
   height: 100%;
 }
 
+.selectUser {
+  color: rgb(68, 68, 68);
+  margin: 0 auto;
+  margin-top: 5rem;
+  text-align: center;
+}
 
 .userInfo {
   width: 90%;
