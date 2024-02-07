@@ -214,7 +214,6 @@ const Home = () => {
   };
 
   let alertLocations = alerts.map((alert) => alert.location);
-
   return (
     <View style={styles.home}>
       <View style={styles.mapContainer}>
@@ -224,6 +223,7 @@ const Home = () => {
           showsMyLocationButton={true}
           onRegionChangeComplete={regionChangeHandler}
           provider={PROVIDER_GOOGLE}
+          region={mapRegion}
           // REACT_NATIVE_MAPS INBUILT LOCATION TRACKING AND MOVE TO BUTTON
           showsUserLocation={true}
         >
