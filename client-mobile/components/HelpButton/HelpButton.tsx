@@ -31,7 +31,7 @@ const HelpButton: React.FC<HelpButtonProps> = ({
   const triggerAlertResponse = (res) => {
     if (res.status) return   Alert.alert(
       'Request received',
-      'Ski patrol received your request and help is on their way',
+      'Ski patrol received your request and help is on the way',
       [
         {
           text: "Okay",

@@ -13,7 +13,7 @@ const UserSchema = new db.Schema<IUser> ({
     type: String,
     required: true,
   },
-  age:{
+  phoneNumber:{
     type: String,
     required: true,
   },

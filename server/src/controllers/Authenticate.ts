@@ -11,11 +11,11 @@ import Admin from '../models/Admin';
 async function getUserInfo(req: TypedRequest<'user' | 'admin'>, res: Response) {
   if (req.body === 'user') {
     try {
-      const { username, age, experience, bio, email, activeAlert } =
+      const { username, phoneNumber, experience, bio, email, activeAlert } =
         req.user as InstanceType<IUserModel>;
       const locations: InstanceType<ILocationModel>[] = await Location.find();
       res.status(200).send({
-        userInfo: { username, email, age, experience, bio, activeAlert },
+        userInfo: { username, email, phoneNumber, experience, bio, activeAlert },
         locations: locations.map((location) => location.name),
       });
     } catch (error) {
