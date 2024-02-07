@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import { TouchableOpacity, Text, View, Alert } from 'react-native';
 import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
-// import { Audio } from 'expo-av';
 import * as Animatable from 'react-native-animatable';
 import * as Location from 'expo-location';
 
@@ -41,7 +40,7 @@ const HelpButton: React.FC<HelpButtonProps> = ({
       ]
     );
   }
-  
+
 
   useEffect(() => {
     if (isPressed) {

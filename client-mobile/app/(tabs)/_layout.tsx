@@ -71,7 +71,7 @@ const TabsLayout = () => {
                     style={{ height: 25, width: 25, marginLeft: 15 }}
                   >
                     <Image
-                      source={require('../../assets/notif!.png')}
+                      source={require('../../assets/notification.png')}
                       style={{
                         height: Platform.OS === 'ios' ? 25 : 22,
                         width: Platform.OS === 'ios' ? 25 : 22,
