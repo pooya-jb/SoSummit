@@ -5,18 +5,6 @@ import { RootState } from "../redux/store";
 
 export default function PostAlertScreen() {
   const phoneNumber = useSelector((state: RootState) => state.location.phoneNumber);
-  useEffect(() => {
-    Alert.alert(
-      "Help is on the way",
-      "Your request has been received. Please call us if you have more information to share.",
-      [
-        {
-          text: "Okay",
-          style: "default",
-        },
-      ]
-    );
-  }, []);
 
   return (
     <View style={styles.container}>

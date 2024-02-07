@@ -15,6 +15,10 @@
   z-index: 999;
 }
 
+#navbar-border {
+  border-bottom: 1px solid #F6F4EB;
+}
+
 #sosummit {
   color: #F6F4EB;
   height: 100%;

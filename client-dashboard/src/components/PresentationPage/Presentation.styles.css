@@ -31,6 +31,13 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  margin-bottom: 15%;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .features {
@@ -47,14 +54,15 @@
   max-width: 600px;
   padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #F6F4EB;
 }
 
 .feature h3 {
-  font-size: 24px;
+  font-size: 4rem;
   margin-bottom: 15px;
+  font-family: 'Russo One', sans-serif;
 }
 
 .feature p {
@@ -64,4 +72,8 @@
 
 .sosImg {
   height: 70vh;
+}
+
+.dashboardImg {
+  height: 50vh;
 }

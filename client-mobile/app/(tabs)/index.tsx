@@ -10,7 +10,6 @@ import * as TaskManager from "expo-task-manager"
 import socket from '../../utils/socket';
 
 const HomePage = () => {
-
   const dispatch = useDispatch();
   tokenValidation().then(res => {
     if (!res) {
