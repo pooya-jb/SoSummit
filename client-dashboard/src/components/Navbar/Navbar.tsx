@@ -19,14 +19,14 @@ function Navbar(): React.ReactNode {
   const [scrollPosition, setScrollPosition] = useState(0);
   const isConnected = useSelector((state: RootState) => state.user.isConnected)
   const isAuthenticated = useSelector((state : RootState) => state.user.isAuthenticated)
-  
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  
+
   function handleScroll() {
     const position = window.pageYOffset;
     setScrollPosition(position);
@@ -34,7 +34,7 @@ function Navbar(): React.ReactNode {
 
   return (
     <>
-      <div id={styles.navbar} style={{ backgroundColor: isConnected ? '#607ca4' : scrollPosition > 70 ? '#607ca4' : 'rgba(0, 0, 0, 0)', borderBottom: scrollPosition > 70 ? '1px solid #F6F4EB' : 'none', position: isConnected ? '' : 'fixed'}}>
+      <div id={styles.navbar} style={{ backgroundColor: isConnected ? '#607ca4' : scrollPosition > 70 ? '#607ca4' : 'rgba(0, 0, 0, 0)', borderBottom: scrollPosition > 70 ? '1px solid #F6F4EB' : 'none', position: isConnected ? 'inherit' : 'fixed'}}>
         <button id={styles.sosummit}>
           <h2><span className={styles.red}>SoS</span>ummit</h2>
         </button>

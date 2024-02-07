@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRef, SyntheticEvent } from 'react';
 
 import { loginSelected } from '../../redux/displaySlice';
-import { RootState } from '../../redux/store';
+import { RootState, AppDispatch } from '../../redux/store';
 import apiService from '../../utils/apiService';
 import JWTUtil from '../../utils/jwtUtil';
 import { loggedIn } from '../../redux/userSlice';
@@ -20,7 +20,7 @@ function LoginModal() {
     useRef<HTMLInputElement>(null);
   const passwordRef: React.RefObject<HTMLInputElement> =
     useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
   function closeHandler() {
     dispatch(loginSelected());
@@ -40,7 +40,7 @@ function LoginModal() {
     } else if (response.accessToken) {
       JWTUtil.setter(response);
       closeHandler();
-      dispatch(locationActions.dashboardConnected(response.locationInfo))  
+      dispatch(locationActions.dashboardConnected(response.locationInfo))
       dispatch(loggedIn(response.userInfo));
     }
   }

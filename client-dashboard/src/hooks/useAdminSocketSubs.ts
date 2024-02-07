@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import socket from '../utils/socket'
 import * as locationActions from '../redux/locationSlice'
-import { RootState } from '../redux/store';
+import { AppDispatch, RootState } from '../redux/store';
 
 export default function useAdminSocket() {
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const adminLocationConnected = useSelector((state : RootState) => state.user.adminLocationIsConnected)
 
   useEffect(() => {

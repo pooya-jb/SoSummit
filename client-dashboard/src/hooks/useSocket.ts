@@ -20,14 +20,13 @@ export default function useSocket() {
 
     function onDisconnect() {
       dispatch(userActions.socketConnected(false));
-      // dispatch(userActions.locationConnected(false));
       dispatch(userActions.adminLocationConnected(false));
     }
 
     subscribeToSocket(onConnect, onDisconnect);
     isAuthenticated ? socket.connect() : null;
 
-    function success (response) {
+    function success (response: {status: boolean}) {
       if(response.status) {
         console.log('Successfully left admin lobby');
       }

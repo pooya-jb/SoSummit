@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
 import imgdelete from "../../../../assets/delete.png"
 
-
 import classes from './NootInfo.module.css';
+import { NotificationS } from '../../../../types';
 
-function NootInfo({ noot, deleteNoot }): React.ReactNode {
+function NootInfo({ noot, deleteNoot } : {noot:  NotificationS, deleteNoot: (e: React.MouseEvent<HTMLButtonElement>, time: string) => Promise<void> }): React.ReactNode {
   return (
     <>
       <div className={classes.userItem} >
