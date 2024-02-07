@@ -83,6 +83,6 @@ export interface SocketServerResponse {
 export interface UserInfoI {
   username: string,
   email:string,
-  age: string,
+  phoneNumber: string,
   experience:string
 }

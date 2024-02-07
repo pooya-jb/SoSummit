@@ -64,7 +64,7 @@ function RightDrawer(): React.ReactNode {
           <button className={classes.openright} onClick={handleToggleDrawer}>X</button>
           <div className={classes.userInfo}>
             <p className={classes.username}><span>Username:</span> {userInfo.username}</p>
-            <p className={classes.age}><span>Age:</span> {userInfo.age}</p>
+            <p className={classes.phoneNumber}><span>Phone number: </span> {userInfo.phoneNumber}</p>
             <p className={classes.email}><span>Email:</span> {userInfo.username}</p>
             <p className={classes.experience}><span>Experience:</span> {userInfo.username}</p>
           </div>
