@@ -26,3 +26,9 @@
   background-color: #F6F4EB;
   color: #607ca4;
 }
+
+@media (max-width: 480px) {
+  .button {
+    display: none !important;
+  }
+}

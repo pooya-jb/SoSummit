@@ -15,16 +15,8 @@ export default function PresentationPage() {
 
   return (
     <div>
-      <main>
-        <section
-          className="site-hero overlay"
-          style={{
-            backgroundImage:
-              "url(https://m.media-amazon.com/images/I/71pXBighQTL.jpg)",
-            height: "100vh",
-            backgroundSize: "cover",
-          }}
-        >
+      <main className="main">
+        <section className="site-hero overlay">
           <div className="container">
             <div className="header-slogan">
               <span className="main-logo">
@@ -57,6 +49,7 @@ export default function PresentationPage() {
               className="sosImg"
               data-aos="fade-right"
               data-aos-offset="200"
+              
             />
             <div className="text" data-aos="fade-left" data-aos-offset="200">
               <h3>Instant SOS calls</h3>
@@ -76,7 +69,7 @@ export default function PresentationPage() {
             </div>
           </div>
 
-          <div className="feature" data-aos="fade-up" data-aos-offset="200">
+          <div className="feature feature-reverse" data-aos="fade-up" data-aos-offset="200">
             <div
               className="text"
               data-aos="fade-right"
