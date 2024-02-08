@@ -32,7 +32,9 @@ export default function useSocket() {
         console.log('Connected to admin-location')
         socket.on(`Location-${location}-Admin-receive-live`, (info) => {
           console.log("Connected", info)
-          dispatch(locationActions.activeAdminUpdate(info));
+          const {coords, userName} = info;
+          const newInfo = {coords, username:userName}
+          dispatch(locationActions.activeAdminUpdate(newInfo));
         });
         socket.on(`Location-${location}-Admin-joined`, (info) => {
           console.log("Joined", info)

@@ -40,7 +40,8 @@ function LoginModal() {
     } else if (response.accessToken) {
       JWTUtil.setter(response);
       closeHandler();
-      dispatch(locationActions.dashboardConnected(response.locationInfo))
+      // const locationInfo = {...response.locationInfo}
+      dispatch(locationActions.dashboardConnected({...response.locationInfo, activeAdmins: [...response.locationInfo.activeAdmins, response.userInfo.username]}))
       dispatch(loggedIn(response.userInfo));
     }
   }
