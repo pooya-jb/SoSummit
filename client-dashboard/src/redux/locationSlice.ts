@@ -129,7 +129,12 @@ export const locationSlice = createSlice({
           noots: action.payload.notifications,
           alerts : action.payload.alerts,
           admins : action.payload.admins,
-          activeAdmins: action.payload.activeAdmins,
+          activeAdmins: action.payload.activeAdmins.map((admin) => {
+            return {
+              username: admin,
+              coords: [0, 0]
+            }
+          }),
           coordinates : action.payload.coordinates,
           displayCoords: [(action.payload.coordinates[1] + action.payload.coordinates[0]) / 2, (action.payload.coordinates[3] + action.payload.coordinates[2]) / 2]
         }

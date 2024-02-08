@@ -33,6 +33,17 @@ const apiService = {
       .then((res) => res)
       .catch((err) => err);
   },
+
+  locationRegister: async (registerForm: { email: string, password: string, username: string, locationName: string, phoneNumber: string, locationCoordinates:number[] }): Promise<TypedResponse> => {
+    return await fetch(`${BASE_URL}/register-location`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(registerForm),
+    })
+      .then((res) => res)
+      .catch((err) => err);
+  },
+
   deleteNoot : async (time : string, location: string) : Promise<TypedResponse> => {
     return await fetch(`${BASE_URL}/delete-noot`, {
       method: 'DELETE',
