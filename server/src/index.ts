@@ -5,7 +5,7 @@ import { io } from './socket';
 
 dotenv.config();
 
-const {  SERVER_PORT } = process.env;
+const { SERVER_PORT } = process.env;
 
 (async () => {
   const server = await serverBoot(io)
