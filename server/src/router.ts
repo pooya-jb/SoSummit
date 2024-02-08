@@ -3,9 +3,10 @@ import userControllers from './controllers/User'
 import adminControllers from './controllers/Admin'
 import authMiddleware from './middleware/auth';
 import authenticateControllers from './controllers/Authenticate'
+import { Request, Response } from 'express';
 const router = Router()
 
-router.get('/', (req, res) => { return res.sendStatus(200) });
+router.get('/', (req: Request, res: Response) => { return res.sendStatus(200) });
 router.get('/authenticate', authMiddleware, authenticateControllers.getUserInfo)
 router.post('/register-user', userControllers.createUser);
 router.post('/register-admin', adminControllers.createAdmin);
