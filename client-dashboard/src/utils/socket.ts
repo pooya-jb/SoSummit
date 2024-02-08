@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { SocketServerResponse } from '../types';
 
-const URL = process.env.NODE_ENV === 'production' ? 'http://localhost:3000' : 'http://localhost:3000';
+const URL = process.env.NODE_ENV === 'production' ? 'https://sosummit-server.onrender.com' : 'http://localhost:3000';
 const socket = io(URL, {
   autoConnect: false
 });
