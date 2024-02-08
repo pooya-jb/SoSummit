@@ -1,4 +1,5 @@
 import {
+  IAdmin,
   IAdminModel,
   ILocationModel,
   IUserModel,
@@ -31,7 +32,7 @@ async function getUserInfo(req: TypedRequest<'user' | 'admin'>, res: Response) {
       if (locationInstance) {
         const admins = await Admin.find({location})
         const adminsUsernames: string[] = []
-        admins.forEach(admin => adminsUsernames.push(admin.username))
+        admins.forEach((admin: IAdmin) => adminsUsernames.push(admin.username))
         const { alerts, notifications, activeAdmins, coordinates, phoneNumber } =
           locationInstance;
         res.status(200).send({
