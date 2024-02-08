@@ -8,7 +8,7 @@ const db = mongoose
 main().catch(err => console.log(err));
 
 async function main () {
-  await db.connect(`${DATABASE_URL}${DATABASE_PORT}/${DATABASE_NAME}`);
+  await db.connect(`${DATABASE_URL}`);
   console.log(`Connected to database on port ${DATABASE_PORT} 🦚`);
 }
 
