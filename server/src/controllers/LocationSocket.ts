@@ -1,6 +1,6 @@
 import Location from '../models/Location';
 import User from '../models/User';
-import { ILocationModel, ISocketControllerResponse } from '../types';
+import { IAlert, ILocationModel, ISocketControllerResponse } from '../types';
 
 async function checkCoordinates(
   locationName: string,
@@ -68,7 +68,7 @@ async function addAlert(
         location: userCoords,
       };
       const alerts = location.alerts.concat([alert]);
-      await Location.findOneAndUpdate({ name: locationName }, { alerts });      
+      await Location.findOneAndUpdate({ name: locationName }, { alerts });
       const user = await User.findOne({username})
       if(user) await User.findOneAndUpdate({username},{activeAlert: true})
       else return { status: false, info: undefined };
@@ -114,7 +114,7 @@ async function addActiveAdmin(
     const location: InstanceType<ILocationModel> | null =
       await Location.findOne({ name: locationName });
     if (location) {
-      if(!location.activeAdmins.some(admin => admin === userName)) {
+      if(!location.activeAdmins.some((admin: string) => admin === userName)) {
         const activeAdmins = location.activeAdmins.concat([userName]);
         await Location.findOneAndUpdate({ name: locationName }, { activeAdmins });
       }
@@ -135,7 +135,7 @@ async function removeActiveAdmin(
       await Location.findOne({ name: locationName });
     if (location) {
       const activeAdmins = location.activeAdmins.filter(
-        (user) => user !== userName
+        (user: string) => user !== userName
       );
       await Location.findOneAndUpdate({ name: locationName }, { activeAdmins });
       return { status: true, info: { userName } };
@@ -155,7 +155,7 @@ async function deleteAlert(
       await Location.findOne({ name: locationName });
     if (location) {
       const newAlerts = location.alerts.filter(
-        (alert) => alert.username !== userName
+        (alert: IAlert) => alert.username !== userName
       );
       await Location.findOneAndUpdate({ name: locationName }, { alerts: newAlerts });
       return { status: true, info: { userName } };

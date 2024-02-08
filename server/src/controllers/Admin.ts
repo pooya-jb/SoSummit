@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import Admin from './../models/Admin';
-import { IAdminModel, TypedRequest, IAdmin, ILocationModel } from '../types';
+import { IAdminModel, TypedRequest, IAdmin, ILocationModel, INotification, IAlert } from '../types';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import Location from '../models/Location';
@@ -60,7 +60,7 @@ const loginAdmin = async (req: TypedRequest<IAdmin>, res: Response) => {
     await Location.findOne({ name: location });
     const admins = await Admin.find({location})
     const adminsUsernames: string[] = []
-    admins.forEach(admin => adminsUsernames.push(admin.username))
+    admins.forEach((admin: IAdmin) => adminsUsernames.push(admin.username))
     if (locationInstance) {
       const { alerts, notifications, activeAdmins, coordinates, phoneNumber } = locationInstance;
       res.status(200).send({
@@ -81,7 +81,7 @@ const deleteNoot = async (req: TypedRequest<{time:string, location:string}>, res
   try {
     const locationFetched = await Location.findOne({ name: location });
     if(!locationFetched) throw Error()
-    const newNoots = locationFetched.notifications.filter(noot => noot.time !== time)
+    const newNoots = locationFetched.notifications.filter((noot: INotification) => noot.time !== time)
       await Location.findOneAndUpdate({ name: location }, { notifications: newNoots });
       res.status(200).send();
   } catch (error) {
@@ -96,7 +96,7 @@ const deleteAlert = async (req: TypedRequest<{username:string, location:string}>
   try {
     const locationFetched = await Location.findOne({ name: location });
     if(!locationFetched) throw Error()
-    const newAlerts = locationFetched.alerts.filter(alert => alert.username !== username)
+    const newAlerts = locationFetched.alerts.filter((alert: IAlert) => alert.username !== username)
     const user = await User.findOne({username})
     if(user) {
       await User.findOneAndUpdate({username},{activeAlert:false})

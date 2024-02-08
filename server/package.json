@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "start": "npm i && tsc && node ./dist/index.js",
+    "build": "npm i && tsc",
+    "start": "node ./dist/index.js",
     "compile": "tsc && node ./dist/index.js",
     "dev": "./node_modules/nodemon/bin/nodemon.js -e ts  --exec \"npm run compile\""
   },

@@ -1,6 +1,6 @@
 import { TypedResponse, UserL } from "../types";
 
-const BASE_URL = 'http://localhost:3000'
+const BASE_URL = 'https://sosummit-server.onrender.com'
 
 const apiService = {
   login : async (loginForm:{email : string, password: string}) : Promise<TypedResponse> => {
