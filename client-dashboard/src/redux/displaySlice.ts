@@ -7,7 +7,8 @@ const initialState : DisplayS= {
   selectedUser : null,
   loginModalOpen : false,
   registerModalOpen: false,
-  alertModalOpen: false
+  alertModalOpen: false,
+  locationRegisterModalOpen : false
 };
 
 export const displaySlice = createSlice({
@@ -39,6 +40,12 @@ export const displaySlice = createSlice({
         registerModalOpen : !state.registerModalOpen
       }
     },
+    locationRegisterSelected: (state: DisplayS) => {
+      return {
+        ...state,
+        locationRegisterModalOpen: !state.locationRegisterModalOpen
+      }
+    },
     alertSelected : (state: DisplayS) => {
       return {
         ... state,
@@ -50,4 +57,4 @@ export const displaySlice = createSlice({
 
 export default displaySlice.reducer;
 
-export const {drawerToggled, userSelected, loginSelected, registerSelected, alertSelected} = displaySlice.actions;
+export const {drawerToggled, userSelected, loginSelected, registerSelected, alertSelected, locationRegisterSelected} = displaySlice.actions;
