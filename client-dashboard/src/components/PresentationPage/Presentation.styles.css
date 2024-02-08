@@ -22,9 +22,11 @@
 }
 
 .slogan {
-  color: black;
+  color: white;
   font-size: 1.2rem;
   text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+
 }
 
 .feature {
@@ -76,4 +78,59 @@
 
 .dashboardImg {
   height: 50vh;
+}
+
+.site-hero {
+  background-image: url(https://m.media-amazon.com/images/I/71pXBighQTL.jpg);
+}
+
+.container {
+  height: 100vh;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+
+@media (max-width: 480px) {
+  .main-logo {
+    font-size: 3rem;
+    text-align: center;
+  }
+  
+  .header-slogan {
+    align-items: center;
+    padding: 0px;
+  }
+
+  .slogan {
+    padding: 10px;
+  }
+
+  .feature {
+    flex-direction: column;
+  }
+
+  .feature h3 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    font-family: 'Russo One', sans-serif;
+  }
+
+  .feature-content {
+    max-width: 80vw;
+  }
+
+  .dashboardImg {
+    object-fit: contain;
+  }
+  
+  .feature-reverse {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+
+  .site-hero {
+    background-image: url(https://m.media-amazon.com/images/I/71pXBighQTL.jpg);
+    background-position-x: 1350px;
+  } 
 }
