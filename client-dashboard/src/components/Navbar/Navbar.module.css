@@ -8,7 +8,6 @@
   top: 0;
   left: 0;
   width: 100%;
-  /* padding: 20px; */
   box-sizing: border-box;
   transition: background-color 0.5s ease;
   display: flex;
@@ -31,4 +30,12 @@
 
 .red {
   color: red;
+}
+
+@media (max-width: 480px) {
+#sosummit {
+  text-align: center;
+  width: 100vw;
+}
+
 }
