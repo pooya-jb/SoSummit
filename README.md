@@ -1,4 +1,5 @@
 <h1 style="font-family: RussoOne-Regular"><span style="color: red">SoS</span>ummit</h1>
+
 ## Overview
 This is a safety application designed for ski resorts, allowing ski patrol members to receive alerts from skiers in distress and by providing a dashboard where they can see the live location of their colleagues to facilitate the coordination of the rescue. The dashboard can also send notifications to all users regarding inclement weather or other relevant information.
 
