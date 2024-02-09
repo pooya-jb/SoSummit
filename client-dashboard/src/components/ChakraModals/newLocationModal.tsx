@@ -87,6 +87,7 @@ function LocationRegisterModal() {
             <label>Location Name: </label>
             <input type="text" name="locationName" placeholder='Username' required onChange={handleLocationNameChange} />
             <label>Location Coordinates in the following format:</label>
+            <p>{'[longitude (min), longitude (max), latitude (min), latitude (max)]'}</p>
             <input type="text" name="coordinates" placeholder='[15, 16.19489545, 84.32423, 87]' required onChange={handleCoordChange} />
             <label>Contact Phone for the location: </label>
             <input type="text" name="phoneNumber" placeholder='+xx yxyxyxyyxyx' required onChange={handlePhoneNumberChange} />
