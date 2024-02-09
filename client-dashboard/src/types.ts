@@ -13,6 +13,7 @@ export interface DisplayS {
   loginModalOpen: boolean;
   registerModalOpen: boolean;
   alertModalOpen: boolean;
+  locationRegisterModalOpen : boolean;
 }
 
 export type ActiveAdminS = {
@@ -65,7 +66,7 @@ export interface LocationInfo {
   name: string;
   coordinates: number[];
   alerts: AlertS[];
-  activeAdmins: ActiveAdminS[];
+  activeAdmins: string[];
   admins: string[];
   displayCoords: number[];
   notifications: NotificationS[];
