@@ -26,18 +26,14 @@ export default function useSocket() {
     }
     function setAdminLocation(response: SocketServerResponse) {
       if (response.status) {
-        console.log(response.status)
         dispatch(userActions.adminLocationConnected(true));
         // dispatch(locationActions.updateActiveAdmins(response.info))
-        console.log('Connected to admin-location')
         socket.on(`Location-${location}-Admin-receive-live`, (info) => {
-          console.log("Connected", info)
           const {coords, userName} = info;
           const newInfo = {coords, username:userName}
           dispatch(locationActions.activeAdminUpdate(newInfo));
         });
         socket.on(`Location-${location}-Admin-joined`, (info) => {
-          console.log("Joined", info)
           dispatch(locationActions.activeAdminEntered(info.userName));
         });
         socket.on(`Location-${location}-Admin-left`, (info) => {

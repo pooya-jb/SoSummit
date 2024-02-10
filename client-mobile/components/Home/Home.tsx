@@ -56,7 +56,6 @@ const Home = () => {
           return;
         }
         const { coords } = locations[0];
-        console.log("Received new locations from app", locations);
         socket.timeout(5000).emit(
           `Location-${resort}-Admin-live`,
           { coords: [coords.latitude, coords.longitude], userName: userName },

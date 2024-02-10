@@ -1,4 +1,10 @@
 .userItem {
-  border: 1px var(--textmain) solid;
-  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  background-color: rgba(200, 200, 200, 0.5);
+  margin-top: 8px;
+  margin-left: 4px;
+  margin-right: 4px;
 }

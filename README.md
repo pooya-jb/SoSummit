@@ -1,5 +1,8 @@
 <h1 style="font-family: RussoOne-Regular"><span style="color: red">SoS</span>ummit</h1>
 
+## Contributors
+Gerard Sole Clua, Pooya Jafariberenji, Loïc Khodarkovsky, Giovanni Silvotti
+
 ## Overview
 This is a safety application designed for ski resorts, allowing ski patrol members to receive alerts from skiers in distress and by providing a dashboard where they can see the live location of their colleagues to facilitate the coordination of the rescue. The dashboard can also send notifications to all users regarding inclement weather or other relevant information.
 
@@ -27,7 +30,7 @@ Resort visitors can connect to the resort to subscribe to notifications, and, sh
 - **Push Notifications:** Both ski patrol and resort visitors receive notifications from the dashboard.
 
 Coming Soon:
-- Fall detection.
+- **Fall detection**.
 
 ## Getting Started
 Clone the repository.

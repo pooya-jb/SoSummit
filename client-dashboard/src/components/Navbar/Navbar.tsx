@@ -9,9 +9,9 @@ import { RootState } from '../../redux/store';
 function ConnectionState() {
   const isConnected = useSelector((state: RootState) => state.user.isConnected);
   const adminLocationIsConnected = useSelector((state: RootState) => state.user.adminLocationIsConnected);
-  const connected = isConnected && adminLocationIsConnected ? '🟢' : '🔴';
+  const connected = isConnected ? '🟢' : '🔴';
   return (
-    <p>Online: {connected}</p>
+    <p>Connected: {connected}</p>
   );
 }
 

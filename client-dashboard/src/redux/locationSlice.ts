@@ -19,7 +19,6 @@ export const locationSlice = createSlice({
       state,
       action: PayloadAction<ActiveAdminS>
     ) => {
-      console.log(action.payload)
       return {
         ...state,
         activeAdmins: state.activeAdmins.map((admin: ActiveAdminS) => {
@@ -81,7 +80,6 @@ export const locationSlice = createSlice({
       state: LocationS,
       action: PayloadAction<string[]>
     ) => {
-      console.log(action)
       return {
         ...state,
         activeAdmins: action.payload.map((admin) => {

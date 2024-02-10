@@ -8,7 +8,6 @@ import { mapRegionUpdated } from "../redux/userSlice";
 export default function AdminAlert () {
   const dispatch = useDispatch()
   const selectAlert = (location: number[]) => {
-    console.log(location)
     dispatch(mapRegionUpdated({
       latitude: location[0],
       longitude: location[1],
@@ -19,7 +18,7 @@ export default function AdminAlert () {
   }
   const alerts = useSelector((state: RootState) => state.location.alerts);
   type alertProps = { type: string, username: string, time: string, location:number[] };
-  
+
   const Alert = ({ username, type, location, time }: alertProps) => (
     <TouchableOpacity style={styles.alertContainer} onPress={()=> selectAlert(location)} >
       {type && <Text style={styles.alertType}>{type}</Text>}

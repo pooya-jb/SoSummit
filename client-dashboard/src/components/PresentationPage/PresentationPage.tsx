@@ -5,6 +5,7 @@ import "aos/dist/aos.css";
 import "./Presentation.styles.css";
 import SOS_screen from "../../assets/SOS_screen_mockup.png";
 import dashboard from "../../assets/dashboard.png";
+import notification from "../../assets/notification.png";
 
 export default function PresentationPage() {
   useEffect(() => {
@@ -49,7 +50,6 @@ export default function PresentationPage() {
               className="sosImg"
               data-aos="fade-right"
               data-aos-offset="200"
-              
             />
             <div className="text" data-aos="fade-left" data-aos-offset="200">
               <h3>Instant SOS calls</h3>
@@ -69,12 +69,12 @@ export default function PresentationPage() {
             </div>
           </div>
 
-          <div className="feature feature-reverse" data-aos="fade-up" data-aos-offset="200">
-            <div
-              className="text"
-              data-aos="fade-right"
-              data-aos-offset="200"
-            >
+          <div
+            className="feature feature-reverse"
+            data-aos="fade-up"
+            data-aos-offset="200"
+          >
+            <div className="text" data-aos="fade-right" data-aos-offset="200">
               <h3>
                 <strong>Real-Time</strong>
                 <br /> Location Tracking
@@ -104,7 +104,7 @@ export default function PresentationPage() {
 
           <div className="feature" data-aos="fade-up" data-aos-offset="250">
             <img
-              src={SOS_screen}
+              src={notification}
               alt="screenshot of app"
               className="sosImg"
               data-aos="fade-right"
@@ -127,6 +127,16 @@ export default function PresentationPage() {
           </div>
         </section>
       </main>
+      <footer className="footer">
+        <p>
+          Empower your ski patrol team with our ski safety app. Enhance resort
+          safety by enabling instant communication and real-time location
+          tracking for ski patrol members. Keep your slopes secure and your
+          guests safe with our comprehensive dashboard. Partner with us to
+          elevate your resort's safety standards and ensure a worry-free skiing
+          experience for all.
+        </p>
+      </footer>
     </div>
   );
 }
