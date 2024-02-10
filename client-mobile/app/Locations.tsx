@@ -103,7 +103,6 @@ async function registerForPushNotificationsAsync() {
     // Learn more about projectId:
     // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
     token = (await Notifications.getExpoPushTokenAsync({ projectId: 'your-project-id' })).data;
-    console.log(token);
   } else {
     alert('Must use physical device for Push Notifications');
   }
@@ -171,8 +170,6 @@ async function registerForPushNotificationsAsync() {
       dispatch(tripStarted(true));
       router.navigate('../');
       socket.on(`${response.info.location}-notifications-received`, (info) => {
-        console.log("new notification received!")
-        console.log(info);
         schedulePushNotification(info);
         dispatch(addNotification(info))
       });

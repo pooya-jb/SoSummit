@@ -13,9 +13,6 @@ describe('UserList for Admins', () => {
     renderWithProviders(<UserList source='admins'/>, {preloadedState: mockedStoreLogged})
     const admin : HTMLElement = screen.getByText('admin');
     const me: HTMLElement = screen.getByText('me');
-    // const list : HTMLElement[] = screen.getAllByRole()
-    // console.log('here:',list)
-    // const greenSpan: HTMLElement = screen.getByRole('span')
     expect(admin).toBeInTheDocument()
     expect(me).toBeInTheDocument()
   })

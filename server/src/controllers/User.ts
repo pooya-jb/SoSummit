@@ -8,8 +8,6 @@ const SECRET_KEY = process.env.SECRET_KEY || 'lalala this isnt secure';
 
 
 const createUser = async (req: TypedRequest<IUser>, res: Response) => {
-  console.log("create fired!")
-  console.log(req.body)
   const { email, password }: { email: string, password: string } = req.body;
   const user: InstanceType<IUserModel> | null = await User.findOne({ email: email });
   if (user)

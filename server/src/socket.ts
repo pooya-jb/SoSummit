@@ -25,7 +25,6 @@ async function serverBoot(io : Server) {
 
   const locationsArray: string[] | false =
     await locationControllers.getAllLocationsBoot();
-  console.log(locationsArray);
   // If false should attempt to reboot.
   if (locationsArray === false) {
     console.log('Failed to get locations from database');
@@ -88,7 +87,7 @@ async function serverBoot(io : Server) {
               { location, userName }: { location: string; userName: string },
               callback
             ) => {
-              
+
               const { status, info }: ISocketControllerResponse =
               await SocketControllers.addActiveAdmin(location, userName);
               if (status) {
@@ -125,7 +124,6 @@ async function serverBoot(io : Server) {
               { location, userCoords, helpType, username }: Alert,
               callback
             ) => {
-              console.log(location, userCoords, helpType, username);
               const { status, info }: ISocketControllerResponse =
                 await SocketControllers.addAlert(
                   location,
@@ -201,10 +199,6 @@ async function setUpNewLocation(io: Server, location : string) {
     };
 
     io.on('connection', (socket) => {
-      // console.log('a user connected');
-      // socket.on('disconnect', () => {
-      //   console.log('user disconnected');
-      // });
         const locationName: string = `Location-${location}`;
         const adminLocationName: string = `Location-${location}-Admin`;
 
@@ -283,7 +277,6 @@ async function setUpNewLocation(io: Server, location : string) {
             { location, userCoords, helpType, username }: Alert,
             callback
           ) => {
-            console.log(location, userCoords, helpType, username);
             const { status, info }: ISocketControllerResponse =
               await SocketControllers.addAlert(
                 location,

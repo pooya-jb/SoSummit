@@ -35,7 +35,6 @@ function LocationRegisterModal() {
       locationCoordinates = JSON.parse(coords) as number[]
         if(Array.isArray(locationCoordinates) && locationCoordinates.length === 4) {
           const response: TypedResponse = await apiService.locationRegister({ locationName, locationCoordinates, email, password, username, phoneNumber });
-          console.log(response)
           if (response.status !== 201) {
             throw new Error("Could not create location. Something went wrong with the request")
           } else {
@@ -46,7 +45,7 @@ function LocationRegisterModal() {
 
     } catch (err) {
     alert(err);
-     return;
+    return;
     }
   }
 
@@ -87,6 +86,7 @@ function LocationRegisterModal() {
             <label>Location Name: </label>
             <input type="text" name="locationName" placeholder='Username' required onChange={handleLocationNameChange} />
             <label>Location Coordinates in the following format:</label>
+            <p>{'[longitude (min), longitude (max), latitude (min), latitude (max)]'}</p>
             <input type="text" name="coordinates" placeholder='[15, 16.19489545, 84.32423, 87]' required onChange={handleCoordChange} />
             <label>Contact Phone for the location: </label>
             <input type="text" name="phoneNumber" placeholder='+xx yxyxyxyyxyx' required onChange={handlePhoneNumberChange} />

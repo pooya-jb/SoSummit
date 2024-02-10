@@ -26,7 +26,6 @@ function RegisterModal() {
   async function handleRegisterAdmin(event: SyntheticEvent) {
     event.preventDefault();
     const response: TypedResponse = await apiService.register({ email, password, location, username });
-    console.log(response)
     if (response.status !== 201) {
       alert("User with this email already exists");
     } else {

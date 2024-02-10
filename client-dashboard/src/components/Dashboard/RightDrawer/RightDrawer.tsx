@@ -16,7 +16,6 @@ function RightDrawer(): React.ReactNode {
     dispatch(drawerToggled())
   }
   const handleAlert = (): void => {
-    console.log('clicked')
     dispatch(alertSelected())
   }
 
@@ -28,7 +27,6 @@ function RightDrawer(): React.ReactNode {
         res = await apiService.fetchUserInfo(user)
       }
       if (res){
-        console.log(res)
         setUserInfo(res as UserInfoI)}
       else return setUserInfo({} as UserInfoI)
     }

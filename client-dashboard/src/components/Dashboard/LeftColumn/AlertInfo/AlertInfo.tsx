@@ -23,7 +23,6 @@ function AlertInfo({ alert }: { alert: AlertS }): React.ReactNode {
     }
   };
   const handleAlertClick = () => {
-    console.log('fired')
     dispatch(userSelected(alert.username))
   }
 
