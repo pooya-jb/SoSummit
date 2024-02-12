@@ -32,6 +32,11 @@ Resort visitors can connect to the resort to subscribe to notifications, and, sh
 Coming Soon:
 - **Fall detection**.
 
+## Screenshots
+<img alt="screenshot of dashboard" src="./client-dashboard/src/assets/dashboard.png" width="500px"/>
+<img alt="screenshot of mobile app SOS screen" src="./client-dashboard/src/assets/SOS_screen_mockup.png" height="300px" />
+<img alt="screenshot of mobile app notification" src="./client-dashboard/src/assets/notification.png" height="300px" />
+
 ## Getting Started
 Clone the repository.
 
